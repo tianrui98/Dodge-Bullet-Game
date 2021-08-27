@@ -1,3 +1,3 @@
 # Dodge Bullet Game
-###Contributors:
+### Contributors:
 Zhu Tianrui
