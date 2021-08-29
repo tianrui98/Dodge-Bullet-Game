@@ -2,6 +2,6 @@
 ### Contributors:
 Zhu Tianrui  
 Lee Juwon  
-Sewen Thy
-Leo Min Kai Ivan
+Sewen Thy <br>
+Leo Min Kai Ivan <br>
 Koa Zhao Yuan
