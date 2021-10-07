@@ -1,4 +1,4 @@
-package com.example.unicorngladiators.model;
+package com.example.unicorngladiators.model.characters;
 
 /* A Unicorn object has the following attributes:
 - name
@@ -13,9 +13,11 @@ It can perform two actions
 - takePeach
  */
 
+import com.example.unicorngladiators.model.characters.Character;
+
 import java.util.concurrent.TimeUnit;
 
-public class Unicorn extends Character{
+public class Unicorn extends Character {
     private String name;
     private String color;
     private int lives;

@@ -1,6 +1,8 @@
-package com.example.unicorngladiators.model;
+package com.example.unicorngladiators.model.characters;
 
 // Generic character class. Can walk in four directions
+
+import com.example.unicorngladiators.model.Position;
 
 public class Character {
     private Position pos;
