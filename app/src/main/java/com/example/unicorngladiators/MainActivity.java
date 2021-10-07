@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-
-
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;

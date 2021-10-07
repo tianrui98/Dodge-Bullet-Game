@@ -1,6 +1,4 @@
 package com.example.unicorngladiators.model;
-
-
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
 
