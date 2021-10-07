@@ -1,0 +1,35 @@
+name: Android Build
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+  pull_request:
+    branches:
+      - dev
+      - main
+    types:
+      - synchronize
+      - opened
+      - reopened
+      - ready_for_review
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.5
+
+      - name: Run Test
+        run: bash ./gradlew test
+
+      - name: Build Project
+        run: bash ./gradlew build
