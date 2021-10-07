@@ -36,12 +36,12 @@
         android:id="@+id/settingsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"/>
+        android:text="Settings" />
 
     <Button
         android:layout_below="@id/settingsBtn"
         android:layout_centerInParent="true"
-        android:id="@+id/quitBtn"
+        android:id="@+id/quitGameBtn"
         android:layout_margin="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
