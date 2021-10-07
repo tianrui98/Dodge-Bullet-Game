@@ -21,15 +21,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2.3.2
+      - uses: actions/checkout@v1
 
       - name: Set Up JDK
-        uses: actions/setup-java@v1.4.2
+        uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
       - name: Run Test
-        run: ./gradlew test
+        run: bash ./gradlew test
 
       - name: Build Project
-        run: ./gradlew build
+        run: bash ./gradlew build
