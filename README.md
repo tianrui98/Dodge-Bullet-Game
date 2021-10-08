@@ -1,4 +1,4 @@
-# Dodge Bullet Game
+# Unicorn Gladiator
 ### Contributors:
 Zhu Tianrui <br>
 Juwon Lee <br> 
