@@ -5,8 +5,8 @@ import com.example.unicorngladiators.model.Position;
 
 //TODO implement projectile class
 public abstract class Projectile {
-    private static int speedUp = 1.1;
-    private int speed = 1;
+    private static double speedUp = 1.1;
+    private double speed = 1;
     private Direction direction;
     private Position offset;
     private Position currentPos;
@@ -15,16 +15,17 @@ public abstract class Projectile {
         return;
     }
 
-    public void setSpeedUp(int speedUp){
+    public void setSpeedUp(double speedUp){
         this.speedUp = speedUp;
     }
 
     public void setDirection(Direction direction){
         this.direction = direction;
-        this.offset = direction.getOffset;
+        this.offset = direction.getOffset();
+        this.offset.mult(this.speedUp);
     }
 
-    public int getSpeed(){
+    public double getSpeed(){
         return this.speed;
     }
 
@@ -33,6 +34,6 @@ public abstract class Projectile {
     }
 
     public void step(){
-        this.currentPos.add(this.offset.mult(this.speedUp));
+        this.currentPos.add(this.offset);
     }
 }

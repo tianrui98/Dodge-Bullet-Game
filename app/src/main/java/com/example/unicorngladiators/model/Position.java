@@ -24,7 +24,7 @@ public class Position {
         this.y *= p.y;
     }
 
-    public void mult(int factor) {
+    public void mult(double factor) {
         this.x *= factor;
         this.y *= factor;
     }
