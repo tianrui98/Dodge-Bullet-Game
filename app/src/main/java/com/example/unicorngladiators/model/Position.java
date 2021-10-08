@@ -14,6 +14,21 @@ public class Position {
         this.y += p.y;
     }
 
+    public void subtract(Position p) {
+        this.x -= p.x;
+        this.y -= p.y;
+    }
+
+    public void mult(Position p) {
+        this.x *= p.x;
+        this.y *= p.y;
+    }
+
+    public void mult(int factor) {
+        this.x *= factor;
+        this.y *= factor;
+    }
+
     @Override
     public boolean equals(Object obj) {
         Position p = (Position) obj;
