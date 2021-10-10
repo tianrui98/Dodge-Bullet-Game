@@ -1,8 +1,10 @@
 package com.example.unicorngladiators;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,19 +12,23 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.unicorngladiators.view.DrawPrincess;
+
 public class StartGame extends AppCompatActivity  {
     private static String TAG = "StartGame";
+
+    DrawPrincess drawPrincess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.princess);
+//        setContentView(R.layout.princess);
 
-        Canvas canvas = new Canvas();
-        canvas.drawARGB(255, 255, 255, 255);
-//        Bitmap princess_stand = BitmapFactory.decodeResource(getResources(), R.mipmap.peach_wave_foreground);
-//        canvas.drawBitmap(princess_stand, 10, 80, null);
-//
-//        Log.i(TAG, "Princess is watching");
+        drawPrincess = new DrawPrincess(this);
+        drawPrincess.setBackgroundColor(Color.WHITE);
+        setContentView(drawPrincess);
+
+
     }
 }
+
