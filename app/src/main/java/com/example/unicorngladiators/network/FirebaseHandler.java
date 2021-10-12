@@ -10,20 +10,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseHandler {
-    FirebaseDatabase database;
-    DatabaseReference players;
-    String puid;
+    private FirebaseDatabase database;
+    private DatabaseReference players;
+    private String puid;
 
     public FirebaseHandler(){
         System.out.println("initing handler...");
         database = FirebaseDatabase.getInstance("https://unicorn-63649-default-rtdb.asia-southeast1.firebasedatabase.app");
-        database.getReference("message").setValue("init");
+        //database.getReference("message").setValue("init");
         players = database.getReference("players");
         players.setValue("NOTHING");
         this.puid = players.push().getKey();
         addMovesEventListener(players);
         System.out.println("initing done");
     }
+
+    public String getPuid(){ return this.puid; }
 
     public void updateMove(String newMove){
         System.out.println("adding move...");
@@ -39,7 +41,13 @@ public class FirebaseHandler {
         ValueEventListener movesListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                try{
+                    HashMap<String, String> val = (HashMap<String, String>) dataSnapshot.getValue();
+                    System.out.println(val);
+                } catch (Exception e){
 
+                }
+                //System.out.println(dataSnapshot.getValue().getClass());
 
             }
 
