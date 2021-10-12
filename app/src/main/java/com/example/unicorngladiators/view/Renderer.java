@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,16 +26,24 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 
     public Renderer(Universe universe, SurfaceHolder holder, Resources context) {
         this.universe = universe;
-        this.princess = universe.getPrincess();
         this.universe.setCallBack(this);
         Bitmap princess_stand_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_stand);
+        if (princess_stand_raw_bitmap == null){
+            Log.d("Renderer", "Princess is null");
+        }
         this.princess_stand_bitmap = Bitmap.createScaledBitmap(princess_stand_raw_bitmap, princess_stand_raw_bitmap.getWidth() / 15, princess_stand_raw_bitmap.getHeight() / 15, true);
         Bitmap princess_wave_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_wave);
         this.princess_wave_bitmap = Bitmap.createScaledBitmap(princess_wave_raw_bitmap, princess_wave_raw_bitmap.getWidth() / 15, princess_wave_raw_bitmap.getHeight() / 15, true);
     }
 
 
-    private void drawPrincess(Universe universe, Canvas canvas, CharacterState state, Position pos) {
+    private void drawPrincess(Universe universe, Canvas canvas) {
+        CharacterState state = universe.getPrincess().getState();
+        Position pos = universe.getPrincess().getPosition();
+
+        //set background white
+        canvas.drawARGB(255, 255, 255, 255);
+
         //According to princess's state draw different bitmap
         if (state == CharacterState.FRONT) {
             canvas.drawBitmap(this.princess_stand_bitmap, pos.getX(), pos.getY(), null);
@@ -45,11 +54,10 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawSurfaceView() {
-        Log.d(TAG, "start drawSurfaceView");
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
             //TODO draw more objects
-            this.drawPrincess(universe, canvas, princess.getState(), princess.getPosition());
+            this.drawPrincess(universe, canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             Log.e(TAG, "error in drawSurfaceView");

@@ -10,9 +10,9 @@ public class Character {
     private Position pos;
     private CharacterState state;
 
-    public Character(int x, int y) {
-        this.pos = new Position(x, y);
-        this.state = CharacterState.FRONT;
+    public Character(Position pos, CharacterState state) {
+        this.pos = pos;
+        this.state = state;
     }
 
     //p.x and p.y means how many units to move along x and y
@@ -26,9 +26,9 @@ public class Character {
 
     public CharacterState getState(){return this.state;}
 
-    public void changePosition (Position pos) {this.pos = pos;}
+    public void setPosition (Position pos) {this.pos = pos;}
 
-    public void changeState (CharacterState state) {this.state = state;}
+    public void setState (CharacterState state) {this.state = state;}
 
 
 }
