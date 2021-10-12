@@ -33,7 +33,7 @@ public class Universe {
     }
 
     //manage callback
-    public interface Callback {
+    private interface Callback {
         void universeChanged ( Universe u ) ;
     }
     public void setCallBack(Callback c) {
