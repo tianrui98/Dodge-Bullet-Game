@@ -9,24 +9,20 @@ import java.util.Vector;
 
 public class Universe {
     List<Unicorn> players = new Vector<>();
-    Princess princess;
+    Princess princess = new Princess(10,10);
 
     public Universe(List<Unicorn> players) {
         this.players = players;
-        this.princess = princess;
     }
 
     //manage princess (npc)
-    public void createPrincess(int x, int y) {
-        this.princess = new Princess(x, y);
-    }
-
     public Princess getPrincess() {
         return this.princess;
     }
 
     public void updatePrincess(CharacterState state, Position pos) {
-
+        this.princess.changeState(state);
+        this.princess.changePosition(pos);
     }
 
     //TODO manage projectiles

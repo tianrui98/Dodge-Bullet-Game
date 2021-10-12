@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Toast.makeText(this, "Start Game Btn Clicked", Toast.LENGTH_SHORT).show();
 
                 //start another activity when user clicks this button
-                Intent intent = new Intent(this, StartGame.class);
+                Intent intent = new Intent(this, GameActivity.class);
                 startActivity(intent);
                 break;
             case R.id.settingsBtn:

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import com.example.unicorngladiators.R;
 import com.example.unicorngladiators.model.Position;
@@ -22,9 +23,9 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     private Universe universe;
     private Princess princess;
 
-    public Renderer(Universe universe, Princess princess, SurfaceHolder holder, Resources context) {
+    public Renderer(Universe universe, SurfaceHolder holder, Resources context) {
         this.universe = universe;
-        this.princess = princess;
+        this.princess = universe.getPrincess();
         this.universe.setCallBack(this);
         Bitmap princess_stand_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_stand);
         this.princess_stand_bitmap = Bitmap.createScaledBitmap(princess_stand_raw_bitmap, princess_stand_raw_bitmap.getWidth() / 15, princess_stand_raw_bitmap.getHeight() / 15, true);
