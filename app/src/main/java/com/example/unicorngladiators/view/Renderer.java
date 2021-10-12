@@ -14,7 +14,7 @@ import com.example.unicorngladiators.model.characters.Character;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 
-public class Renderer implements SurfaceHolder.Callback{
+public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     private final static String TAG = "RendererObject";
     private final Bitmap princess_stand_bitmap;
     private final Bitmap princess_wave_bitmap;
@@ -26,13 +26,11 @@ public class Renderer implements SurfaceHolder.Callback{
         this.universe = universe;
         this.princess = princess;
         this.universe.setCallBack(this);
-        this.princess.setCallBack(this);
         Bitmap princess_stand_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_stand);
         this.princess_stand_bitmap = Bitmap.createScaledBitmap(princess_stand_raw_bitmap, princess_stand_raw_bitmap.getWidth() / 15, princess_stand_raw_bitmap.getHeight() / 15, true);
         Bitmap princess_wave_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_wave);
         this.princess_wave_bitmap = Bitmap.createScaledBitmap(princess_wave_raw_bitmap, princess_wave_raw_bitmap.getWidth() / 15, princess_wave_raw_bitmap.getHeight() / 15, true);
     }
-
 
 
     private void drawPrincess(Universe universe, Canvas canvas, CharacterState state, Position pos) {
@@ -49,6 +47,7 @@ public class Renderer implements SurfaceHolder.Callback{
         Log.d(TAG, "start drawSurfaceView");
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
+            //TODO draw more objects
             this.drawPrincess(universe, canvas, princess.getState(), princess.getPosition());
             holder.unlockCanvasAndPost(canvas);
         } else {
@@ -59,16 +58,6 @@ public class Renderer implements SurfaceHolder.Callback{
     //manage callback
     @Override
     public void universeChanged(Universe universe) {
-        this.drawSurfaceView();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void characterChanged(Character character) {
         this.drawSurfaceView();
         try {
             Thread.sleep(100);

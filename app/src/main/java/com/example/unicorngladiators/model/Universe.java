@@ -1,4 +1,5 @@
 package com.example.unicorngladiators.model;
+import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
 
@@ -10,18 +11,25 @@ public class Universe {
     List<Unicorn> players = new Vector<>();
     Princess princess;
 
+    public Universe(List<Unicorn> players) {
+        this.players = players;
+        this.princess = princess;
+    }
+
     //manage princess (npc)
-    public void addPrincess(int x, int y) {
-        princess = new Princess(x, y);
+    public void createPrincess(int x, int y) {
+        this.princess = new Princess(x, y);
     }
 
     public Princess getPrincess() {
-        return princess;
+        return this.princess;
+    }
+
+    public void updatePrincess(CharacterState state, Position pos) {
+
     }
 
     //TODO manage projectiles
-
-
 
     //manage players
     public void addPlayer(String name, String color, int x, int y) {
@@ -33,13 +41,15 @@ public class Universe {
     }
 
     //manage callback
-    private interface Callback {
+    public interface Callback {
         void universeChanged ( Universe u ) ;
     }
-    public void setCallBack(Callback c) {
+
+    private Callback  callback = null;
+    public void setCallBack(Callback  c) {
         callback = c;
     }
-    public void addCallBack (Callback c ) {
+    public void addCallBack (Callback  c ) {
         this.callback = c;
     }
     protected void castChanges() {
@@ -47,6 +57,6 @@ public class Universe {
             callback.universeChanged(this);
         }
     }
-    private Callback callback = null;
+
 
 }
