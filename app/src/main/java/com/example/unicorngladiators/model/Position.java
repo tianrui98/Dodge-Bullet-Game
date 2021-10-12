@@ -36,6 +36,10 @@ public class Position {
         return false;
     }
 
+    public String shortString(){
+        return this.x + ", " + this.y;
+    }
+
     @Override
     public String toString() {
         return "Position{" +

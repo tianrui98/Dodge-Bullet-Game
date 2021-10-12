@@ -1,0 +1,54 @@
+package com.example.unicorngladiators.network;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class FirebaseHandler {
+    FirebaseDatabase database;
+    DatabaseReference players;
+    String puid;
+
+    public FirebaseHandler(){
+        System.out.println("initing handler...");
+        database = FirebaseDatabase.getInstance("https://unicorn-63649-default-rtdb.asia-southeast1.firebasedatabase.app");
+        database.getReference("message").setValue("init");
+        players = database.getReference("players");
+        players.setValue("NOTHING");
+        this.puid = players.push().getKey();
+        addMovesEventListener(players);
+        System.out.println("initing done");
+    }
+
+    public void updateMove(String newMove){
+        System.out.println("adding move...");
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put(puid, newMove);
+        players.updateChildren(childUpdates);
+        System.out.println("done");
+        return;
+    }
+
+    private void addMovesEventListener(DatabaseReference playersRef) {
+        // [START post_value_event_listener]
+        ValueEventListener movesListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println(databaseError.toException());
+            }
+        };
+        playersRef.addValueEventListener(movesListener);
+    }
+
+}
