@@ -1,6 +1,19 @@
 package com.example.unicorngladiators;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+
+import android.util.Log;
+import android.view.SurfaceHolder;
+
+import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,8 +28,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button quitGameBtn;
     private Button settingsBtn;
 
+
+    private SurfaceHolder holder;
+
     FirebaseHandler fh = new FirebaseHandler();
     int x = 1, y =1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.startGameBtn:
+                //start GameActivity when user clicks this button
+                Intent intent = new Intent(this, GameActivity.class);
+                startActivity(intent);
+
                 fh.updateMove(x+", "+ y);
                 x++; y++;
                 Toast.makeText(this, "Start Game Btn Clicked", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.settingsBtn:
                 Toast.makeText(this, "Settings Btn Clicked", Toast.LENGTH_SHORT).show();

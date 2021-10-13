@@ -13,6 +13,7 @@ It can perform two actions
 - takePeach
  */
 
+import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.characters.Character;
 
 import java.util.concurrent.TimeUnit;
@@ -23,8 +24,8 @@ public class Unicorn extends Character {
     private int lives;
     private boolean isInvulnerable;
 
-    public Unicorn(String name, String color, int lives, boolean isInvulnerable, int x, int y) {
-        super(x,y);
+    public Unicorn(String name, String color, int lives, boolean isInvulnerable, Position pos, CharacterState state) {
+        super(pos, state);
         this.name = name;
         this.color = color;
         this.lives = lives;
