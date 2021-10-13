@@ -9,9 +9,30 @@ public class Position {
         this.y = y;
     }
 
+    public Position(String shortString) {
+        String[] parts = shortString.split(", ");
+        this.x = Integer.parseInt(parts[0]);
+        this.y = Integer.parseInt(parts[1]);
+    }
+
     public void add(Position p) {
         this.x += p.x;
         this.y += p.y;
+    }
+
+    public void subtract(Position p) {
+        this.x -= p.x;
+        this.y -= p.y;
+    }
+
+    public void mult(Position p) {
+        this.x *= p.x;
+        this.y *= p.y;
+    }
+
+    public void mult(double factor) {
+        this.x *= factor;
+        this.y *= factor;
     }
 
     @Override
@@ -19,6 +40,10 @@ public class Position {
         Position p = (Position) obj;
         if (p != null) return x == p.x && y == p.y;
         return false;
+    }
+
+    public String shortString(){
+        return this.x + ", " + this.y;
     }
 
     @Override
