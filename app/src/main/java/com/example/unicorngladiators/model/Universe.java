@@ -19,7 +19,7 @@ public class Universe {
 
     public Universe(List<Unicorn> players) {
         this.players = players;
-        this.princess = new Princess(new Position(20,20), CharacterState.FRONT1);
+        this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
     }
 
     //manage princess (npc)

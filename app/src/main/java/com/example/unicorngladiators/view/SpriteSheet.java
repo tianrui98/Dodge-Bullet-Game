@@ -18,7 +18,7 @@ public class SpriteSheet {
     private final Bitmap tataBitmap;
     private final Bitmap titiBitmap;
     private final Bitmap princessBitmap;
-    private final HashMap<CharacterState, Sprite> unicornSpriteHashMap;
+    private final HashMap<CharacterState, Sprite> characterSpriteHashMap;
 
     public SpriteSheet (Resources context){
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -29,15 +29,15 @@ public class SpriteSheet {
         this.tataBitmap = BitmapFactory.decodeResource(context, R.drawable.tata_sprite_sheet, bitmapOptions);
         this.tutuBitmap = BitmapFactory.decodeResource(context, R.drawable.tutu_sprite_sheet, bitmapOptions);
         this.princessBitmap = BitmapFactory.decodeResource(context, R.drawable.princess_sprite_sheet, bitmapOptions);
-        unicornSpriteHashMap = this.getUnicornSpriteHashmap();
+        this.characterSpriteHashMap = this.getCharacterSpriteHashmap();
     }
 
     public Sprite getPlayerSprite(String name, CharacterState state) {
         //TODO: allow retrieving sprites of differtetn unicorns
-        return unicornSpriteHashMap.get(state);
+        return this.characterSpriteHashMap.get(state);
     }
 
-    public HashMap<CharacterState, Sprite> getUnicornSpriteHashmap() {
+    public HashMap<CharacterState, Sprite> getCharacterSpriteHashmap() {
         int gridLength = 48;
         HashMap<CharacterState, Sprite> spriteHashMap= new HashMap<CharacterState, Sprite>();
         spriteHashMap.put(CharacterState.FRONT1, new Sprite(this, new Rect(0 * gridLength, 0 *gridLength, 1 * gridLength, 1 * gridLength)));
@@ -56,28 +56,33 @@ public class SpriteSheet {
         spriteHashMap.put(CharacterState.BACK2, new Sprite(this, new Rect(1 * gridLength, 3 * gridLength, 2 * gridLength, 4 * gridLength)));
         spriteHashMap.put(CharacterState.BACK3, new Sprite(this, new Rect(2 * gridLength, 3 * gridLength, 3 * gridLength, 4 * gridLength)));
         spriteHashMap.put(CharacterState.BACK4, new Sprite(this, new Rect(3 * gridLength, 3 * gridLength, 4 * gridLength, 4 * gridLength)));
+        spriteHashMap.put(CharacterState.SPECIAL1, new Sprite(this, new Rect(0 * gridLength, 4 * gridLength, 1 * gridLength, 5 * gridLength)));
+        spriteHashMap.put(CharacterState.SPECIAL2, new Sprite(this, new Rect(1 * gridLength, 4 * gridLength, 2 * gridLength, 5 * gridLength)));
+        spriteHashMap.put(CharacterState.SPECIAL3, new Sprite(this, new Rect(2 * gridLength, 4 * gridLength, 3 * gridLength, 5 * gridLength)));
+        spriteHashMap.put(CharacterState.SPECIAL4, new Sprite(this, new Rect(3 * gridLength, 4 * gridLength, 4 * gridLength, 5 * gridLength)));
 
         return spriteHashMap;
     };
 
     public Bitmap getBitmap(String name) {
         Bitmap res = null;
-     switch (name) {
-         case "toto":
-             res = totoBitmap;
-             break;
-         case "titi":
-             res = titiBitmap;
-             break;
-         case "tata":
-             res = tataBitmap;
-         case "tutu":
-             res = tutuBitmap;
-             break;
-         case "princess":
-             res = princessBitmap;
-             break;
-     }
+         switch (name) {
+             case "toto":
+                 res = this.totoBitmap;
+                 break;
+             case "titi":
+                 res = this.titiBitmap;
+                 break;
+             case "tata":
+                 res = this.tataBitmap;
+                 break;
+             case "tutu":
+                 res = this.tutuBitmap;
+                 break;
+             case "princess":
+                 res = this.princessBitmap;
+                 break;
+         }
      return res;
     }
 }
