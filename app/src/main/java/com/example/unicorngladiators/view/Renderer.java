@@ -60,27 +60,16 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 
 
         List<Unicorn> players = this.universe.getPlayers();
-        Unicorn player = players.iterator().next();
 
-        Sprite unicorn_sprite = this.unicorn_sprite_sheet.getPlayerSprite("toto", player.getState());
-        unicorn_sprite.draw(canvas, player.getPosition());
-
-//        canvas.drawBitmap(this.unicorn_sprite_sheet.getBitmap(),
-//                new Rect(100, 0, 150, 50),
-//                new Rect(0, 0, 100,100),
-//
-//                null);
-
-//        for (Unicorn player : players) {
-//            Sprite unicorn_sprite = this.unicorn_sprite_sheet.getPlayerSprite(player.getName(), player.getState());
-//            Position pos = player.getPosition();
-//            //offset is to help the draw function to draw the center of the picture
-//            int h_offset = unicorn_sprite.getHeight() / 2;
-//            int w_offset = unicorn_sprite.getWidth() / 2;
-//            pos.add(new Position(w_offset, h_offset));
-//            unicorn_sprite.draw(canvas, pos);
-//            Log.d("Renderer", "draw unicorn " + player.getName());
-//        }
+        for (Unicorn player : players) {
+            Sprite unicorn_sprite = this.unicorn_sprite_sheet.getPlayerSprite("toto", player.getState());
+            //offset is to help the draw function to draw the center of the picture
+            int h_offset = unicorn_sprite.getHeight() / 2;
+            int w_offset = unicorn_sprite.getWidth() / 2;
+            Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getX() + h_offset);
+            unicorn_sprite.draw(canvas, posAdjusted );
+            Log.d("Renderer", "draw unicorn " + player.getName());
+        }
 
     };
 
@@ -91,7 +80,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             //set background white
             canvas.drawARGB(255, 255, 255, 255);
             //TODO draw more objects
-//            this.drawPrincess(canvas);
+            this.drawPrincess(canvas);
             this.drawUnicorns(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
