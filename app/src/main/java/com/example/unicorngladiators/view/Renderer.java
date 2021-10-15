@@ -23,26 +23,32 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     private SurfaceHolder holder;
     private Universe universe;
     private Princess princess;
+    private SpriteSheet unicorn_sprite_sheet;
+    private Sprite unicorn_sprite;
 
     public Renderer(Universe universe, SurfaceHolder holder, Resources context) {
         this.universe = universe;
         this.universe.setCallBack(this);
         Bitmap princess_stand_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_stand);
         if (princess_stand_raw_bitmap == null){
-            Log.d("Renderer", "Princess is null");
+            Log.d("Renderer", "Princess stand is null");
         }
         this.princess_stand_bitmap = Bitmap.createScaledBitmap(princess_stand_raw_bitmap, princess_stand_raw_bitmap.getWidth() / 15, princess_stand_raw_bitmap.getHeight() / 15, true);
         Bitmap princess_wave_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_wave);
+
+        if (princess_wave_raw_bitmap == null){
+            Log.d("Renderer", "Princess wave is null");
+        }
         this.princess_wave_bitmap = Bitmap.createScaledBitmap(princess_wave_raw_bitmap, princess_wave_raw_bitmap.getWidth() / 15, princess_wave_raw_bitmap.getHeight() / 15, true);
+
+        this.unicorn_sprite_sheet = new SpriteSheet(context);
+        this.unicorn_sprite = unicorn_sprite_sheet.getPlayerSprite();
     }
 
 
-    private void drawPrincess(Universe universe, Canvas canvas) {
+    private void drawPrincess(Canvas canvas) {
         CharacterState state = universe.getPrincess().getState();
         Position pos = universe.getPrincess().getPosition();
-
-        //set background white
-        canvas.drawARGB(255, 255, 255, 255);
 
         //According to princess's state draw different bitmap
         if (state == CharacterState.FRONT) {
@@ -53,11 +59,24 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         }
     }
 
+    private void drawUnicorn(Canvas canvas) {
+        //TODO implement
+//        CharacterState state = universe.getUnicorn().getState();
+//        Position pos = universe.getUnicorn().getPosition();
+
+        Position pos = new Position(100, 100);
+        this.unicorn_sprite.draw(canvas, pos);
+
+
+    };
+
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
+            canvas.drawARGB(255, 255, 255, 255);
             //TODO draw more objects
-            this.drawPrincess(universe, canvas);
+            this.drawPrincess(canvas);
+//            this.drawUnicorn(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             Log.e(TAG, "error in drawSurfaceView");
