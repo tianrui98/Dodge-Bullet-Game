@@ -45,7 +45,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         int w_offset = sprite.getWidth() / 2;
         Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
         sprite.drawCharacter(canvas, posAdjusted, "princess");
-        Log.d("Renderer", "draw unicorn princess");
     }
 
     private void drawUnicorns(Canvas canvas) {
@@ -60,7 +59,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             int w_offset = unicorn_sprite.getWidth() / 2;
             Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getX() + h_offset);
             unicorn_sprite.drawCharacter(canvas, posAdjusted, player.getName());
-            Log.d("Renderer", "draw unicorn " + player.getName());
         }
 
     };
