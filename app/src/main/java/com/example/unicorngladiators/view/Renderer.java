@@ -48,10 +48,10 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         Position pos = universe.getPrincess().getPosition();
 
         //According to princess's state draw different bitmap
-        if (state == CharacterState.FRONT) {
+        if (state == CharacterState.FRONT1) {
             canvas.drawBitmap(this.princess_stand_bitmap, pos.getX(), pos.getY(), null);
         }
-        else if (state == CharacterState.SPECIAL){
+        else if (state == CharacterState.SPECIAL1){
             canvas.drawBitmap(this.princess_wave_bitmap, pos.getX(), pos.getY(), null);
         }
     }
@@ -67,7 +67,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
             Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getX() + h_offset);
-            unicorn_sprite.draw(canvas, posAdjusted );
+            unicorn_sprite.drawCharacter(canvas, posAdjusted, player.getName());
             Log.d("Renderer", "draw unicorn " + player.getName());
         }
 

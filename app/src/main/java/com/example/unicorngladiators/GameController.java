@@ -29,7 +29,7 @@ public class GameController extends Thread{
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         List<Unicorn> emptyPlayerList = new ArrayList<>();
         this.universe = new Universe(emptyPlayerList);
-        this.universe.addPlayer("toto", new Position(200,100), CharacterState.RIGHT);
+        this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
         this.renderer = new Renderer(this.universe, holder, context);
         this.universe.setCallBack(this.renderer);
         this.sv.getHolder().addCallback(this.renderer);

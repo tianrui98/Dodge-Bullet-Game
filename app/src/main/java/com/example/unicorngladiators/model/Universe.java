@@ -19,7 +19,7 @@ public class Universe {
 
     public Universe(List<Unicorn> players) {
         this.players = players;
-        this.princess = new Princess(new Position(20,20), CharacterState.FRONT);
+        this.princess = new Princess(new Position(20,20), CharacterState.FRONT1);
     }
 
     //manage princess (npc)
@@ -49,7 +49,7 @@ public class Universe {
     public void step(long elapsedTime) {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
-        this.princess.wave();
+        this.princess.turnAround();
         this.getPlayers().iterator().next().walkRightStateChange();
         castChanges();
     }

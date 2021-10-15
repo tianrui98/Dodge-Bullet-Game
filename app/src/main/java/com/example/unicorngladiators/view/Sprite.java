@@ -16,16 +16,15 @@ public class Sprite {
         this.rect = rect;
     }
 
-    public void draw(Canvas canvas, Position pos) {
+    public void drawCharacter(Canvas canvas, Position pos, String name) {
         //add offset so that the image's center is draw at x and y
         int x = pos.getX() ;
         int y = pos.getY() ;
-        canvas.drawBitmap(spriteSheet.getBitmap(),
+        canvas.drawBitmap(spriteSheet.getBitmap(name),
                 rect,
                 //adjust size here
                 new Rect(x, y, x + 150, y+150),
                 null);
-        Log.d("Sprite", "draw unicorn sprite");
     }
 
     public int getHeight() {

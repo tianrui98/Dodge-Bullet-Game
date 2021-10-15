@@ -50,61 +50,6 @@ public class Unicorn extends Character {
         }
     }
 
-    public void walkDownStateChange (){
-        switch (this.getState()){
-            case FRONT1:
-                this.setState(CharacterState.FRONT);
-                break;
-            case FRONT:
-                this.setState(CharacterState.FRONT2);
-                break;
-            case FRONT2:
-                this.setState(CharacterState.FRONT1);
-                break;
-        }
-    }
-
-    public void walkRightStateChange(){
-        switch (this.getState()){
-            case RIGHT1:
-                this.setState(CharacterState.RIGHT);
-                break;
-            case RIGHT:
-                this.setState(CharacterState.RIGHT2);
-                break;
-            case RIGHT2:
-                this.setState(CharacterState.RIGHT1);
-                break;
-        }
-    }
-
-    public void walkLeftStateChange(){
-        switch (this.getState()){
-            case LEFT1:
-                this.setState(CharacterState.LEFT);
-                break;
-            case LEFT:
-                this.setState(CharacterState.LEFT2);
-                break;
-            case LEFT2:
-                this.setState(CharacterState.LEFT1);
-                break;
-        }
-    }
-
-    public void walkUpStateChange(){
-        switch (this.getState()){
-            case BACK1:
-                this.setState(CharacterState.BACK);
-                break;
-            case BACK:
-                this.setState(CharacterState.BACK2);
-                break;
-            case BACK2:
-                this.setState(CharacterState.BACK1);
-                break;
-        }
-    }
     //Getters
     public String getName() {
         return name;

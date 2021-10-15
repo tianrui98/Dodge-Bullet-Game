@@ -6,16 +6,28 @@ import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.characters.Character;
 
 public class Princess extends Character {
+
+    private final String name;
+
     public Princess(Position pos, CharacterState state) {
         super(pos,state);
+        this.name = "princess";
     }
 
-    public void wave (){
-        if (this.getState() == CharacterState.FRONT) {
-            this.setState(CharacterState.SPECIAL);
-        }
-        else if (this.getState() == CharacterState.SPECIAL) {
-            this.setState(CharacterState.FRONT);
+    public void turnAround (){
+        switch (this.getState()){
+            case SPECIAL1:
+                this.setState(CharacterState.SPECIAL2);
+                break;
+            case SPECIAL2:
+                this.setState(CharacterState.SPECIAL3);
+                break;
+            case SPECIAL3:
+                this.setState(CharacterState.SPECIAL4);
+                break;
+            case SPECIAL4:
+                this.setState(CharacterState.SPECIAL1);
+                break;
         }
     }
 }
