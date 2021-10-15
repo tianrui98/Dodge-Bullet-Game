@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -15,6 +16,9 @@ import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.Character;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
+import com.example.unicorngladiators.model.characters.Unicorn;
+
+import java.util.*;
 
 public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     private final static String TAG = "RendererObject";
@@ -22,27 +26,20 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     private final Bitmap princess_wave_bitmap;
     private SurfaceHolder holder;
     private Universe universe;
-    private Princess princess;
     private SpriteSheet unicorn_sprite_sheet;
-    private Sprite unicorn_sprite;
 
     public Renderer(Universe universe, SurfaceHolder holder, Resources context) {
         this.universe = universe;
         this.universe.setCallBack(this);
         Bitmap princess_stand_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_stand);
         if (princess_stand_raw_bitmap == null){
-            Log.d("Renderer", "Princess stand is null");
+            Log.d("Renderer", "Princess is null");
         }
         this.princess_stand_bitmap = Bitmap.createScaledBitmap(princess_stand_raw_bitmap, princess_stand_raw_bitmap.getWidth() / 15, princess_stand_raw_bitmap.getHeight() / 15, true);
         Bitmap princess_wave_raw_bitmap = BitmapFactory.decodeResource(context, R.drawable.peach_wave);
-
-        if (princess_wave_raw_bitmap == null){
-            Log.d("Renderer", "Princess wave is null");
-        }
         this.princess_wave_bitmap = Bitmap.createScaledBitmap(princess_wave_raw_bitmap, princess_wave_raw_bitmap.getWidth() / 15, princess_wave_raw_bitmap.getHeight() / 15, true);
 
         this.unicorn_sprite_sheet = new SpriteSheet(context);
-        this.unicorn_sprite = unicorn_sprite_sheet.getPlayerSprite();
     }
 
 
@@ -59,24 +56,43 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         }
     }
 
-    private void drawUnicorn(Canvas canvas) {
-        //TODO implement
-//        CharacterState state = universe.getUnicorn().getState();
-//        Position pos = universe.getUnicorn().getPosition();
+    private void drawUnicorns(Canvas canvas) {
 
-        Position pos = new Position(100, 100);
-        this.unicorn_sprite.draw(canvas, pos);
 
+        List<Unicorn> players = this.universe.getPlayers();
+        Unicorn player = players.iterator().next();
+
+        Sprite unicorn_sprite = this.unicorn_sprite_sheet.getPlayerSprite("toto", player.getState());
+        unicorn_sprite.draw(canvas, player.getPosition());
+
+//        canvas.drawBitmap(this.unicorn_sprite_sheet.getBitmap(),
+//                new Rect(100, 0, 150, 50),
+//                new Rect(0, 0, 100,100),
+//
+//                null);
+
+//        for (Unicorn player : players) {
+//            Sprite unicorn_sprite = this.unicorn_sprite_sheet.getPlayerSprite(player.getName(), player.getState());
+//            Position pos = player.getPosition();
+//            //offset is to help the draw function to draw the center of the picture
+//            int h_offset = unicorn_sprite.getHeight() / 2;
+//            int w_offset = unicorn_sprite.getWidth() / 2;
+//            pos.add(new Position(w_offset, h_offset));
+//            unicorn_sprite.draw(canvas, pos);
+//            Log.d("Renderer", "draw unicorn " + player.getName());
+//        }
 
     };
 
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
+
+            //set background white
             canvas.drawARGB(255, 255, 255, 255);
             //TODO draw more objects
-            this.drawPrincess(canvas);
-//            this.drawUnicorn(canvas);
+//            this.drawPrincess(canvas);
+            this.drawUnicorns(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             Log.e(TAG, "error in drawSurfaceView");

@@ -17,8 +17,12 @@ public class Character {
 
     //p.x and p.y means how many units to move along x and y
     public void walk(Motion p) {
+        // update position
         this.pos.add(p);
-    }
+
+        // TODO update state when character is moving
+        }
+
 
     public Position getPosition() {
         return this.pos;

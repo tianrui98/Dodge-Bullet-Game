@@ -13,7 +13,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Universe {
-    private final ScheduledExecutorService executor;
     private Princess princess;
     public List<Unicorn> players = new Vector<>();
     private final String TAG = "Universe";
@@ -21,7 +20,6 @@ public class Universe {
     public Universe(List<Unicorn> players) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.FRONT);
-        this.executor = Executors.newScheduledThreadPool(1);
     }
 
     //manage princess (npc)
@@ -34,11 +32,11 @@ public class Universe {
     //TODO manage projectiles
 
     //manage players
-    public void addPlayer(String name, String color, Position pos, CharacterState state) {
-        players.add(new Unicorn (name, color, 3, false, pos, state));
+    public void addPlayer(String name, Position pos, CharacterState state) {
+        this.players.add(new Unicorn (name, 3, false, pos, state));
         castChanges();
     }
-    public Collection<Unicorn> getPlayers() {
+    public List<Unicorn> getPlayers() {
         return players;
     }
 
@@ -52,6 +50,7 @@ public class Universe {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.wave();
+        this.getPlayers().iterator().next().walkRightStateChange();
         castChanges();
     }
 
