@@ -21,7 +21,6 @@ public class GameActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
         //create background
         setContentView(R.layout.game_activity);
         sv = findViewById(R.id.surfaceView);

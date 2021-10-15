@@ -3,9 +3,12 @@ package com.example.unicorngladiators.view;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -22,6 +25,7 @@ import java.util.*;
 
 public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     private final static String TAG = "RendererObject";
+    private final Paint paint;
     private SurfaceHolder holder;
     private Universe universe;
     private SpriteSheet character_sprite_sheet;
@@ -30,6 +34,10 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         this.universe = universe;
         this.universe.setCallBack(this);
         this.character_sprite_sheet = new SpriteSheet(context);
+        this.paint = new Paint();
+        this.paint.setStyle(Paint.Style.FILL);
+        Bitmap tiles = BitmapFactory.decodeResource(context.newTheme().getResources(), R.drawable.sand);
+        this.paint.setShader(new BitmapShader(tiles, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
     }
 
 
@@ -68,7 +76,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Canvas canvas = holder.lockCanvas();
 
             //set background white
-            canvas.drawARGB(255, 255, 255, 255);
+            canvas.drawPaint(this.paint);
             //TODO draw more objects
             this.drawPrincess(canvas);
             this.drawUnicorns(canvas);
