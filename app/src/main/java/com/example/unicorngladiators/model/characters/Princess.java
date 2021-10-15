@@ -14,7 +14,7 @@ public class Princess extends Character {
         this.name = "princess";
     }
 
-    public void turnAround (){
+    public void spin (){
         switch (this.getState()){
             case SPECIAL1:
                 this.setState(CharacterState.SPECIAL2);

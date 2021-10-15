@@ -51,11 +51,11 @@ public class SpriteSheet {
         spriteHashMap.put(CharacterState.RIGHT1, new Sprite(this, new Rect(0 * gridLength, 2 * gridLength, 1 * gridLength, 3 * gridLength)));
         spriteHashMap.put(CharacterState.RIGHT2, new Sprite(this, new Rect(1 * gridLength, 2 * gridLength, 2 * gridLength, 3 * gridLength)));
         spriteHashMap.put(CharacterState.RIGHT3, new Sprite(this, new Rect(2 * gridLength, 2 * gridLength, 3 * gridLength, 3 * gridLength)));
-        spriteHashMap.put(CharacterState.RIGHT4, new Sprite(this, new Rect(3 * gridLength, 2 *gridLength, 4 * gridLength, 3 * gridLength)));
+        spriteHashMap.put(CharacterState.RIGHT4, new Sprite(this, new Rect(3 * gridLength, 2 * gridLength, 4 * gridLength, 3 * gridLength)));
         spriteHashMap.put(CharacterState.BACK1, new Sprite(this, new Rect(0 * gridLength, 3 * gridLength, 1 * gridLength, 4 * gridLength)));
         spriteHashMap.put(CharacterState.BACK2, new Sprite(this, new Rect(1 * gridLength, 3 * gridLength, 2 * gridLength, 4 * gridLength)));
         spriteHashMap.put(CharacterState.BACK3, new Sprite(this, new Rect(2 * gridLength, 3 * gridLength, 3 * gridLength, 4 * gridLength)));
-        spriteHashMap.put(CharacterState.BACK4, new Sprite(this, new Rect(3 * gridLength, 3 *gridLength, 4 * gridLength, 4 * gridLength)));
+        spriteHashMap.put(CharacterState.BACK4, new Sprite(this, new Rect(3 * gridLength, 3 * gridLength, 4 * gridLength, 4 * gridLength)));
 
         return spriteHashMap;
     };

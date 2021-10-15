@@ -49,8 +49,10 @@ public class Universe {
     public void step(long elapsedTime) {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
-        this.princess.turnAround();
-        this.getPlayers().iterator().next().walkRightStateChange();
+        this.princess.spin();
+        for (Unicorn player : players) {
+            player.walkRightStateChange();
+        }
         castChanges();
     }
 
