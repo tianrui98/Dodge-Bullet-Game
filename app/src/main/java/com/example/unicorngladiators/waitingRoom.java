@@ -11,8 +11,9 @@ enum state {
     WAITING
 }
 
-public class waitingRoom extends AppCompatActivity {
+public class waitingRoom extends AppCompatActivity implements View.OnClickListener{
     private state curr_state;
+    private Button startGameBtn;
 
 
     @Override
@@ -20,23 +21,29 @@ public class waitingRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.curr_state = state.WAITING;
         setContentView(R.layout.activity_waiting_room2);
-        Button startingButton = (Button)findViewById(R.id.playerStatus);
-        startingButton.setText(this.curr_state.toString());
+
+        this.startGameBtn = (Button) findViewById(R.id.playerStatus);
+        startGameBtn.setOnClickListener(this);
+        startGameBtn.setText(this.curr_state.toString());
+
     }
 
     public void onClick(View v) {
-
-        switch(this.curr_state){
-            case WAITING:
-                this.curr_state = state.READY;
-                break;
+        switch (v.getId()) {
             default:
-                this.curr_state = state.WAITING;
+                switch (this.curr_state) {
+                    case WAITING:
+                        this.curr_state = state.READY;
+                        break;
+                    default:
+                        this.curr_state = state.WAITING;
+                        break;
+                }
+
+                Button startingButton = (Button) findViewById(R.id.playerStatus);
+                startingButton.setText(this.curr_state.toString());
                 break;
         }
-
-        Button startingButton = (Button)findViewById(R.id.playerStatus);
-        startingButton.setText(this.curr_state.toString());
     }
 
 
