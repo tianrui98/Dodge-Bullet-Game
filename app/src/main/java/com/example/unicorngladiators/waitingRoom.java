@@ -25,6 +25,7 @@ public class waitingRoom extends AppCompatActivity {
     }
 
     public void onClick(View v) {
+
         switch(this.curr_state){
             case WAITING:
                 this.curr_state = state.READY;
