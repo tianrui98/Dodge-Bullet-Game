@@ -16,10 +16,14 @@ public class Universe {
     private Princess princess;
     public List<Unicorn> players = new Vector<>();
     private final String TAG = "Universe";
+    private int height;
+    private int width;
 
-    public Universe(List<Unicorn> players) {
+    public Universe(List<Unicorn> players,int height,int width) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
+        this.height = height;
+        this.width = width;
     }
 
     //manage princess (npc)
@@ -49,10 +53,20 @@ public class Universe {
     public void step(long elapsedTime) {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
+<<<<<<< HEAD
         this.princess.spin();
         for (Unicorn player : players) {
             player.walkRightStateChange();
         }
+=======
+        this.princess.turnAround();
+        this.getPlayers().iterator().next().walkRightStateChange();
+
+
+
+        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
+        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
+>>>>>>> Ivan/Widthheight
         castChanges();
     }
 
