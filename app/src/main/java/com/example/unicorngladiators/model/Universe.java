@@ -51,6 +51,11 @@ public class Universe {
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.turnAround();
         this.getPlayers().iterator().next().walkRightStateChange();
+
+
+
+        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
+        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
         castChanges();
     }
 

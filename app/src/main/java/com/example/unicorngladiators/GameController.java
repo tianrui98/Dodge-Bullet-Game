@@ -1,6 +1,7 @@
 package com.example.unicorngladiators;
 
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -22,18 +23,20 @@ public class GameController extends Thread{
     private long startTime;
     SurfaceHolder holder;
 
-    public GameController(SurfaceView sv, Resources context) {
+    public GameController(SurfaceView sv, Resources context,int height,int width) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
 
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         List<Unicorn> emptyPlayerList = new ArrayList<>();
-        this.universe = new Universe(emptyPlayerList);
+        this.universe = new Universe(emptyPlayerList,height,width);
         this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
+        this.universe.addPlayer("toto", new Position(400,200), CharacterState.LEFT1);
         this.renderer = new Renderer(this.universe, holder, context);
         this.universe.setCallBack(this.renderer);
         this.sv.getHolder().addCallback(this.renderer);
         this.sv.setWillNotDraw(false);
+
     }
 
 
