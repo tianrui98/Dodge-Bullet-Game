@@ -53,20 +53,17 @@ public class Universe {
     public void step(long elapsedTime) {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
-<<<<<<< HEAD
         this.princess.spin();
         for (Unicorn player : players) {
             player.walkRightStateChange();
         }
-=======
-        this.princess.turnAround();
+//        this.princess.turnAround();
         this.getPlayers().iterator().next().walkRightStateChange();
 
 
 
         Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
         Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
->>>>>>> Ivan/Widthheight
         castChanges();
     }
 
