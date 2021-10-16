@@ -4,14 +4,16 @@ package com.example.unicorngladiators.io;
 
 import com.example.unicorngladiators.model.Position;
 
-public class InputHandler<ClickAction> implements InputListener.Callback
-{
+
+public class InputHandler implements InputListener.Callback {
     private ClickAction onClickAction;
+
     public void setOnClickAction(ClickAction onClickAction) {
         this.onClickAction = onClickAction;
     }
+
     @Override
     public void onClick(Position pos) {
-//        if (onClickAction != null) onClickAction.execute(pos);
+        if (onClickAction != null) onClickAction.execute(pos);
     }
 }
