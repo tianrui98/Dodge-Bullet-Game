@@ -93,7 +93,7 @@ public class Universe {
         this.joystick.update();
         for (Unicorn player : players.values()) {
             player.updatePositionState(this.joystick);
-        }
+        }}
 
 //        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
 //        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
