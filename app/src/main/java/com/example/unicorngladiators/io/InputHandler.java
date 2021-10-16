@@ -11,11 +11,9 @@ import com.example.unicorngladiators.model.Position;
 
 public class InputHandler implements InputListener.Callback {
     private ClickAction joystickAction;
-    private ClickAction playerAction;
 
-    public void setOnClickAction(ClickAction joystickAction, ClickAction playerAction) {
+    public void setOnClickAction(ClickAction joystickAction) {
         this.joystickAction = joystickAction;
-        this.playerAction = playerAction;
     }
 
     @Override
@@ -25,8 +23,5 @@ public class InputHandler implements InputListener.Callback {
             Log.d("InputerHandler", "execute joystick action");
         }
 
-        if (playerAction != null) {
-            playerAction.execute(me);
-        }
     }
 }

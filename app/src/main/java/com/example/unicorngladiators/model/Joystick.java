@@ -104,4 +104,11 @@ public class Joystick {
 //        Log.d("Joystick", "Update inner X to " + Integer.toString(this.innerPosX) + " " + "Y to " + Integer.toString(this.innerPosY));
 //    }
     }
+
+    public double getActuatorX() {
+        return this.actuatorX;
+    }
+    public double getActuatorY() {
+        return this.actuatorY;
+    }
 }

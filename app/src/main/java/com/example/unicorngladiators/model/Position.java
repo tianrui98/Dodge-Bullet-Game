@@ -16,8 +16,8 @@ public class Position {
     }
 
     public void add(Position p) {
-        this.x += p.x;
-        this.y += p.y;
+        this.x += p.getX();
+        this.y += p.getY();
     }
 
     public void subtract(Position p) {

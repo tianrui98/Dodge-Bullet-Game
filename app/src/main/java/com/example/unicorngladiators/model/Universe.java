@@ -83,11 +83,13 @@ public class Universe {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.spin();
+        this.joystick.update();
         for (Unicorn player : players.values()) {
-            player.walkRightStateChange();
+
+            player.updatePositionState(this.joystick);
         }
 
-        this.joystick.update();
+
 //        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
 //        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
         castChanges();

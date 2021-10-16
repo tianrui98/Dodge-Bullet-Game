@@ -7,6 +7,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.Log;
@@ -64,7 +65,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             //offset is to help the draw function to draw the center of the picture
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
-            Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getX() + h_offset);
+            Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getY() + h_offset);
             unicorn_sprite.drawCharacter(canvas, posAdjusted, player.getName());
         }
     };
@@ -84,7 +85,9 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
             //set background white
-            canvas.drawPaint(this.paint);
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            canvas.drawRGB(255,255,255);
+//            canvas.drawPaint(this.paint);
             //TODO draw more objects
             this.drawPrincess(canvas);
             this.drawUnicorns(canvas);

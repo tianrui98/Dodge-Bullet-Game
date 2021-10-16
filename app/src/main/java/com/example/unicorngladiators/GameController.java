@@ -1,26 +1,19 @@
 package com.example.unicorngladiators;
 
 import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.unicorngladiators.io.ClickAction;
 import com.example.unicorngladiators.io.InputHandler;
 import com.example.unicorngladiators.io.InputListener;
 import com.example.unicorngladiators.io.JoystickAction;
-import com.example.unicorngladiators.io.PlayerAction;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.view.Renderer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class GameController extends Thread{
     private Renderer renderer;
@@ -52,7 +45,7 @@ public class GameController extends Thread{
 
         //manage relationship between listener and handler
         InputHandler inputHandler = new InputHandler();
-        inputHandler.setOnClickAction(new JoystickAction(this.universe), new PlayerAction(this.universe));
+        inputHandler.setOnClickAction(new JoystickAction(this.universe));
         inputListener.setCallback(inputHandler);
 
     }
