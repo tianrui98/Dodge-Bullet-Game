@@ -16,7 +16,9 @@ public class JoystickAction implements ClickAction {
     }
 
     @Override
+
     public void execute(Motion m) {
+
         Log.i(TAG, "executed");
         this.universe.updateJoystick(m);
     }

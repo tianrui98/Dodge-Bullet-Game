@@ -24,5 +24,10 @@ public class Joystick {
         return p;
     }
 
+    public int getRadius(){
+        return radius;
+    }
+
+
 
 }
