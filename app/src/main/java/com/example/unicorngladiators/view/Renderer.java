@@ -56,8 +56,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawUnicorns(Canvas canvas) {
-
-
         List<Unicorn> players = this.universe.getPlayers();
 
         for (Unicorn player : players) {
@@ -68,8 +66,15 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getX() + h_offset);
             unicorn_sprite.drawCharacter(canvas, posAdjusted, player.getName());
         }
-
     };
+
+    private void drawJoystick(Canvas canvas){
+        Paint colors = new Paint();
+        colors.setARGB(255,50,50,50);
+        canvas.drawCircle(50, 50, 20, colors); // base of joystick
+        colors.setARGB(255,0,0,255);
+        canvas.drawCircle(50,50,30,colors); // hat of joystick
+    }
 
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
@@ -80,6 +85,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             //TODO draw more objects
             this.drawPrincess(canvas);
             this.drawUnicorns(canvas);
+            this.drawJoystick(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             Log.e(TAG, "error in drawSurfaceView");
