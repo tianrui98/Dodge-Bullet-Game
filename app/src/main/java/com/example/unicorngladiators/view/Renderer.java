@@ -14,6 +14,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.unicorngladiators.R;
+import com.example.unicorngladiators.model.Joystick;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.Character;
@@ -69,17 +70,17 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     };
 
     private void drawJoystick(Canvas canvas){
+        Joystick js = new Joystick();
         Paint colors = new Paint();
         colors.setARGB(255,50,50,50);
-        canvas.drawCircle(50, 50, 20, colors); // base of joystick
+        canvas.drawCircle(300, 300, 20, colors); // base of joystick
         colors.setARGB(255,0,0,255);
-        canvas.drawCircle(50,50,30,colors); // hat of joystick
+        canvas.drawCircle(300,300,30,colors); // hat of joystick
     }
 
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
-
             //set background white
             canvas.drawPaint(this.paint);
             //TODO draw more objects
@@ -91,6 +92,18 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Log.e(TAG, "error in drawSurfaceView");
         }
     }
+
+//    private float centerX;
+//    private float centerY;
+//    private float baseRadius;
+//    private float hatRadius;
+//
+//    private void setupDimensions() {
+//        centerX = getWidth()/2;
+//        centerY = getHeight()/2;
+//        baseRadius = Math.min(getWidth(), getHeight())/3;
+//        hatRadius = Math.min(getWidth(), getHeight())/5;
+//    }
 
     //manage callback
     @Override
