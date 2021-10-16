@@ -53,7 +53,7 @@ public class Universe {
         Unicorn player = this.players.get(name);
         player.walk(m);
         this.players.put(name,player);
-        Log.d(TAG, "Player position changed");
+//        Log.d(TAG, "Player position changed");
     }
 
 
@@ -64,13 +64,19 @@ public class Universe {
 
     //manage joystick
     public Joystick getJoystick() {
-        return this.joystick ;}
+        return this.joystick ; }
 
-    public void updateJoystick(Motion m) {
-        this.joystick.updatePosition(m);
-    }
+    public void setActuatorForJoystick(Position eventPos){
+        this.joystick.setActuator(eventPos);
+        castChanges();
+        }
+    public void setIsPressedForJoystick(boolean pressed) {
+        this.joystick.setIsPressed(pressed);
+        castChanges();}
 
-
+    public void resetActuatorForJoystick() {
+        this.joystick.resetActuator();
+        castChanges();}
 
     //tell universe what to update
     public void step(long elapsedTime) {
@@ -81,6 +87,7 @@ public class Universe {
             player.walkRightStateChange();
         }
 
+        this.joystick.update();
 //        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
 //        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
         castChanges();

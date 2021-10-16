@@ -1,6 +1,7 @@
 package com.example.unicorngladiators.io;
 
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
@@ -15,11 +16,10 @@ public class PlayerAction implements ClickAction {
     }
 
     @Override
-    public void execute(Motion m) {
-        Log.i(TAG, "executed " + Integer.toString(m.getX()) + " " + Integer.toString(m.getY()));
+    public void execute(MotionEvent m) {
         //TODO the name should be the current player's name
         String name = "toto";
-        this.universe.updatePlayerPosition(name, m);
+        this.universe.updatePlayerPosition(name, new Motion(0,0));
     }
 
 }

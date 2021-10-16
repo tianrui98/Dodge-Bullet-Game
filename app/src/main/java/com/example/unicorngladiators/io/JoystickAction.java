@@ -2,6 +2,7 @@ package com.example.unicorngladiators.io;
 
 
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.example.unicorngladiators.model.Joystick;
 import com.example.unicorngladiators.model.Motion;
@@ -18,21 +19,29 @@ public class JoystickAction implements ClickAction {
 
     @Override
 
-    public void execute(Motion m) {
-        Joystick js = this.universe.getJoystick();
-        Position pos = js.getPosition();
-        int displacement = (int)Math.sqrt((Math.pow(m.getX(), 2)) + Math.pow(m.getY(), 2));
-        if (displacement < js.getRadius()){
-            Log.i(TAG, "joystick executed");
-            this.universe.updateJoystick(m);
-        } else {
-            int ratio = (int) (js.getRadius() / displacement);
-            int constrainedX = pos.getX() + m.getX()*ratio;
-            int constrainedY = pos.getY() + m.getY();
-            Motion tmp = new Motion(constrainedX, constrainedY);
-            this.universe.updateJoystick(tmp);
-            Log.i(TAG, "joystick executed");
-        }
+    public void execute(MotionEvent motionEvent) {
+        int x = (int) motionEvent.getX();
+        int y = (int) motionEvent.getY();
+        Position eventPos = new Position(x, y);
 
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if(this.universe.getJoystick().isPressed(eventPos)){
+                    this.universe.setIsPressedForJoystick(true);
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.d("Joystick Action","User moves");
+                if (this.universe.getJoystick().getIsPressed()) {
+                    Log.d("Joystick Action","to set actuator");
+                    this.universe.setActuatorForJoystick(eventPos);
+                }
+                else{Log.d("Joystick Action","Joystick is not pressed");}
+                break;
+            case MotionEvent.ACTION_UP:
+                this.universe.setIsPressedForJoystick(false);
+                this.universe.resetActuatorForJoystick();
+                break;
+        }
     }
 }

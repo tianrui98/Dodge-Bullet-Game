@@ -1,6 +1,7 @@
 package com.example.unicorngladiators.io;
 
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -24,19 +25,12 @@ public class InputListener implements View.OnTouchListener {
     }
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        Joystick js = this.universe.getJoystick();
-        Position pos = js.getPosition();
-        if (motionEvent.getAction() != motionEvent.ACTION_UP ) {
-//            int displacement = (int) Math.sqrt((Math.pow(motionEvent.getX() - pos.getX(), 2)) + Math.pow(motionEvent.getY() - pos.getY(), 2));
-            int disX = (int) (motionEvent.getRawX() - pos.getX());
-            int disY = (int) (motionEvent.getRawY() - pos.getY());
-            Motion motion = new Motion(disX, disY);
-            callback.onClick(motion);
-        }
+        callback.onClick(motionEvent);
+        Log.d("Inputlistener", "user clicks");
         return true;
     }
 
     public interface Callback {
-        void onClick ( Motion motion ) ;
+        void onClick ( MotionEvent me ) ;
     }
 }
