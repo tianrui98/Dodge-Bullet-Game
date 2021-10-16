@@ -1,17 +1,27 @@
 package com.example.unicorngladiators.io;
 
-//determines what to do when user touches the joystick
+//send signal to JoystickAction and PlayerAction
 
+import android.util.Log;
+import android.view.MotionEvent;
+
+import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 
-public class InputHandler<ClickAction> implements InputListener.Callback
-{
-    private ClickAction onClickAction;
-    public void setOnClickAction(ClickAction onClickAction) {
-        this.onClickAction = onClickAction;
+
+public class InputHandler implements InputListener.Callback {
+    private ClickAction joystickAction;
+
+    public void setOnClickAction(ClickAction joystickAction) {
+        this.joystickAction = joystickAction;
     }
+
     @Override
-    public void onClick(Position pos) {
-//        if (onClickAction != null) onClickAction.execute(pos);
+    public void onClick(MotionEvent me) {
+        if (joystickAction != null) {
+            joystickAction.execute(me);
+            Log.d("InputerHandler", "execute joystick action");
+        }
+
     }
 }
