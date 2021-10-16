@@ -9,6 +9,7 @@ import com.example.unicorngladiators.io.ClickAction;
 import com.example.unicorngladiators.io.InputHandler;
 import com.example.unicorngladiators.io.InputListener;
 import com.example.unicorngladiators.io.JoystickAction;
+import com.example.unicorngladiators.io.PlayerAction;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
@@ -51,8 +52,7 @@ public class GameController extends Thread{
 
         //manage relationship between listener and handler
         InputHandler inputHandler = new InputHandler();
-        inputHandler.setOnClickAction(new JoystickAction(this.universe) {
-        });
+        inputHandler.setOnClickAction(new JoystickAction(this.universe), new PlayerAction(this.universe));
         inputListener.setCallback(inputHandler);
 
     }
