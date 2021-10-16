@@ -8,15 +8,15 @@ public class Joystick {
     private int posX;
 
     public Joystick(){
-        this.posX = 300;
-        this.posY = 300;
+        this.posX = 1000;
+        this.posY = 1000;
         this.radius = 30;
         this.hat = 50;
     }
 
-    public void updatePosition(Position pos){
-        this.posX = pos.getX();
-        this.posY = pos.getY();
+    public void updatePosition(Motion m){
+        this.posX += m.getX();
+        this.posY += m.getY();
     }
 
     public Position getPosition(){

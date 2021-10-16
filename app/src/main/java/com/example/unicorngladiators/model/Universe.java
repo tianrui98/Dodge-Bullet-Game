@@ -66,8 +66,8 @@ public class Universe {
     public Joystick getJoystick() {
         return this.joystick ;}
 
-    public void updateJoystick(Position pos) {
-        this.joystick.updatePosition(pos);
+    public void updateJoystick(Motion m) {
+        this.joystick.updatePosition(m);
     }
 
 
