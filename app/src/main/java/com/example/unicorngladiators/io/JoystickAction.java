@@ -26,6 +26,7 @@ public class JoystickAction implements ClickAction {
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                Log.d("Joystick Action", "User clicks on " + Integer.toString(eventPos.getX()) +" Y " + Integer.toString(eventPos.getY()) );
                 if(this.universe.getJoystick().isPressed(eventPos)){
                     this.universe.setIsPressedForJoystick(true);
                 }

@@ -48,7 +48,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         Position pos = universe.getPrincess().getPosition();
 
         //According to princess's state draw different bitmap
-        Sprite sprite = this.character_sprite_sheet.getPlayerSprite("toto", state);
+        Sprite sprite = this.character_sprite_sheet.getPlayerSprite("princess", state);
         //offset is to help the draw function to draw the center of the picture
         int h_offset = sprite.getHeight() / 2;
         int w_offset = sprite.getWidth() / 2;

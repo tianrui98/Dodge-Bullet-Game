@@ -17,14 +17,13 @@ public class Joystick {
 
     public Joystick(){
         this.innerPosX = 1000;
-        this.innerPosY = 1000;
+        this.innerPosY = 1600;
         this.outerPosX = 1000;
-        this.outerPosY = 1000;
+        this.outerPosY = 1600;
         innerRadius = 30;
         outerRadius = 50;
         this.actuatorX = 0.0;
         this.actuatorY = 0.0;
-        int hat = 50;
         this.isPressed = false;
     }
 
@@ -44,10 +43,11 @@ public class Joystick {
 
     public int getOuterRadius() {return outerRadius;}
 
-    public boolean isPressed(Position pos) {
+    public boolean isPressed(Position eventPos) {
+        double dX = eventPos.getX() - this.outerPosX ;
+        double dY = eventPos.getY() - this.outerPosY ;
         int centerToTouchDistance = (int) Math.sqrt(
-                Math.pow(this.outerPosX - pos.getY(), 2) +
-                Math.pow(this.outerPosY - pos.getY(), 2)
+                Math.pow(dX, 2) + Math.pow(dY, 2)
         );
         Log.d("Joystick", "CenterToTouchDistance = " + Integer.toString(centerToTouchDistance));
         if (centerToTouchDistance < outerRadius) {
@@ -59,7 +59,6 @@ public class Joystick {
 
     public void setIsPressed(boolean pressed) {
         this.isPressed = pressed;
-        Log.d("Joystick","set is pressed");
     }
 
     public boolean getIsPressed() {
