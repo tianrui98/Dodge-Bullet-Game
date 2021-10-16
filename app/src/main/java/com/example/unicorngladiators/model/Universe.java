@@ -1,4 +1,5 @@
 package com.example.unicorngladiators.model;
+
 import android.util.Log;
 
 import com.example.unicorngladiators.model.characters.CharacterState;
@@ -22,6 +23,7 @@ public class Universe {
     private int height;
     private int width;
 
+
     public Universe(HashMap<String,Unicorn> players, int height,int width) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
@@ -31,7 +33,10 @@ public class Universe {
     }
 
     //manage princess (npc)
-    public Princess getPrincess() {return this.princess;}
+    public Princess getPrincess() {
+        return this.princess;
+    }
+
     public void updatePrincess(CharacterState state, Position pos) {
         this.princess.setState(state);
         this.princess.setPosition(pos);
@@ -46,6 +51,7 @@ public class Universe {
     }
     public HashMap<String, Unicorn> getPlayersHashMap() {
         return this.players;
+
     }
 
         //chang player position
@@ -59,7 +65,7 @@ public class Universe {
 
     //manage callback
     public interface Callback {
-        void universeChanged ( Universe u ) ;
+        void universeChanged(Universe u);
     }
 
     //manage joystick
@@ -83,25 +89,25 @@ public class Universe {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.spin();
+
         this.joystick.update();
         for (Unicorn player : players.values()) {
-
             player.updatePositionState(this.joystick);
         }
 
-
 //        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
 //        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
-        castChanges();
-    }
 
-    private Callback  callback = null;
-    public void setCallBack(Callback  c) {
+    private Callback callback = null;
+
+    public void setCallBack(Callback c) {
         callback = c;
     }
-    public void addCallBack (Callback  c ) {
+
+    public void addCallBack(Callback c) {
         this.callback = c;
     }
+
     protected void castChanges() {
         if (callback != null) {
             callback.universeChanged(this);
