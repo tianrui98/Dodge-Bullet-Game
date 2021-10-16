@@ -1,12 +1,14 @@
 package com.example.unicorngladiators;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unicorngladiators.network.FirebaseHandler;
+import com.example.unicorngladiators.network.Room;
 
 
 enum state {
@@ -17,7 +19,8 @@ enum state {
 public class WaitingRoom extends AppCompatActivity implements View.OnClickListener{
     private state curr_state;
     private Button startGameBtn;
-    private FirebaseHandler fh = new FirebaseHandler();
+    private FirebaseHandler fh;
+    private Room room;
 
 
     @Override
@@ -30,6 +33,12 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
         startGameBtn.setOnClickListener(this);
         startGameBtn.setText(this.curr_state.toString());
 
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+        fh = new FirebaseHandler(width, height);
+        room = fh.getRoom();
     }
 
     public void onClick(View v) {

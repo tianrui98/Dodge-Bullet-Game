@@ -4,6 +4,7 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
 
 import androidx.annotation.NonNull;
 
+import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,13 +24,22 @@ public class FirebaseHandler {
     private DatabaseReference players, rooms;
     private String puid, roomId;
     private Room room;
+    private int width, height;
 
     private String[] playerNames = {"Toto", "Titi", "Tata", "Tutu"};
+    private String[] initialPos;
 
-    public FirebaseHandler(){
+    public FirebaseHandler(int width, int height){
+        this.width = width;
+        this.height = height;
+        initialPos = new String[] {
+                new Position(width / 5, height / 2).shortString(),
+                new Position(2*width / 5, height / 2).shortString(),
+                new Position(3*width / 5, height / 2).shortString(),
+                new Position(4*width / 5, height / 2).shortString(),
+        };
         System.out.println("initing handler...");
         database = FirebaseDatabase.getInstance("https://unicorn-63649-default-rtdb.asia-southeast1.firebasedatabase.app");
-        //database.getReference("message").setValue("init");
         players = database.getReference("players");
         this.puid = players.push().getKey();
         addMovesEventListener(players);
@@ -48,9 +58,9 @@ public class FirebaseHandler {
         List<String> bullets = new ArrayList<String>();
         double current_speed = 1.0;
         for(int i=0;i<100;i++) {
-            Bullet tmp = new Bullet(current_speed, 100, 100);
+            Bullet tmp = new Bullet(current_speed, this.width, this.height);
             bullets.add(tmp.toString());
-            current_speed *= tmp.getSpeed();
+            current_speed = tmp.getSpeed();
         }
 
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -96,18 +106,16 @@ public class FirebaseHandler {
 
         System.out.println("Checked room: "+this.roomId);
 
-        if(this.roomId != NULL) {
-            this.readRoomStates();
-            if (room.getNum_players() > 4) throw new Exception("Room is full--try again later.");
-            if (room.isStart()) throw new Exception("Game is started--try again later.");
-            this.room.addPlayer(this.puid, this.playerNames[this.room.getNum_players()]);
-            Map<String, Object> childUpdates = new HashMap<String, Object>();
-            childUpdates.put(this.roomId+"/num_players", this.room.getNum_players());
-            childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());
-            rooms.updateChildren(childUpdates);
-        } else {
-            this.initRoom();
-        }
+        if(this.roomId == NULL) this.initRoom();
+        else this.readRoomStates();
+        if (room.getNum_players() > 4) throw new Exception("Room is full--try again later.");
+        if (room.isStart()) throw new Exception("Game is started--try again later.");
+        this.room.addPlayer(this.puid, this.playerNames[this.room.getNum_players()]);
+        this.updateMove(this.initialPos[this.room.getNum_players()]);
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put(this.roomId+"/num_players", this.room.getNum_players());
+        childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());
+        rooms.updateChildren(childUpdates);
         addRoomEventListener(rooms);
     }
 

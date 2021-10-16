@@ -14,6 +14,8 @@ import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.view.Renderer;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameController extends Thread{
     private Renderer renderer;
@@ -50,6 +52,9 @@ public class GameController extends Thread{
 
     }
 
+    public Universe getUniverse() {
+        return universe;
+    }
 
     @Override
     public void run() {
