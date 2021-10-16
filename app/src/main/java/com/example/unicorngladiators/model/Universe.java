@@ -1,4 +1,5 @@
 package com.example.unicorngladiators.model;
+
 import android.util.Log;
 
 import com.example.unicorngladiators.model.characters.CharacterState;
@@ -19,15 +20,18 @@ public class Universe {
     private int height;
     private int width;
 
-    public Universe(List<Unicorn> players,int height,int width) {
+    public Universe(List<Unicorn> players, int height, int width) {
         this.players = players;
-        this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
+        this.princess = new Princess(new Position(20, 20), CharacterState.SPECIAL1);
         this.height = height;
         this.width = width;
     }
 
     //manage princess (npc)
-    public Princess getPrincess() {return this.princess;}
+    public Princess getPrincess() {
+        return this.princess;
+    }
+
     public void updatePrincess(CharacterState state, Position pos) {
         this.princess.setState(state);
         this.princess.setPosition(pos);
@@ -37,16 +41,17 @@ public class Universe {
 
     //manage players
     public void addPlayer(String name, Position pos, CharacterState state) {
-        this.players.add(new Unicorn (name, 3, false, pos, state));
+        this.players.add(new Unicorn(name, 3, false, pos, state));
         castChanges();
     }
+
     public List<Unicorn> getPlayers() {
         return players;
     }
 
     //manage callback
     public interface Callback {
-        void universeChanged ( Universe u ) ;
+        void universeChanged(Universe u);
     }
 
     //tell universe what to update
@@ -61,19 +66,21 @@ public class Universe {
         this.getPlayers().iterator().next().walkRightStateChange();
 
 
-
-        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
-        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
+        Log.d(TAG, "Height of screen is currently " + Integer.toString(this.height));
+        Log.d(TAG, "Width of screen is currently " + Integer.toString(this.width));
         castChanges();
     }
 
-    private Callback  callback = null;
-    public void setCallBack(Callback  c) {
+    private Callback callback = null;
+
+    public void setCallBack(Callback c) {
         callback = c;
     }
-    public void addCallBack (Callback  c ) {
+
+    public void addCallBack(Callback c) {
         this.callback = c;
     }
+
     protected void castChanges() {
         if (callback != null) {
             callback.universeChanged(this);
