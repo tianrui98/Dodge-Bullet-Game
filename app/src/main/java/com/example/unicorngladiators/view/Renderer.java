@@ -70,12 +70,13 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     };
 
     private void drawJoystick(Canvas canvas){
-        Joystick js = new Joystick();
+        Joystick js = this.universe.getJoystick();
+        Position pos = js.getPosition();
         Paint colors = new Paint();
         colors.setARGB(255,50,50,50);
-        canvas.drawCircle(300, 300, 20, colors); // base of joystick
+        canvas.drawCircle(pos.getX(), pos.getY(), 30, colors); // base of joystick
         colors.setARGB(255,0,0,255);
-        canvas.drawCircle(300,300,30,colors); // hat of joystick
+        canvas.drawCircle(pos.getX(),pos.getY(),50,colors); // hat of joystick
     }
 
     private void drawSurfaceView() {
