@@ -9,6 +9,8 @@ import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.view.Renderer;
+import android.content.res.Resources;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class GameController extends Thread{
 
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         List<Unicorn> emptyPlayerList = new ArrayList<>();
+        // get height and width of current screen
         this.universe = new Universe(emptyPlayerList);
         this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
         this.universe.addPlayer("tata", new Position(800, 800), CharacterState.RIGHT1);
@@ -36,6 +39,10 @@ public class GameController extends Thread{
         this.universe.setCallBack(this.renderer);
         this.sv.getHolder().addCallback(this.renderer);
         this.sv.setWillNotDraw(false);
+
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
+        this.universe.setScreenSize(width, height);
     }
 
 
