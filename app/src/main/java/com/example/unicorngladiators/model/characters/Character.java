@@ -28,33 +28,33 @@ public class Character {
             Position p = new Position(dx, dy);
             this.pos.add(p);
 
-            float ratio  = Math.abs(dy/dx);
-            if (ratio >= 1 ) {
-                if (dy <= 0) {
-                    if (dir != Direction.UP){
-                        this.setState(CharacterState.BACK1);
-                        this.setDirection(Direction.UP);}
-                        this.walkUpStateChange();}
+//             float ratio  = Math.abs(dy/dx);
+//             if (ratio >= 1 ) {
+//                 if (dy <= 0) {
+//                     if (dir != Direction.UP){
+//                         this.setState(CharacterState.BACK1);
+//                         this.setDirection(Direction.UP);}
+//                         this.walkUpStateChange();}
 
-                else {
-                    if (dir != Direction.DOWN) {
-                        this.setState(CharacterState.FRONT1);
-                        this.setDirection(Direction.DOWN);}
-                        this.walkDownStateChange();
-                    }
-            } else {
-                if (dx <= 0) {
-                    if (dir != Direction.LEFT){
-                        this.setState(CharacterState.LEFT1);
-                        this.setDirection(Direction.LEFT);}
-                        this.walkLeftStateChange();}
-                else {
-                    if (dir != Direction.RIGHT){
-                    this.setState(CharacterState.RIGHT1);
-                    this.setDirection(Direction.RIGHT);}
-                    this.walkRightStateChange();
-            }
-        }
+//                 else {
+//                     if (dir != Direction.DOWN) {
+//                         this.setState(CharacterState.FRONT1);
+//                         this.setDirection(Direction.DOWN);}
+//                         this.walkDownStateChange();
+//                     }
+//             } else {
+//                 if (dx <= 0) {
+//                     if (dir != Direction.LEFT){
+//                         this.setState(CharacterState.LEFT1);
+//                         this.setDirection(Direction.LEFT);}
+//                         this.walkLeftStateChange();}
+//                 else {
+//                     if (dir != Direction.RIGHT){
+//                     this.setState(CharacterState.RIGHT1);
+//                     this.setDirection(Direction.RIGHT);}
+//                     this.walkRightStateChange();
+//             }
+//         }
     }}
 
 
