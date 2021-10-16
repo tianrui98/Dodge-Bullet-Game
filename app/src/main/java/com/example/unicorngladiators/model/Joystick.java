@@ -14,9 +14,9 @@ public class Joystick {
         this.hat = 50;
     }
 
-    public void updatePosition(int x, int y){
-        this.posX = x;
-        this.posY = y;
+    public void updatePosition(Position pos){
+        this.posX = pos.getX();
+        this.posY = pos.getY();
     }
 
     public Position getPosition(){

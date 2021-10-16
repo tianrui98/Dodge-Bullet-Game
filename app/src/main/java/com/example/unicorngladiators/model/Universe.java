@@ -57,7 +57,7 @@ public class Universe {
         return this.joystick ;}
 
     public void updateJoystick(Position pos) {
-
+        this.joystick.updatePosition(pos);
     }
 
 

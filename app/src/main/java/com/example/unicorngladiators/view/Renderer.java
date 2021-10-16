@@ -75,7 +75,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         Paint colors = new Paint();
         colors.setARGB(255,50,50,50);
         canvas.drawCircle(pos.getX(), pos.getY(), 30, colors); // base of joystick
-        colors.setARGB(255,0,0,255);
+        colors.setARGB(100,0,0,255);
         canvas.drawCircle(pos.getX(),pos.getY(),50,colors); // hat of joystick
     }
 
