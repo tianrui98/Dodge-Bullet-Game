@@ -16,9 +16,13 @@ public class Universe {
     private Princess princess;
     public List<Unicorn> players = new Vector<>();
     private final String TAG = "Universe";
+    private int height;
+    private int width;
 
-    public Universe(List<Unicorn> players) {
+    public Universe(List<Unicorn> players,int height,int width) {
         this.players = players;
+        this.height = height;
+        this.width = width;
         this.princess = new Princess(new Position(20,20), CharacterState.FRONT1);
     }
 
