@@ -17,6 +17,7 @@ public class PlayerAction implements ClickAction {
     @Override
     public void execute(Motion m) {
         Log.i(TAG, "executed");
+        //TODO the name should be the current player's name
         String name = "toto";
         this.universe.updatePlayerPosition(name, m);
     }

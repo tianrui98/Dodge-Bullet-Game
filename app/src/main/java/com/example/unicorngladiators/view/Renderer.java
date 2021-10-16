@@ -57,7 +57,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawUnicorns(Canvas canvas) {
-        List<Unicorn> players = this.universe.getPlayers();
+        Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
 
         for (Unicorn player : players) {
             Sprite unicorn_sprite = this.character_sprite_sheet.getPlayerSprite("toto", player.getState());

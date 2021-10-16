@@ -16,6 +16,7 @@ import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.view.Renderer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,8 +33,8 @@ public class GameController extends Thread{
         this.sv = sv;
 
         //instantiate universe, princess, unicorns and ask Renderer to draw them
-        List<Unicorn> emptyPlayerList = new ArrayList<>();
-        this.universe = new Universe(emptyPlayerList,height,width);
+        HashMap<String, Unicorn> emptyPlayerMap = new HashMap<>();
+        this.universe = new Universe(emptyPlayerMap,height,width);
         this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
         this.universe.addPlayer("tata", new Position(800, 800), CharacterState.RIGHT1);
         this.universe.addPlayer("toto", new Position(400,200), CharacterState.LEFT1);
@@ -45,7 +46,7 @@ public class GameController extends Thread{
         this.sv.setWillNotDraw(false);
 
         //manage relationship between listener and surfaceView
-        InputListener inputListener = new InputListener();
+        InputListener inputListener = new InputListener(this.universe);
         this.sv.setOnTouchListener(inputListener);
 
         //manage relationship between listener and handler

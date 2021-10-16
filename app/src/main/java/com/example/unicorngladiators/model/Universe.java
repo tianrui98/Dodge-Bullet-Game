@@ -53,6 +53,7 @@ public class Universe {
         Unicorn player = this.players.get(name);
         player.walk(m);
         this.players.put(name,player);
+        Log.d(TAG, "Player position changed");
     }
 
 
@@ -80,8 +81,8 @@ public class Universe {
             player.walkRightStateChange();
         }
 
-        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
-        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
+//        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
+//        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
         castChanges();
     }
 
