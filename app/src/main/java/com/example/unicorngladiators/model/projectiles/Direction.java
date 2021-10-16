@@ -3,21 +3,19 @@ package com.example.unicorngladiators.model.projectiles;
 import com.example.unicorngladiators.model.Position;
 
 public class Direction {
-    private Position from, to, offset;
+    private Position from, offset;
 
-    public Direction(int fromX, int fromY, int toX, int toY){
+    public Direction(int fromX, int fromY, int offsetX, int offsetY){
         this.from = new Position(fromX, fromY);
-        this.to = new Position(toX, toY);
+        this.offset = new Position(offsetX, offsetY);
     }
 
-    public Direction(Position from, Position to){
+    public Direction(Position from, Position offset){
         this.from = from;
-        this.to = to;
+        this.offset = this.offset;
     }
 
     public Position getOffset(){
-        this.offset = this.to;
-        this.offset.subtract(this.from);
         return this.offset;
     }
 }
