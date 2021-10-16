@@ -1,7 +1,7 @@
 package com.example.unicorngladiators.model.projectiles;
 
-import com.example.unicorngladiators.model.projectiles.Direction;
 import com.example.unicorngladiators.model.Position;
+import com.example.unicorngladiators.model.characters.Unicorn;
 
 //TODO implement projectile class
 public abstract class Projectile {
@@ -11,7 +11,7 @@ public abstract class Projectile {
     private Position offset;
     private Position currentPos;
 
-    public void hit(Character c) {
+    public void hit(Unicorn c) throws InterruptedException {
         return;
     }
 
@@ -27,6 +27,10 @@ public abstract class Projectile {
 
     public double getSpeed(){
         return this.speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     public void speedUpProjectile(){
