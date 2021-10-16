@@ -40,8 +40,7 @@ public class waitingRoom extends AppCompatActivity implements View.OnClickListen
                         break;
                 }
 
-                Button startingButton = (Button) findViewById(R.id.playerStatus);
-                startingButton.setText(this.curr_state.toString());
+                startGameBtn.setText(this.curr_state.toString());
                 break;
         }
     }
