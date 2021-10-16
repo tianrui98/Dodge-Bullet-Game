@@ -38,7 +38,7 @@ public class GameController extends Thread{
         this.universe.addPlayer("tata", new Position(800, 800), CharacterState.RIGHT1);
         this.universe.addPlayer("toto", new Position(400,200), CharacterState.LEFT1);
 
-        //manage relationship between surface holder and renderer
+        //manage relationship between surface holder and renderer, and between universe and renderer
         this.renderer = new Renderer(this.universe, holder, context);
         this.universe.setCallBack(this.renderer);
         this.sv.getHolder().addCallback(this.renderer);
