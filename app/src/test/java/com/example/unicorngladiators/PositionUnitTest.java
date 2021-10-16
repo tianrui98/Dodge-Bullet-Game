@@ -12,11 +12,7 @@ import com.example.unicorngladiators.model.Position;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-    }
+public class PositionUnitTest {
 
     @Test
     public void PositionAddTest() {
@@ -36,7 +32,7 @@ public class ExampleUnitTest {
 
     @Test
     public void PositionSubtractTest() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             int pos1X = (int) (Math.random() * 20);
             int pos1Y = (int) (Math.random() * 20);
             int pos2X = (int) (Math.random() * 20);
@@ -51,7 +47,7 @@ public class ExampleUnitTest {
 
     @Test
     public void PositionMultFactor() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             int pos1X = (int) (Math.random() * 20);
             int pos1Y = (int) (Math.random() * 20);
             int coeff = (int) (Math.random() * 30 - 15);
@@ -64,7 +60,7 @@ public class ExampleUnitTest {
 
     @Test
     public void PositionMultPosition() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             int pos1X = (int) (Math.random() * 20);
             int pos1Y = (int) (Math.random() * 20);
             int pos2X = (int) (Math.random() * 20);
@@ -74,6 +70,19 @@ public class ExampleUnitTest {
             pos1.mult(pos2);
             assertEquals(pos1.getX(), pos1X * pos2X);
             assertEquals(pos1.getY(), pos1Y * pos2Y);
+        }
+    }
+
+    @Test
+    public void PositionEquals() {
+        for (int i = 0; i < 30; i++) {
+            int pos1X = (int) (Math.random() * 4);
+            int pos1Y = (int) (Math.random() * 4);
+            int pos2X = (int) (Math.random() * 4);
+            int pos2Y = (int) (Math.random() * 4);
+            Position pos1 = new Position(pos1X, pos1Y);
+            Position pos2 = new Position(pos2X, pos2Y);
+            assertTrue(pos1.equals(pos2) == (pos1X == pos2X && pos1Y == pos2Y));
         }
     }
 }
