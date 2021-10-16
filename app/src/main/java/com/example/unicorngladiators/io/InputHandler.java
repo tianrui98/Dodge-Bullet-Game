@@ -2,6 +2,7 @@ package com.example.unicorngladiators.io;
 
 //determines what to do when user touches the joystick
 
+import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 
 
@@ -13,7 +14,7 @@ public class InputHandler implements InputListener.Callback {
     }
 
     @Override
-    public void onClick(Position pos) {
-        if (joystickAction != null) joystickAction.execute(pos);
+    public void onClick(Motion m) {
+        if (joystickAction != null) joystickAction.execute(m);
     }
 }

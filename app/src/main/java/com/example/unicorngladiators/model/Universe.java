@@ -5,7 +5,9 @@ import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.Executors;
@@ -15,12 +17,12 @@ import java.util.concurrent.TimeUnit;
 public class Universe {
     private final Joystick joystick;
     private Princess princess;
-    public List<Unicorn> players = new Vector<>();
+    public HashMap<String, Unicorn> players;
     private final String TAG = "Universe";
     private int height;
     private int width;
 
-    public Universe(List<Unicorn> players,int height,int width) {
+    public Universe(HashMap<String,Unicorn> players, int height,int width) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
         this.joystick = new Joystick();
@@ -39,11 +41,18 @@ public class Universe {
 
     //manage players
     public void addPlayer(String name, Position pos, CharacterState state) {
-        this.players.add(new Unicorn (name, 3, false, pos, state));
+        this.players.put(name, new Unicorn (name, 3, false, pos, state));
         castChanges();
     }
-    public List<Unicorn> getPlayers() {
-        return players;
+    public HashMap<String, Unicorn> getPlayersHashMap() {
+        return this.players;
+    }
+
+        //chang player position
+    public void updatePlayerPosition(String name, Motion m) {
+        Unicorn player = this.players.get(name);
+        player.walk(m);
+        this.players.put(name,player);
     }
 
 
@@ -67,10 +76,9 @@ public class Universe {
         //TODO round up elapsed time if we want something to happen every x seconds
 //        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.spin();
-        for (Unicorn player : players) {
+        for (Unicorn player : players.values()) {
             player.walkRightStateChange();
         }
-
 
         Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
         Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
