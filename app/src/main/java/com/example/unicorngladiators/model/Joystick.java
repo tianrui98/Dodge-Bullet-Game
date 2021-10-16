@@ -14,5 +14,15 @@ public class Joystick {
         this.hat = 50;
     }
 
-    
+    public void updatePosition(int x, int y){
+        this.posX = x;
+        this.posY = y;
+    }
+
+    public Position getPosition(){
+        Position p = new Position(posX, posY);
+        return p;
+    }
+
+
 }
