@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.startGameBtn:
                 //start GameActivity when user clicks this button
-                Intent intent = new Intent(this, GameActivity.class);
+                Intent intent = new Intent(this, WaitingRoom.class);
                 startActivity(intent);
 
                 Toast.makeText(this, "Start Game Btn Clicked", Toast.LENGTH_SHORT).show();

@@ -13,7 +13,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FirebaseHandler {
@@ -31,17 +33,24 @@ public class FirebaseHandler {
         players = database.getReference("players");
         this.puid = players.push().getKey();
         addMovesEventListener(players);
+        try {
+            this.joinRoom();
+        } catch (Exception e){
+
+            System.out.println(e.toString()+"Cannot join room");
+        }
         System.out.println("initing done");
     }
 
     public void initRoom(){
         rooms = database.getReference("rooms");
         this.roomId = rooms.push().getKey();
-        Bullet bullets[] = new Bullet[100];
-        double current_speed = 1;
+        List<String> bullets = new ArrayList<String>();
+        double current_speed = 1.0;
         for(int i=0;i<100;i++) {
-            bullets[i] = new Bullet(current_speed, 100, 100);
-            current_speed *= bullets[i].getSpeed();
+            Bullet tmp = new Bullet(current_speed, 100, 100);
+            bullets.add(tmp.toString());
+            current_speed *= tmp.getSpeed();
         }
 
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -65,13 +74,14 @@ public class FirebaseHandler {
                     room.setPlayerIds((HashMap<String, String>)states.get("player_ids"));
                     room.setStart((boolean) states.get("start"));
                     room.setEnd((boolean) states.get("end"));
-                    room.setBullets((Bullet[]) states.get("bullets"));
+                    room.setBullets((List<String>) states.get("bullets"));
                 }
             }
         });
     }
 
     public void joinRoom() throws Exception{
+        System.out.println("starting join...");
         rooms = database.getReference("rooms");
         this.roomId = NULL;
         rooms.child("rooms_listing").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -83,6 +93,8 @@ public class FirebaseHandler {
                 }
             }
         });
+
+        System.out.println("Checked room: "+this.roomId);
 
         if(this.roomId != NULL) {
             this.readRoomStates();

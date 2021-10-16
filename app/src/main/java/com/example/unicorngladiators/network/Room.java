@@ -2,7 +2,9 @@ package com.example.unicorngladiators.network;
 
 import com.example.unicorngladiators.model.projectiles.Bullet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Room {
     private boolean start;
@@ -10,23 +12,14 @@ public class Room {
     private String id;
     private int num_players;
     private HashMap<String, String> player_ids = new HashMap<String, String>();
-
-    public Bullet[] getBullets() {
-        return bullets;
-    }
-
-    public void setBullets(Bullet[] bullets) {
-        this.bullets = bullets;
-    }
-
-    private Bullet bullets[];
+    private List<Bullet> bullets;
 
     public Room(String id){
         this.start = false;
         this.end = false;
         this.id = id;
         this.num_players = 0;
-        this.bullets = new Bullet[100];
+        this.bullets = new ArrayList<Bullet>();
     }
 
     public void addPlayer(String playerUid, String playerName){
@@ -70,5 +63,15 @@ public class Room {
 
     public HashMap<String, String> getPlayer_ids() {
         return player_ids;
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public void setBullets(List<String> bullets) {
+        for(String s: bullets){
+
+        }
     }
 }

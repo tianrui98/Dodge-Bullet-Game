@@ -1,9 +1,12 @@
 package com.example.unicorngladiators;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.unicorngladiators.network.FirebaseHandler;
 
 
 enum state {
@@ -11,9 +14,10 @@ enum state {
     WAITING
 }
 
-public class waitingRoom extends AppCompatActivity implements View.OnClickListener{
+public class WaitingRoom extends AppCompatActivity implements View.OnClickListener{
     private state curr_state;
     private Button startGameBtn;
+    private FirebaseHandler fh = new FirebaseHandler();
 
 
     @Override

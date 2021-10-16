@@ -29,8 +29,32 @@ public class Bullet extends Projectile {
         this.speedUpProjectile();
     }
 
+    public Bullet(Direction direction, Double speed){
+        this.setDirection(direction);
+        this.setSpeed(speed);
+    }
+
     @Override
     public void hit(Unicorn c) throws InterruptedException {
         c.takeBullet();
+    }
+
+    @Override
+    public String toString(){
+        return String.format("%s,%,.2f", this.getDirection().toString(), this.getSpeed());
+    }
+
+    public static Bullet fromString(String stringRepr){
+        String[] splits = stringRepr.split(",");
+        for(String s: splits)
+            System.out.print(s+", ");
+        System.out.println();
+        //[fromX, fromY, offsetX, offsetY, speed]
+        int fromX = Integer.parseInt(splits[0]);
+        int fromY = Integer.parseInt(splits[1]);
+        int offsetX = Integer.parseInt(splits[2]);
+        int offsetY = Integer.parseInt(splits[3]);
+        double speed = Double.parseDouble(splits[4]);
+        return new Bullet(new Direction(fromX, fromY, offsetX, offsetY), speed);
     }
 }
