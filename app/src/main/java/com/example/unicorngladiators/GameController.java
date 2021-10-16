@@ -1,9 +1,14 @@
 package com.example.unicorngladiators;
 
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.unicorngladiators.io.ClickAction;
+import com.example.unicorngladiators.io.InputHandler;
+import com.example.unicorngladiators.io.InputListener;
+import com.example.unicorngladiators.io.JoystickAction;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
@@ -22,20 +27,33 @@ public class GameController extends Thread{
     private long startTime;
     SurfaceHolder holder;
 
-    public GameController(SurfaceView sv, Resources context) {
+    public GameController(SurfaceView sv, Resources context,int height,int width) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
 
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         List<Unicorn> emptyPlayerList = new ArrayList<>();
-        this.universe = new Universe(emptyPlayerList);
+        this.universe = new Universe(emptyPlayerList,height,width);
         this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
         this.universe.addPlayer("tata", new Position(800, 800), CharacterState.RIGHT1);
+        this.universe.addPlayer("toto", new Position(400,200), CharacterState.LEFT1);
 
+        //manage relationship between surface holder and renderer, and between universe and renderer
         this.renderer = new Renderer(this.universe, holder, context);
         this.universe.setCallBack(this.renderer);
         this.sv.getHolder().addCallback(this.renderer);
         this.sv.setWillNotDraw(false);
+
+        //manage relationship between listener and surfaceView
+        InputListener inputListener = new InputListener();
+        this.sv.setOnTouchListener(inputListener);
+
+        //manage relationship between listener and handler
+        InputHandler inputHandler = new InputHandler();
+        inputHandler.setOnClickAction(new JoystickAction(this.universe) {
+        });
+        inputListener.setCallback(inputHandler);
+
     }
 
 

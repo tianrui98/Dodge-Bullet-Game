@@ -13,13 +13,19 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Universe {
+    private final Joystick joystick;
     private Princess princess;
     public List<Unicorn> players = new Vector<>();
     private final String TAG = "Universe";
+    private int height;
+    private int width;
 
-    public Universe(List<Unicorn> players) {
+    public Universe(List<Unicorn> players,int height,int width) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
+        this.joystick = new Joystick();
+        this.height = height;
+        this.width = width;
     }
 
     //manage princess (npc)
@@ -40,10 +46,21 @@ public class Universe {
         return players;
     }
 
+
     //manage callback
     public interface Callback {
         void universeChanged ( Universe u ) ;
     }
+
+    //manage joystick
+    public Joystick getJoystick() {
+        return this.joystick ;}
+
+    public void updateJoystick(Position pos) {
+
+    }
+
+
 
     //tell universe what to update
     public void step(long elapsedTime) {
@@ -53,6 +70,10 @@ public class Universe {
         for (Unicorn player : players) {
             player.walkRightStateChange();
         }
+
+
+        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
+        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
         castChanges();
     }
 
