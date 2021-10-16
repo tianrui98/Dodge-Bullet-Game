@@ -28,8 +28,8 @@ public class InputListener implements View.OnTouchListener {
         Position pos = js.getPosition();
         if (motionEvent.getAction() != motionEvent.ACTION_UP ) {
 //            int displacement = (int) Math.sqrt((Math.pow(motionEvent.getX() - pos.getX(), 2)) + Math.pow(motionEvent.getY() - pos.getY(), 2));
-            int disX = (int) (motionEvent.getX() - pos.getX());
-            int disY = (int) (motionEvent.getY() - pos.getY());
+            int disX = (int) (motionEvent.getRawX() - pos.getX());
+            int disY = (int) (motionEvent.getRawY() - pos.getY());
             Motion motion = new Motion(disX, disY);
             callback.onClick(motion);
         }
