@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Unicorngladiators" >
         <activity
-            android:name=".waitingRoom"
+            android:name=".HttpReq"
             android:exported="true" />
         <activity
-            android:name=".GameActivity"
+            android:name=".FirebaseRequest"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

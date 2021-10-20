@@ -54,15 +54,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.startGameBtn:
                 //start GameActivity when user clicks this button
-                Intent intent = new Intent(this, waitingRoom.class);
+                Intent intent = new Intent(this, HttpReq.class);
                 startActivity(intent);
 
-                fh.updateMove(x+", "+ y);
-                x++; y++;
+
                 Toast.makeText(this, "Start Game Btn Clicked", Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.settingsBtn:
+                Intent intent2 = new Intent(this, FirebaseRequest.class);
+                startActivity(intent2);
                 Toast.makeText(this, "Settings Btn Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.quitGameBtn:

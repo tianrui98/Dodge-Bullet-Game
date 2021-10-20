@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingTop="50dp"
-        android:text="Unicorn Gladiators"
+        android:text="Network Demo"
         android:textAlignment="center"
         android:textSize="32dp" />
 
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Game" />
+        android:text="Http Request" />
 
     <Button
         android:layout_below="@id/startGameBtn"
@@ -36,7 +36,7 @@
         android:id="@+id/settingsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings" />
+        android:text="Firebase Request" />
 
     <Button
         android:layout_below="@id/settingsBtn"
@@ -45,6 +45,6 @@
         android:layout_margin="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quit Game"/>
+        android:text="JUnits"/>
 
 </android.widget.RelativeLayout>
