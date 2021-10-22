@@ -89,7 +89,7 @@ public class Universe {
 
         this.joystick.update();
         for (Unicorn player : players.values()) {
-            player.updatePositionState(this.joystick);
+            player.updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         }
 
         this.castChanges();

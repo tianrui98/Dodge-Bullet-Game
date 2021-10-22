@@ -53,10 +53,14 @@ public class Unicorn extends Character {
         }
     }
 
-
-    public void updatePositionState(Joystick joystick){
-        int velocityX = (int) Math.round(joystick.getActuatorX() * MAX_SPEED);
-        int velocityY = (int) Math.round(joystick.getActuatorY() * MAX_SPEED);
+    /**
+     * Updates the position and state of the unicorn
+     * @param actuatorX Actuator X from the Joystick
+     * @param actuatorY Actuator Y from the Joystick
+     */
+    public void updatePositionState(double actuatorX, double actuatorY){
+        int velocityX = (int) Math.round(actuatorX * MAX_SPEED);
+        int velocityY = (int) Math.round(actuatorY * MAX_SPEED);
         this.walk(new Motion(velocityX, velocityY) );
     }
 
