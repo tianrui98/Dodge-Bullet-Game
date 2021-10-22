@@ -7,6 +7,9 @@ import com.example.unicorngladiators.model.Facing;
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 
+/**
+ * Character class stores and updates 3 information: the position, the state, and the direction.
+ */
 public class Character {
     public enum CharacterDirection {
         UP,
@@ -20,6 +23,12 @@ public class Character {
     private Facing facing;
 
 
+    /**
+     * Character class constructor takes in the initial position of the character and its state.
+     *
+     * @param pos
+     * @param state
+     */
     public Character(Position pos, CharacterState state) {
         this.pos = pos;
         this.state = state;
@@ -27,6 +36,11 @@ public class Character {
     }
 
     //p.x and p.y means how many units to move along x and y
+
+    /**
+     * Update the position of a character given a Motion object.
+     * @param m
+     */
     public void walk(Motion m) {
         // update position
         int dx = m.getX();
@@ -70,7 +84,9 @@ public class Character {
          }
     }}
 
-
+    /**
+     * Updates character frame as it walks down.
+     */
     public void walkDownStateChange (){
         switch (this.getState()){
             case FRONT1:
@@ -88,6 +104,9 @@ public class Character {
         }
     }
 
+    /**
+     * Updates character frame as it walks right.
+     */
     public void walkRightStateChange(){
         switch (this.getState()){
             case RIGHT1:
@@ -105,6 +124,9 @@ public class Character {
         }
     }
 
+    /**
+     * Updates character frame as it walks left.
+     */
     public void walkLeftStateChange(){
         switch (this.getState()){
             case LEFT1:
@@ -122,6 +144,9 @@ public class Character {
         }
     }
 
+    /**
+     * Updates character frame as it walks up.
+     */
     public void walkUpStateChange(){
         switch (this.getState()){
             case BACK1:
@@ -139,23 +164,47 @@ public class Character {
         }
     }
 
+    /**
+     * Getter for position state.
+     * @return
+     */
     public Position getPosition() {
         return this.pos;
     }
 
+    /**
+     * Getter for direction state.
+     * @return
+     */
     public Facing getFacing(){
         return  this.facing;
     }
 
+    /**
+     * Setter for direction state.
+     * @param facing
+     */
     public void setFacing(Facing facing){
         this.facing = facing;
     }
 
+    /**
+     * Getter for movement state.
+     * @return
+     */
     public CharacterState getState(){return this.state;}
 
 
+    /**
+     * Setter for position state.
+     * @param pos
+     */
     public void setPosition (Position pos) {this.pos = pos;}
 
+    /**
+     * Setter for movement state.
+     * @param state
+     */
     public void setState (CharacterState state) {this.state = state;}
 
 

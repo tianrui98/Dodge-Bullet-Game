@@ -16,3 +16,10 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+/*task javadoc(type: Javadoc) {
+    dependsOn 'assembleRelease'
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../documentation/")
+}*/
