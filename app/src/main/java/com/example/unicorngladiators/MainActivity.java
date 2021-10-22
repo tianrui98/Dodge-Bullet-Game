@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.startGameBtn:
                 //start GameActivity when user clicks this button
-                Intent intent = new Intent(this, waitingRoom.class);
+                Intent intent = new Intent(this, GameActivity.class);
                 startActivity(intent);
 
                 fh.updateMove(x+", "+ y);

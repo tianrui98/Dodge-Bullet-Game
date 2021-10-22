@@ -74,15 +74,12 @@ public class Universe {
 
     public void setActuatorForJoystick(Position eventPos){
         this.joystick.setActuator(eventPos);
-        castChanges();
         }
     public void setIsPressedForJoystick(boolean pressed) {
-        this.joystick.setIsPressed(pressed);
-        castChanges();}
+        this.joystick.setIsPressed(pressed); }
 
     public void resetActuatorForJoystick() {
-        this.joystick.resetActuator();
-        castChanges();}
+        this.joystick.resetActuator(); }
 
     //tell universe what to update
     public void step(long elapsedTime) {
@@ -93,7 +90,11 @@ public class Universe {
         this.joystick.update();
         for (Unicorn player : players.values()) {
             player.updatePositionState(this.joystick);
-        }}
+        }
+
+        this.castChanges();
+
+    }
 
 //        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
 //        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));

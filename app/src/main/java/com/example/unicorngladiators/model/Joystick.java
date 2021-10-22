@@ -5,6 +5,7 @@ import android.util.Log;
 //TODO implement Joystick based on this https://www.youtube.com/watch?v=3oZ2jt0hQmo&list=PL2EfDMM6n_LYJdzaOQ5jZZ3Dj5L4tbAuM&index=5
 public class Joystick {
 
+    private static final int MAX_SPEED = 2;
     private boolean isPressed;
     private final int innerRadius;
     private final int outerRadius;
