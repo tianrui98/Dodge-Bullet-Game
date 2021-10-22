@@ -1,5 +1,6 @@
 package com.example.unicorngladiators;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -10,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.unicorngladiators.network.FirebaseRoomHandler;
 import com.example.unicorngladiators.network.Room;
 
-public class GameActivity extends AppCompatActivity  {
+public class GameActivity extends Activity {
     private static String TAG = "GameActivity";
     SurfaceView sv;
 
