@@ -81,16 +81,19 @@ public class FirebaseHandler {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     HashMap<String, Object> states = (HashMap<String, Object>) task.getResult().getValue();
+                    System.out.println("states:"+states);
+                    Object start = states.get("start");
+                    Object ended = states.get("ended");
                     room.setPlayerIds((HashMap<String, String>)states.get("player_ids"));
-                    room.setStart((boolean) states.get("start"));
-                    room.setEnd((boolean) states.get("end"));
+                    room.setStart((boolean) start);
+                    room.setEnd((boolean) ended);
                     room.setBullets((List<String>) states.get("bullets"));
                 }
             }
         });
     }
 
-    public void joinRoom() throws Exception{
+    public void joinRoom() {
         System.out.println("starting join...");
         rooms = database.getReference("rooms");
         this.roomId = NULL;
@@ -99,15 +102,29 @@ public class FirebaseHandler {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     roomId = String.valueOf(task.getResult().getValue());
-                    room = new Room(roomId);
+                    System.out.println("room id read: " + roomId);
+                    if (roomId != null) {
+                        room = new Room(roomId);
+                        readRoomStates();
+                        try {
+                            addPlayer();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        initRoom();
+                        try {
+                            addPlayer();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         });
+    }
 
-        System.out.println("Checked room: "+this.roomId);
-
-        if(this.roomId == NULL) this.initRoom();
-        else this.readRoomStates();
+    public void addPlayer() throws Exception {
         if (room.getNum_players() > 4) throw new Exception("Room is full--try again later.");
         if (room.isStart()) throw new Exception("Game is started--try again later.");
         this.room.addPlayer(this.puid, this.playerNames[this.room.getNum_players()]);
