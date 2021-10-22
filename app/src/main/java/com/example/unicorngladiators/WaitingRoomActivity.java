@@ -1,5 +1,6 @@
 package com.example.unicorngladiators;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.unicorngladiators.network.FirebaseRoomHandler;
 import com.example.unicorngladiators.network.Room;
 
-public class WaitingRoomActivity extends AppCompatActivity implements View.OnClickListener{
+public class WaitingRoomActivity extends Activity implements View.OnClickListener{
     private state curr_state;
     private Button readyStateBtn, startGameBtn;
     private FirebaseRoomHandler fh;

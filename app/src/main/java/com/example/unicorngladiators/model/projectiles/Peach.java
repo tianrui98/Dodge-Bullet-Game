@@ -6,7 +6,19 @@ import com.example.unicorngladiators.model.characters.Unicorn;
 
 import java.util.Random;
 
+/**
+ * The Peach class is just peachy. It is similar to the Bullet class representation but
+ * has different hit behaviors and is dependent on Princess Peach.
+ */
 public class Peach extends Projectile {
+    /**
+     * This constructor initializes the Peach object using the speed,
+     * position of the Princess and the screen constraints.
+     * @param speed
+     * @param p
+     * @param maxX
+     * @param maxY
+     */
     public Peach(double speed, Princess p, int maxX, int maxY) {
         this.setSpeed(speed);
         Random rand = new Random();
@@ -21,6 +33,11 @@ public class Peach extends Projectile {
         this.speedUpProjectile();
     }
 
+    /**
+     * This method overrides the hit behavior of the Peach on the character.
+     * It is defined using the character takePeach behavior.
+     * @param c
+     */
     @Override
     public void hit(Unicorn c) {
         c.takePeach();
