@@ -33,7 +33,7 @@ public class Room {
 
     public void setPlayerIds(HashMap<String, String> player_ids){
         this.player_ids = player_ids;
-        this.num_players = player_ids.size();
+        this.num_players = this.player_ids.size();
     }
 
     public void setStart(boolean start){

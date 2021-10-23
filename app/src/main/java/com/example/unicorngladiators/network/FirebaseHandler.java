@@ -2,6 +2,8 @@ package com.example.unicorngladiators.network;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import com.example.unicorngladiators.model.Position;
@@ -25,11 +27,13 @@ public class FirebaseHandler {
     private String puid, roomId;
     private Room room;
     private int width, height;
+    private TextView playerCount;
 
     private String[] playerNames = {"Toto", "Titi", "Tata", "Tutu"};
     private String[] initialPos;
 
-    public FirebaseHandler(int width, int height){
+    public FirebaseHandler(int width, int height, TextView playerCount){
+        this.playerCount = playerCount;
         this.width = width;
         this.height = height;
         initialPos = new String[] {
@@ -73,6 +77,11 @@ public class FirebaseHandler {
         rooms.updateChildren(childUpdates);
         this.room = new Room(this.roomId);
         this.room.setBullets(bullets);
+        try {
+            addPlayer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void readRoomStates(){
@@ -88,6 +97,11 @@ public class FirebaseHandler {
                     room.setStart((boolean) start);
                     room.setEnd((boolean) ended);
                     room.setBullets((List<String>) states.get("bullets"));
+                    try {
+                        addPlayer();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -103,21 +117,11 @@ public class FirebaseHandler {
                 if (task.isSuccessful()) {
                     roomId = String.valueOf(task.getResult().getValue());
                     System.out.println("room id read: " + roomId);
-                    if (roomId != null) {
+                    if (!roomId.equals("")) {
                         room = new Room(roomId);
                         readRoomStates();
-                        try {
-                            addPlayer();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     } else {
                         initRoom();
-                        try {
-                            addPlayer();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
@@ -134,6 +138,7 @@ public class FirebaseHandler {
         childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());
         rooms.updateChildren(childUpdates);
         addRoomEventListener(rooms);
+        this.playerCount.setText("Current Number Of Players : "+this.room.getNum_players());
     }
 
     public void endGame() throws Exception{
@@ -184,11 +189,15 @@ public class FirebaseHandler {
                 try{
                     HashMap<String, Object> val = (HashMap<String, Object>) dataSnapshot.getValue();
                     System.out.println(val);
-                    room.setStart((boolean) val.get("start"));
-                    room.setPlayerIds((HashMap<String, String>) val.get("player_ids"));
-                    System.out.println("set new room state.");
+                    HashMap<String, Object> room_spec = (HashMap<String, Object>) (val.get(room.getId()));
+                    //room.setStart((boolean) room_spec.get("start"));
+                    HashMap<String, String> player_ids = new HashMap<String, String>();
+                    player_ids = (HashMap<String, String>) room_spec.get("player_ids");
+                    room.setPlayerIds(player_ids);
+                    System.out.println("set new room state." + room.getNum_players());
+                    playerCount.setText("Current Number Of Players : "+ room.getNum_players());
                 } catch (Exception e){
-
+                    e.printStackTrace();
                 }
                 //System.out.println(dataSnapshot.getValue().getClass());
 
