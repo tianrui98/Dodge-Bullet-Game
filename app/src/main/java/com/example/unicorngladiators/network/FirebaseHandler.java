@@ -3,6 +3,8 @@ package com.example.unicorngladiators.network;
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FirebaseHandler {
+public class FirebaseHandler implements Parcelable {
     private FirebaseDatabase database;
     private DatabaseReference players, rooms;
     private String puid, roomId;
@@ -56,6 +58,29 @@ public class FirebaseHandler {
         addMovesEventListener(players);
         System.out.println("initing done");
     }
+
+    protected FirebaseHandler(Parcel in) {
+        puid = in.readString();
+        roomId = in.readString();
+        width = in.readInt();
+        height = in.readInt();
+        inRoom = in.readByte() != 0;
+        started = in.readByte() != 0;
+        playerNames = in.createStringArray();
+        initialPos = in.createStringArray();
+    }
+
+    public static final Creator<FirebaseHandler> CREATOR = new Creator<FirebaseHandler>() {
+        @Override
+        public FirebaseHandler createFromParcel(Parcel in) {
+            return new FirebaseHandler(in);
+        }
+
+        @Override
+        public FirebaseHandler[] newArray(int size) {
+            return new FirebaseHandler[size];
+        }
+    };
 
     public void initRoom(){
         rooms = database.getReference("rooms");
@@ -265,4 +290,20 @@ public class FirebaseHandler {
         roomRef.addValueEventListener(roomListener);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(puid);
+        parcel.writeString(roomId);
+        parcel.writeInt(width);
+        parcel.writeInt(height);
+        parcel.writeByte((byte) (inRoom ? 1 : 0));
+        parcel.writeByte((byte) (started ? 1 : 0));
+        parcel.writeStringArray(playerNames);
+        parcel.writeStringArray(initialPos);
+    }
 }

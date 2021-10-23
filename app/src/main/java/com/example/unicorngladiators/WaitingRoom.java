@@ -48,8 +48,8 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
             case R.id.startGameHost:
                 fh.startGame();
                 Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtra("FirebaseHandler", (Parcelable) fh);
-                intent.putExtra("Room", (Parcelable) room);
+                intent.putExtra("FirebaseHandler", fh);
+                intent.putExtra("Room", room);
                 startActivity(intent);
                 break;
 
