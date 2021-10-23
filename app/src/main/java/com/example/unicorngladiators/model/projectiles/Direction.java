@@ -15,6 +15,10 @@ public class Direction {
         this.offset = offset;
     }
 
+    public Position getFrom() {
+        return from;
+    }
+
     public Position getOffset(){
         return this.offset;
     }
@@ -23,4 +27,7 @@ public class Direction {
     public String toString(){
         return String.format("%s, %s", this.from.shortString(), this.offset.shortString());
     }
+
+
+
 }
