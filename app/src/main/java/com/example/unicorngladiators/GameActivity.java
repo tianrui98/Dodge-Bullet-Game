@@ -13,6 +13,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unicorngladiators.model.Universe;
+import com.example.unicorngladiators.network.FirebaseHandler;
 import com.example.unicorngladiators.network.Room;
 import com.example.unicorngladiators.view.Renderer;
 
@@ -32,7 +33,10 @@ public class GameActivity extends AppCompatActivity  {
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
 
-        Room room = null;
+        Room room = (Room) getIntent().getSerializableExtra("Room");
+        FirebaseHandler fh = (FirebaseHandler) getIntent().getSerializableExtra("FirebaseHandler");
+        //todo : pass fh to controller???
+
         GameController gc = new GameController(sv, getResources(),height,width, room);
         gc.start();
         Log.d(TAG, "onCreate finished.");

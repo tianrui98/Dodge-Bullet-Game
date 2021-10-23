@@ -7,9 +7,7 @@ import com.example.unicorngladiators.model.characters.Unicorn;
 import java.util.Random;
 
 public class Peach extends Projectile {
-    private final String name = "peach";
-    public Peach(double speed, Princess p, int minX, int maxX, int minY, int maxY) {
-        super(currentPos);
+    public Peach(double speed, Princess p, int maxX, int maxY) {
         this.setSpeed(speed);
         Random rand = new Random();
         int offsetX = rand.nextInt(5);
@@ -27,5 +25,4 @@ public class Peach extends Projectile {
     public void hit(Unicorn c) {
         c.takePeach();
     }
-    public String getName(){return name;}
 }

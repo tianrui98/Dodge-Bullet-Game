@@ -2,6 +2,7 @@ package com.example.unicorngladiators;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +48,8 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
             case R.id.startGameHost:
                 fh.startGame();
                 Intent intent = new Intent(this, GameActivity.class);
+                intent.putExtra("FirebaseHandler", (Parcelable) fh);
+                intent.putExtra("Room", (Parcelable) room);
                 startActivity(intent);
                 break;
 

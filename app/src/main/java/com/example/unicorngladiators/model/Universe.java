@@ -7,6 +7,7 @@ import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.model.projectiles.Bullet;
+import com.example.unicorngladiators.model.projectiles.Peach;
 import com.example.unicorngladiators.model.projectiles.Projectile;
 import com.example.unicorngladiators.network.Room;
 
@@ -19,27 +20,31 @@ import java.util.Vector;
 public class Universe {
     private final Joystick joystick;
     private final List<Bullet> bullets;
-    private Projectile projectile;
+    private List<Projectile> currentBullets;
+    private int bulletIndex;
     private Princess princess;
     public HashMap<String, Unicorn> players;
     private final String TAG = "Universe";
     private int height;
     private int width;
-    private Projectile bullet;
     private Projectile peach;
     private Room room;
+    private List<Projectile> currentPeaches;
 
 
     public Universe(HashMap<String,Unicorn> players, int height,int width, Room room) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
         this.joystick = new Joystick();
-        this.projectile = null;
-        this.peach = null;
+
         this.height = height;
         this.width = width;
         this.room = room;
+
         this.bullets = this.room.getBullets();
+        this.bulletIndex = 0;
+        this.currentBullets = new ArrayList<Projectile>();
+        this.currentPeaches = new ArrayList<Projectile>();
     }
 
     //manage princess (npc)
@@ -53,7 +58,17 @@ public class Universe {
     }
 
     //manage projectiles
+    public void addABullet(){
+        Projectile bullet = this.bullets.get(this.bulletIndex);
+        this.bulletIndex += 1;
+        this.currentBullets.add(bullet);
+    }
 
+    public void addAPeach(){
+        //TODO: change height and width to arena's dimension
+        Projectile peach = new Peach(1.0, this.getPrincess(), width, height);
+        this.currentPeaches.add(peach);
+    }
 
     //manage players
     public void addPlayer(String name, Position pos, CharacterState state) {
@@ -73,12 +88,13 @@ public class Universe {
 //        Log.d(TAG, "Player position changed");
     }
 
-    public Projectile getBullet() {
-        return this.bullet;
+    public List<Projectile> getBullets() {
+        return this.currentBullets;
     }
 
-    public Projectile getPeach() {
-        return this.peach;
+
+    public List<Projectile> getPeaches() {
+        return this.currentPeaches;
     }
 
 
@@ -111,6 +127,8 @@ public class Universe {
             player.updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         }
 
+        this.addABullet();
+        this.addAPeach();
         this.castChanges();
 
     }
