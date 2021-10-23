@@ -12,6 +12,8 @@ import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.view.Renderer;
+import android.content.res.Resources;
+
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class GameController extends Thread{
         this.sv.getHolder().addCallback(this.renderer);
         this.sv.setWillNotDraw(false);
 
+
         //manage relationship between listener and surfaceView
         InputListener inputListener = new InputListener(this.universe);
         this.sv.setOnTouchListener(inputListener);
@@ -49,7 +52,6 @@ public class GameController extends Thread{
         InputHandler inputHandler = new InputHandler();
         inputHandler.setOnClickAction(new JoystickAction(this.universe));
         inputListener.setCallback(inputHandler);
-
     }
 
     public Universe getUniverse() {
