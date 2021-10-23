@@ -7,6 +7,11 @@ import com.example.unicorngladiators.model.characters.Unicorn;
 public abstract class Projectile {
     private static double speedUp = 1.1;
     private double speed = 1;
+
+    public Direction getDirection() {
+        return direction;
+    }
+
     private Direction direction;
     private Position offset;
     private Position currentPos;

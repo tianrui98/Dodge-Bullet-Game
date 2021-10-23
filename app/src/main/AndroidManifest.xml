@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Unicorngladiators" >
         <activity
-            android:name=".waitingRoom"
+            android:name=".WaitingRoom"
             android:exported="true" />
         <activity
             android:name=".GameActivity"

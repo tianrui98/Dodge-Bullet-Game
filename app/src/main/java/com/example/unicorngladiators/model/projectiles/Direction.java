@@ -18,4 +18,9 @@ public class Direction {
     public Position getOffset(){
         return this.offset;
     }
+
+    @Override
+    public String toString(){
+        return String.format("%s,%s", this.from.shortString(), this.offset.shortString());
+    }
 }
