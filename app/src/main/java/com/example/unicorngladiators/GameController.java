@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController extends Thread{
+    private final Room room;
     private Renderer renderer;
     private SurfaceView sv;
     private Universe universe;
@@ -30,7 +31,7 @@ public class GameController extends Thread{
     public GameController(SurfaceView sv, Resources context,int height,int width, Room room) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
-
+        this.room = room;
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         HashMap<String, Unicorn> emptyPlayerMap = new HashMap<>();
         this.universe = new Universe(emptyPlayerMap,height,width,room);
