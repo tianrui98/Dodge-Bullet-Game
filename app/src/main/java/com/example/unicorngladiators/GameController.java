@@ -4,6 +4,9 @@ import android.content.res.Resources;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.unicorngladiators.io.InputHandler;
+import com.example.unicorngladiators.io.InputListener;
+import com.example.unicorngladiators.io.JoystickAction;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
@@ -12,10 +15,7 @@ import com.example.unicorngladiators.view.Renderer;
 import android.content.res.Resources;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.HashMap;
 
 public class GameController extends Thread{
     private Renderer renderer;
@@ -24,25 +24,32 @@ public class GameController extends Thread{
     private long startTime;
     SurfaceHolder holder;
 
-    public GameController(SurfaceView sv, Resources context) {
+    public GameController(SurfaceView sv, Resources context,int height,int width) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
 
         //instantiate universe, princess, unicorns and ask Renderer to draw them
-        List<Unicorn> emptyPlayerList = new ArrayList<>();
-        // get height and width of current screen
-        this.universe = new Universe(emptyPlayerList);
+        HashMap<String, Unicorn> emptyPlayerMap = new HashMap<>();
+        this.universe = new Universe(emptyPlayerMap,height,width);
         this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
         this.universe.addPlayer("tata", new Position(800, 800), CharacterState.RIGHT1);
+        this.universe.addPlayer("toto", new Position(400,200), CharacterState.LEFT1);
 
+        //manage relationship between surface holder and renderer, and between universe and renderer
         this.renderer = new Renderer(this.universe, holder, context);
         this.universe.setCallBack(this.renderer);
         this.sv.getHolder().addCallback(this.renderer);
         this.sv.setWillNotDraw(false);
 
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
-        this.universe.setScreenSize(width, height);
+
+        //manage relationship between listener and surfaceView
+        InputListener inputListener = new InputListener(this.universe);
+        this.sv.setOnTouchListener(inputListener);
+
+        //manage relationship between listener and handler
+        InputHandler inputHandler = new InputHandler();
+        inputHandler.setOnClickAction(new JoystickAction(this.universe));
+        inputListener.setCallback(inputHandler);
     }
 
 

@@ -7,6 +7,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.unicorngladiators.R;
+import com.example.unicorngladiators.model.Joystick;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.Character;
@@ -47,7 +49,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         Position pos = universe.getPrincess().getPosition();
 
         //According to princess's state draw different bitmap
-        Sprite sprite = this.character_sprite_sheet.getPlayerSprite("toto", state);
+        Sprite sprite = this.character_sprite_sheet.getPlayerSprite("princess", state);
         //offset is to help the draw function to draw the center of the picture
         int h_offset = sprite.getHeight() / 2;
         int w_offset = sprite.getWidth() / 2;
@@ -56,35 +58,57 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawUnicorns(Canvas canvas) {
-
-
-        List<Unicorn> players = this.universe.getPlayers();
+        Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
 
         for (Unicorn player : players) {
             Sprite unicorn_sprite = this.character_sprite_sheet.getPlayerSprite("toto", player.getState());
             //offset is to help the draw function to draw the center of the picture
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
-            Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getX() + h_offset);
+            Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getY() + h_offset);
             unicorn_sprite.drawCharacter(canvas, posAdjusted, player.getName());
         }
-
     };
+
+    private void drawJoystick(Canvas canvas){
+        Joystick js = this.universe.getJoystick();
+        Position innerPos = js.getInnerCenterPosition();
+        Position outerPos = js.getOuterCenterPosition();
+        Paint colors = new Paint();
+        colors.setARGB(255,50,50,50);
+        canvas.drawCircle(innerPos.getX(), innerPos.getY(), js.getInnerRadius(), colors); // base of joystick
+        colors.setARGB(100,0,0,255);
+        canvas.drawCircle(outerPos.getX(),outerPos.getY(),js.getOuterRadius(),colors); // hat of joystick
+    }
 
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
-
             //set background white
-            canvas.drawPaint(this.paint);
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            canvas.drawRGB(255,255,255);
+//            canvas.drawPaint(this.paint);
             //TODO draw more objects
             this.drawPrincess(canvas);
             this.drawUnicorns(canvas);
+            this.drawJoystick(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             Log.e(TAG, "error in drawSurfaceView");
         }
     }
+
+//    private float centerX;
+//    private float centerY;
+//    private float baseRadius;
+//    private float hatRadius;
+//
+//    private void setupDimensions() {
+//        centerX = getWidth()/2;
+//        centerY = getHeight()/2;
+//        baseRadius = Math.min(getWidth(), getHeight())/3;
+//        hatRadius = Math.min(getWidth(), getHeight())/5;
+//    }
 
     //manage callback
     @Override

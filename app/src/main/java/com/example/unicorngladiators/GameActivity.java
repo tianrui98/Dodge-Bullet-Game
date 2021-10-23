@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,7 +25,13 @@ public class GameActivity extends AppCompatActivity  {
         //create background
         setContentView(R.layout.game_activity);
         sv = findViewById(R.id.surfaceView);
-        GameController gc = new GameController(sv, getResources());
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+
+        GameController gc = new GameController(sv, getResources(),height,width);
         gc.start();
         Log.d(TAG, "onCreate finished.");
     }

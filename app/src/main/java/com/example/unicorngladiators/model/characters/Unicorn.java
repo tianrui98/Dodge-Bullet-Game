@@ -15,6 +15,8 @@ It can perform two actions
 
 import android.util.Log;
 
+import com.example.unicorngladiators.model.Joystick;
+import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.characters.Character;
 
@@ -24,6 +26,7 @@ public class Unicorn extends Character {
     private String name;
     private int lives;
     private boolean isInvulnerable;
+    private int MAX_SPEED = 50;
 
     public Unicorn(String name, int lives, boolean isInvulnerable, Position pos, CharacterState state) {
         super(pos, state);
@@ -48,6 +51,17 @@ public class Unicorn extends Character {
         if (!this.getIsInvulnerable()) {
             this.setLives((this.getLives() + 1));
         }
+    }
+
+    /**
+     * Updates the position and state of the unicorn
+     * @param actuatorX Actuator X from the Joystick
+     * @param actuatorY Actuator Y from the Joystick
+     */
+    public void updatePositionState(double actuatorX, double actuatorY){
+        int velocityX = (int) Math.round(actuatorX * MAX_SPEED);
+        int velocityY = (int) Math.round(actuatorY * MAX_SPEED);
+        this.walk(new Motion(velocityX, velocityY) );
     }
 
     //Getters

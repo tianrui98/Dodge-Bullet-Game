@@ -2,6 +2,9 @@ package com.example.unicorngladiators.model.characters;
 
 // Generic character class. Can walk in four directions
 
+import androidx.constraintlayout.widget.ConstraintSet;
+
+import com.example.unicorngladiators.model.Direction;
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
@@ -9,19 +12,55 @@ import com.example.unicorngladiators.model.Universe;
 public class Character {
     private Position pos;
     private CharacterState state;
+    private Direction direction;
 
     public Character(Position pos, CharacterState state) {
         this.pos = pos;
         this.state = state;
+        this.direction = null;
     }
 
     //p.x and p.y means how many units to move along x and y
-    public void walk(Motion p) {
+    public void walk(Motion m) {
         // update position
-        this.pos.add(p);
+        int dx = m.getX();
+        int dy = m.getY();
+        float ratio;
+        Direction dir = this.getDirection();
+        if (dx != 0 || dy != 0){
+            Position p = new Position(dx, dy);
+            this.pos.add(p);
 
-        // TODO update state when character is moving
-        }
+            if (dx == 0) { ratio = 0;}
+            else { ratio  = Math.abs(dy/dx); }
+
+            if (ratio >= 1 ) {
+                 if (dy <= 0) {
+                     if (dir != Direction.UP){
+                         this.setState(CharacterState.BACK1);
+                         this.setDirection(Direction.UP);}
+                         this.walkUpStateChange();}
+
+                 else {
+                     if (dir != Direction.DOWN) {
+                         this.setState(CharacterState.FRONT1);
+                         this.setDirection(Direction.DOWN);}
+                         this.walkDownStateChange();
+                     }
+             } else {
+                 if (dx <= 0) {
+                     if (dir != Direction.LEFT){
+                         this.setState(CharacterState.LEFT1);
+                         this.setDirection(Direction.LEFT);}
+                         this.walkLeftStateChange();}
+                 else {
+                     if (dir != Direction.RIGHT){
+                     this.setState(CharacterState.RIGHT1);
+                     this.setDirection(Direction.RIGHT);}
+                     this.walkRightStateChange();
+             }
+         }
+    }}
 
 
     public void walkDownStateChange (){
@@ -91,11 +130,21 @@ public class Character {
                 break;
         }
     }
+
     public Position getPosition() {
         return this.pos;
     }
 
+    public Direction getDirection(){
+        return  this.direction;
+    }
+
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+
     public CharacterState getState(){return this.state;}
+
 
     public void setPosition (Position pos) {this.pos = pos;}
 
