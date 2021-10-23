@@ -2,6 +2,8 @@ package com.example.unicorngladiators;
 
 import org.junit.Test;
 import java.lang.Math;
+import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -54,8 +56,25 @@ public class BulletUnitTest {
             double spd = Math.random() * 3 + 0.4;
             double spdTrunc = Math.round(spd * 100.0) / 100.0;
             // Initializing Bullet String
-            String bulletString = String.format("%d|%d|%d|%d|%f",xFrom, yFrom, xTo, yTo, spdTrunc);
+            String bulletString = String.format("%d,%d,%d,%d,%f",xFrom, yFrom, xTo, yTo, spdTrunc);
             Bullet bullet = Bullet.fromString(bulletString);
         }
+    }
+
+    @Test
+    public void generateBulletStringListTest() {
+        int testSize = 1000;
+        double speedup = 1.2;
+        double speed = 1;
+
+        List<String> bulletList = Bullet.generateBulletStringList(testSize
+                ,200,400,speedup);
+
+        for(int i = 0; i < testSize;i++){
+            Bullet tmp = Bullet.fromString(bulletList.get(i));
+            assertEquals(tmp.getSpeed(), speed,0.1);
+            speed *= speedup;
+        }
+
     }
 }

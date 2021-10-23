@@ -42,7 +42,9 @@ public class Bullet extends Projectile {
 
     @Override
     public String toString(){
-        return String.format("%s,%,.2f", this.getDirection().toString(), this.getSpeed());
+        String ff = String.format("%,.2f",this.getSpeed());
+        String fff = ff.replace(",","");
+        return String.format("%s,%s", this.getDirection().toString(),fff);
     }
 
     public static Bullet fromString(String stringRepr){
@@ -51,14 +53,14 @@ public class Bullet extends Projectile {
             System.out.print(s+", ");
         System.out.println();
         //[fromX, fromY, offsetX, offsetY, speed]
-        int fromX = Integer.parseInt(splits[0]);
-        int fromY = Integer.parseInt(splits[1]);
-        int offsetX = Integer.parseInt(splits[2]);
-        int offsetY = Integer.parseInt(splits[3]);
-        double speed = Double.parseDouble(splits[4]);
+        int fromX = Integer.parseInt(splits[0].trim());
+        int fromY = Integer.parseInt(splits[1].trim());
+        int offsetX = Integer.parseInt(splits[2].trim());
+        int offsetY = Integer.parseInt(splits[3].trim());
+        double speed = Double.parseDouble(splits[4].trim());
+
         return new Bullet(new Direction(fromX, fromY, offsetX, offsetY), speed);
     }
-
     public static List<String> generateBulletStringList(int number, int height,int width, double speedup){
         List<String> bullets = new ArrayList<String>();
         double current_speed = 1.0;
@@ -69,4 +71,5 @@ public class Bullet extends Projectile {
         }
         return bullets;
     }
+
 }
