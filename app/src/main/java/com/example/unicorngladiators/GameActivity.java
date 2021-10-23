@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity  {
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
 
-        GameController gc = new GameController(sv, getResources(),height,width);
+        GameController gc = new GameController(sv, getResources(),height,width, room);
         gc.start();
         Log.d(TAG, "onCreate finished.");
     }

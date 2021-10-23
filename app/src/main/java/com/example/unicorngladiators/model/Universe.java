@@ -2,9 +2,13 @@ package com.example.unicorngladiators.model;
 
 import android.util.Log;
 
+import com.example.unicorngladiators.model.characters.Character;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
+import com.example.unicorngladiators.model.projectiles.Bullet;
+import com.example.unicorngladiators.model.projectiles.Projectile;
+import com.example.unicorngladiators.network.Room;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,19 +18,28 @@ import java.util.Vector;
 
 public class Universe {
     private final Joystick joystick;
+    private final List<Bullet> bullets;
+    private Projectile projectile;
     private Princess princess;
     public HashMap<String, Unicorn> players;
     private final String TAG = "Universe";
     private int height;
     private int width;
+    private Projectile bullet;
+    private Projectile peach;
+    private Room room;
 
 
-    public Universe(HashMap<String,Unicorn> players, int height,int width) {
+    public Universe(HashMap<String,Unicorn> players, int height,int width, Room room) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
         this.joystick = new Joystick();
+        this.projectile = null;
+        this.peach = null;
         this.height = height;
         this.width = width;
+        this.room = room;
+        this.bullets = this.room.getBullets();
     }
 
     //manage princess (npc)
@@ -39,7 +52,8 @@ public class Universe {
         this.princess.setPosition(pos);
     }
 
-    //TODO manage projectiles
+    //manage projectiles
+
 
     //manage players
     public void addPlayer(String name, Position pos, CharacterState state) {
@@ -57,6 +71,14 @@ public class Universe {
         player.walk(m);
         this.players.put(name,player);
 //        Log.d(TAG, "Player position changed");
+    }
+
+    public Projectile getBullet() {
+        return this.bullet;
+    }
+
+    public Projectile getPeach() {
+        return this.peach;
     }
 
 
