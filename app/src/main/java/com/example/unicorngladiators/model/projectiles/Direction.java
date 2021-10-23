@@ -12,7 +12,7 @@ public class Direction {
 
     public Direction(Position from, Position offset){
         this.from = from;
-        this.offset = this.offset;
+        this.offset = offset;
     }
 
     public Position getOffset(){
@@ -21,6 +21,6 @@ public class Direction {
 
     @Override
     public String toString(){
-        return String.format("%s,%s", this.from.shortString(), this.offset.shortString());
+        return String.format("%s, %s", this.from.shortString(), this.offset.shortString());
     }
 }

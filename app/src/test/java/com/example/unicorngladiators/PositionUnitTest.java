@@ -15,7 +15,7 @@ import com.example.unicorngladiators.model.Position;
 public class PositionUnitTest {
 
     @Test
-    public void PositionAddTest() {
+    public void positionAddTest() {
         for (int i = 0; i < 10; i++) {
             System.out.println(1);
             int pos1X = (int) (Math.random() * 20);
@@ -31,7 +31,7 @@ public class PositionUnitTest {
     }
 
     @Test
-    public void PositionSubtractTest() {
+    public void positionSubtractTest() {
         for (int i = 0; i < 20; i++) {
             int pos1X = (int) (Math.random() * 20);
             int pos1Y = (int) (Math.random() * 20);
@@ -46,7 +46,7 @@ public class PositionUnitTest {
     }
 
     @Test
-    public void PositionMultFactor() {
+    public void positionMultFactor() {
         for (int i = 0; i < 20; i++) {
             int pos1X = (int) (Math.random() * 20);
             int pos1Y = (int) (Math.random() * 20);
@@ -59,7 +59,7 @@ public class PositionUnitTest {
     }
 
     @Test
-    public void PositionMultPosition() {
+    public void positionMultPosition() {
         for (int i = 0; i < 20; i++) {
             int pos1X = (int) (Math.random() * 20);
             int pos1Y = (int) (Math.random() * 20);
@@ -74,7 +74,7 @@ public class PositionUnitTest {
     }
 
     @Test
-    public void PositionEquals() {
+    public void positionEquals() {
         for (int i = 0; i < 30; i++) {
             int pos1X = (int) (Math.random() * 4);
             int pos1Y = (int) (Math.random() * 4);

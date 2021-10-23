@@ -14,13 +14,13 @@ public class Bullet extends Projectile {
         if (fromX < maxX/2) fromX = 0;
         else {
             fromX = maxX;
-            offsetX = 0 - offsetX;
+            offsetX = - offsetX;
         }
 
         if (fromY < maxY/2) fromY = 0;
         else {
             fromY = maxY;
-            offsetY = 0 - offsetY;
+            offsetY = - offsetY;
         }
 
 
