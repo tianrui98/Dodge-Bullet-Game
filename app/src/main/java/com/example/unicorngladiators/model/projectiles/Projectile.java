@@ -4,17 +4,21 @@ import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.characters.Unicorn;
 
 //TODO implement projectile class
+
+/**
+ * Abstract Class for Implementing Projectile.
+ */
 public abstract class Projectile {
     private static double speedUp = 1.1;
     private double speed = 1;
 
-    public Direction getDirection() {
-        return direction;
-    }
-
     private Direction direction;
     private Position offset;
     private Position currentPos;
+
+    public Direction getDirection() {
+        return direction;
+    }
 
     public void hit(Unicorn c) throws InterruptedException {
         return;

@@ -62,7 +62,7 @@ public class Bullet extends Projectile {
     public static List<String> generateBulletStringList(int number, int height,int width, double speedup){
         List<String> bullets = new ArrayList<String>();
         double current_speed = 1.0;
-        for(int i=0;i<number;i++) {
+        for(int i=0; i<number; i++) {
             Bullet tmp = new Bullet(current_speed, width, height);
             bullets.add(tmp.toString());
             current_speed *= speedup;

@@ -2,11 +2,11 @@ package com.example.unicorngladiators;
 
 import org.junit.Test;
 import java.lang.Math;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 
 import com.example.unicorngladiators.model.Position;
+import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.example.unicorngladiators.model.projectiles.Direction;
 
 public class BulletUnitTest {
@@ -28,7 +28,17 @@ public class BulletUnitTest {
 
             assertEquals(dir1.getOffset().toString(), dir2.getOffset().toString());
             assertEquals(dir1.getFrom().toString(), dir2.getFrom().toString());
-            assertEquals(dir1.toString(), dir2.toString());
+        }
+    }
+
+    @Test
+    public void initProjectile() {
+        for (int i = 0; i < 1000; i++) {
+            int xMax = (int) (Math.random() * 100) + 1500;
+            int yMax = (int) (Math.random() * 100) + 1500;
+            double spd = Math.random() * 10;
+            Bullet bullet = new Bullet(spd, xMax, yMax);
+
         }
     }
 }
