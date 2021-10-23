@@ -15,7 +15,7 @@ public class BulletUnitTest {
      */
     @Test
     public void equalPosition() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 1000; i++) {
             int xFrom = (int) (Math.random() * 10);
             int yFrom = (int) (Math.random() * 10);
             int xTo = (int) (Math.random() * 10);
@@ -26,7 +26,8 @@ public class BulletUnitTest {
             /* Second method of initializing Direction */
             Direction dir2 = new Direction(new Position(xFrom, yFrom), new Position(xTo, yTo));
 
-            assertEquals(dir1.getOffset(), dir1.getOffset());
+            assertEquals(dir1.getOffset().toString(), dir2.getOffset().toString());
+            assertEquals(dir1.getFrom().toString(), dir2.getFrom().toString());
             assertEquals(dir1.toString(), dir2.toString());
         }
     }

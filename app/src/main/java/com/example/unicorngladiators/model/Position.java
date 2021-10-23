@@ -35,12 +35,7 @@ public class Position {
         this.y *= factor;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        Position p = (Position) obj;
-        if (p != null) return this.x == p.x && this.y == p.y;
-        return false;
-    }
+
 
     public String shortString(){
         return this.x + ", " + this.y;
