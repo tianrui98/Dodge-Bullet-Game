@@ -27,6 +27,11 @@ public class Room {
         num_players++;
     }
 
+    public void removePlayer(String playerUid){
+        player_ids.remove(playerUid);
+        num_players--;
+    }
+
     public String getPlayerName(String playerUid){
         return this.player_ids.get(playerUid);
     }

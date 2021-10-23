@@ -2,10 +2,14 @@ package com.example.unicorngladiators.network;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.unicorngladiators.GameActivity;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,15 +29,18 @@ public class FirebaseHandler {
     private FirebaseDatabase database;
     private DatabaseReference players, rooms;
     private String puid, roomId;
-    private Room room;
+    private Room room = null;
     private int width, height;
     private TextView playerCount;
+    private Button startGameBtn;
+    private boolean inRoom, started = false;
 
     private String[] playerNames = {"Toto", "Titi", "Tata", "Tutu"};
     private String[] initialPos;
 
-    public FirebaseHandler(int width, int height, TextView playerCount){
+    public FirebaseHandler(int width, int height, TextView playerCount, Button startGameBtn){
         this.playerCount = playerCount;
+        this.startGameBtn = startGameBtn;
         this.width = width;
         this.height = height;
         initialPos = new String[] {
@@ -47,25 +54,13 @@ public class FirebaseHandler {
         players = database.getReference("players");
         this.puid = players.push().getKey();
         addMovesEventListener(players);
-        try {
-            this.joinRoom();
-        } catch (Exception e){
-
-            System.out.println(e.toString()+"Cannot join room");
-        }
         System.out.println("initing done");
     }
 
     public void initRoom(){
         rooms = database.getReference("rooms");
         this.roomId = rooms.push().getKey();
-        List<String> bullets = new ArrayList<String>();
-        double current_speed = 1.0;
-        for(int i=0;i<100;i++) {
-            Bullet tmp = new Bullet(current_speed, this.width, this.height);
-            bullets.add(tmp.toString());
-            current_speed = tmp.getSpeed();
-        }
+        List<String> bullets = Bullet.generateBulletStringList(100,this.height,this.width,1.1);
 
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put("rooms_listing", this.roomId);
@@ -91,8 +86,10 @@ public class FirebaseHandler {
                 if (task.isSuccessful()) {
                     HashMap<String, Object> states = (HashMap<String, Object>) task.getResult().getValue();
                     System.out.println("states:"+states);
-                    Object start = states.get("start");
-                    Object ended = states.get("ended");
+                    Boolean start = new Boolean(false);
+                    start = (Boolean) states.get("start");
+                    Boolean ended = new Boolean(false);
+                    ended = (Boolean) states.get("ended");
                     room.setPlayerIds((HashMap<String, String>)states.get("player_ids"));
                     room.setStart((boolean) start);
                     room.setEnd((boolean) ended);
@@ -117,11 +114,16 @@ public class FirebaseHandler {
                 if (task.isSuccessful()) {
                     roomId = String.valueOf(task.getResult().getValue());
                     System.out.println("room id read: " + roomId);
+                    inRoom = true;
                     if (!roomId.equals("")) {
                         room = new Room(roomId);
                         readRoomStates();
                     } else {
                         initRoom();
+                        if (room.getNum_players() == 1) {
+                            startGameBtn.setVisibility(View.VISIBLE);
+                            startGameBtn.setEnabled(false);
+                        }
                     }
                 }
             }
@@ -130,7 +132,7 @@ public class FirebaseHandler {
 
     public void addPlayer() throws Exception {
         if (room.getNum_players() > 4) throw new Exception("Room is full--try again later.");
-        if (room.isStart()) throw new Exception("Game is started--try again later.");
+        //if (room.isStart()) throw new Exception("Game is started--try again later.");
         this.room.addPlayer(this.puid, this.playerNames[this.room.getNum_players()]);
         this.updateMove(this.initialPos[this.room.getNum_players()]);
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -141,10 +143,33 @@ public class FirebaseHandler {
         this.playerCount.setText("Current Number Of Players : "+this.room.getNum_players());
     }
 
-    public void endGame() throws Exception{
-        if (this.room == null) throw new Exception("Not in a room.");
-        rooms.setValue(NULL);
-        players.setValue(NULL);
+    public void leaveRoom() {
+        if (!inRoom) return;
+        inRoom = false;
+        this.room.removePlayer(this.puid);
+        this.updateMove("-1,-1");
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put(this.roomId+"/num_players", this.room.getNum_players());
+        childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());
+        rooms.updateChildren(childUpdates);
+        this.playerCount.setText("Current Number Of Players : "+this.room.getNum_players());
+
+        startGameBtn.setVisibility(View.GONE);
+        startGameBtn.setEnabled(false);
+
+        if (this.room.getNum_players() == 0)
+            endGame();
+
+    }
+
+    public void endGame() {
+        if (this.room == null) return;
+        players.setValue("");
+        rooms.setValue("");
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put("rooms_listing", "");
+        rooms.updateChildren(childUpdates);
+        room = null;
     }
 
     public String getPuid(){ return this.puid; }
@@ -159,6 +184,14 @@ public class FirebaseHandler {
     }
 
     public Room getRoom(){ return this.room; }
+
+    public void startGame() {
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put(this.roomId+"/start", true);
+        rooms.updateChildren(childUpdates);
+        room.setStart(true);
+        started = true;
+    }
 
     private void addMovesEventListener(DatabaseReference playersRef) {
         ValueEventListener movesListener = new ValueEventListener() {
@@ -188,16 +221,37 @@ public class FirebaseHandler {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
                     HashMap<String, Object> val = (HashMap<String, Object>) dataSnapshot.getValue();
-                    System.out.println(val);
                     HashMap<String, Object> room_spec = (HashMap<String, Object>) (val.get(room.getId()));
-                    //room.setStart((boolean) room_spec.get("start"));
                     HashMap<String, String> player_ids = new HashMap<String, String>();
                     player_ids = (HashMap<String, String>) room_spec.get("player_ids");
                     room.setPlayerIds(player_ids);
-                    System.out.println("set new room state." + room.getNum_players());
+                    List<String> bullets = new ArrayList<String>();
+                    bullets = (List<String>) room_spec.get("bullets");
+                    room.setBullets(bullets);
+                    Boolean start = new Boolean(false);
+                    start = (Boolean) room_spec.get("start");
+                    Boolean ended = new Boolean(false);
+                    ended = (Boolean) room_spec.get("ended");
+                    room.setStart((boolean) start);
+                    room.setEnd((boolean) ended);
+                    System.out.println("the bools" + room.isStart() + room.isEnd());
+                    System.out.println("set new room state.");
                     playerCount.setText("Current Number Of Players : "+ room.getNum_players());
+                    startGameBtn.setEnabled(room.getNum_players() > 1);
+                    if (room.getNum_players() == 1 && inRoom) {
+                        startGameBtn.setVisibility(View.VISIBLE);
+                        startGameBtn.setEnabled(false);
+                    }
+                    if (room.isStart() && !started) {
+                        startGameBtn.setEnabled(true);
+                        startGameBtn.performClick();
+                        started = true;
+                    }
+
                 } catch (Exception e){
                     e.printStackTrace();
+                    //playerCount.setText("");
+                    //room = null;
                 }
                 //System.out.println(dataSnapshot.getValue().getClass());
 
