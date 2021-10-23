@@ -4,23 +4,19 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unicorngladiators.network.FirebaseHandler;
 import com.example.unicorngladiators.network.Room;
 
-
-enum state {
-    READY,
-    WAITING
-}
-
 public class WaitingRoom extends AppCompatActivity implements View.OnClickListener{
     private state curr_state;
     private Button startGameBtn;
     private FirebaseHandler fh;
     private Room room;
+    private TextView playerCount;
 
 
     @Override
@@ -33,12 +29,15 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
         startGameBtn.setOnClickListener(this);
         startGameBtn.setText(this.curr_state.toString());
 
+        this.playerCount = (TextView) findViewById(R.id.textViewPlayerCount);
+
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
-        fh = new FirebaseHandler(width, height);
+        fh = new FirebaseHandler(width, height, playerCount);
         room = fh.getRoom();
+
     }
 
     public void onClick(View v) {
@@ -57,6 +56,9 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
                 break;
         }
     }
+}
 
-
+enum state {
+    READY,
+    WAITING
 }

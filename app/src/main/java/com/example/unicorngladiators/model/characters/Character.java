@@ -14,7 +14,6 @@ public class Character {
     private CharacterState state;
     private Direction direction;
 
-
     public Character(Position pos, CharacterState state) {
         this.pos = pos;
         this.state = state;
