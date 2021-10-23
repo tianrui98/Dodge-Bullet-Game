@@ -38,7 +38,24 @@ public class BulletUnitTest {
             int yMax = (int) (Math.random() * 100) + 1500;
             double spd = Math.random() * 10;
             Bullet bullet = new Bullet(spd, xMax, yMax);
+            /* Check Bullet Speed Equality */
+            assertEquals(bullet.getSpeed(), spd, 0.001);
+            System.out.println(bullet.toString());
+        }
+    }
 
+    @Test
+    public void testBulletFromString() {
+        for (int i = 0; i < 50; i++) {
+            int xFrom = (int) (Math.random() * 10);
+            int yFrom = (int) (Math.random() * 10);
+            int xTo = (int) (Math.random() * 10);
+            int yTo = (int) (Math.random() * 10);
+            double spd = Math.random() * 3 + 0.4;
+            double spdTrunc = Math.round(spd * 100.0) / 100.0;
+            // Initializing Bullet String
+            String bulletString = String.format("%d|%d|%d|%d|%f",xFrom, yFrom, xTo, yTo, spdTrunc);
+            Bullet bullet = Bullet.fromString(bulletString);
         }
     }
 }
