@@ -4,15 +4,21 @@ package com.example.unicorngladiators.model.characters;
 
 import androidx.constraintlayout.widget.ConstraintSet;
 
-import com.example.unicorngladiators.model.Direction;
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 
 public class Character {
+    public enum CharacterDirection {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+    
     private Position pos;
     private CharacterState state;
-    private Direction direction;
+    private CharacterDirection direction;
 
 
     public Character(Position pos, CharacterState state) {
@@ -27,7 +33,7 @@ public class Character {
         int dx = m.getX();
         int dy = m.getY();
         float ratio;
-        Direction dir = this.getDirection();
+        CharacterDirection dir = this.getDirection();
         if (dx != 0 || dy != 0){
             Position p = new Position(dx, dy);
             this.pos.add(p);
@@ -37,27 +43,27 @@ public class Character {
 
             if (ratio >= 1 ) {
                  if (dy <= 0) {
-                     if (dir != Direction.UP){
+                     if (dir != CharacterDirection.UP){
                          this.setState(CharacterState.BACK1);
-                         this.setDirection(Direction.UP);}
+                         this.setDirection(CharacterDirection.UP);}
                          this.walkUpStateChange();}
 
                  else {
-                     if (dir != Direction.DOWN) {
+                     if (dir != CharacterDirection.DOWN) {
                          this.setState(CharacterState.FRONT1);
-                         this.setDirection(Direction.DOWN);}
+                         this.setDirection(CharacterDirection.DOWN);}
                          this.walkDownStateChange();
                      }
              } else {
                  if (dx <= 0) {
-                     if (dir != Direction.LEFT){
+                     if (dir != CharacterDirection.LEFT){
                          this.setState(CharacterState.LEFT1);
-                         this.setDirection(Direction.LEFT);}
+                         this.setDirection(CharacterDirection.LEFT);}
                          this.walkLeftStateChange();}
                  else {
-                     if (dir != Direction.RIGHT){
+                     if (dir != CharacterDirection.RIGHT){
                      this.setState(CharacterState.RIGHT1);
-                     this.setDirection(Direction.RIGHT);}
+                     this.setDirection(CharacterDirection.RIGHT);}
                      this.walkRightStateChange();
              }
          }
@@ -136,11 +142,11 @@ public class Character {
         return this.pos;
     }
 
-    public Direction getDirection(){
+    public CharacterDirection getDirection(){
         return  this.direction;
     }
 
-    public void setDirection(Direction direction){
+    public void setDirection(CharacterDirection direction){
         this.direction = direction;
     }
 
