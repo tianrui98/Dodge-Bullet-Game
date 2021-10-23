@@ -59,13 +59,7 @@ public class FirebaseHandler {
     public void initRoom(){
         rooms = database.getReference("rooms");
         this.roomId = rooms.push().getKey();
-        List<String> bullets = new ArrayList<String>();
-        double current_speed = 1.0;
-        for(int i=0;i<100;i++) {
-            Bullet tmp = new Bullet(current_speed, this.width, this.height);
-            bullets.add(tmp.toString());
-            current_speed = tmp.getSpeed();
-        }
+        List<String> bullets = Bullet.generateBulletStringList(100,this.height,this.width,1.1);
 
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put("rooms_listing", this.roomId);
