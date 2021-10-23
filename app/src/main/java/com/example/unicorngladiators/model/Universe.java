@@ -11,9 +11,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Universe {
     private final Joystick joystick;
@@ -115,11 +112,11 @@ public class Universe {
         }
     }
 
+    public int getHeight() {
+        return height;
+    }
 
-    public void setScreenSize(int width, int height) {
-        this.width = width;
-        this.height = height;
-        System.out.println(width);
-        System.out.println(height);
+    public int getWidth() {
+        return width;
     }
 }

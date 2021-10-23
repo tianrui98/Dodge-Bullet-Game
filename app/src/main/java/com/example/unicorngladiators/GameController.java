@@ -16,6 +16,8 @@ import android.content.res.Resources;
 
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameController extends Thread{
     private Renderer renderer;
@@ -52,6 +54,9 @@ public class GameController extends Thread{
         inputListener.setCallback(inputHandler);
     }
 
+    public Universe getUniverse() {
+        return universe;
+    }
 
     @Override
     public void run() {
