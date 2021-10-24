@@ -2,7 +2,6 @@ package com.example.unicorngladiators;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -11,13 +10,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.unicorngladiators.network.FirebaseHandler;
+import com.example.unicorngladiators.network.FirebaseRoomHandler;
 import com.example.unicorngladiators.network.Room;
 
 public class WaitingRoom extends AppCompatActivity implements View.OnClickListener{
     private state curr_state;
     private Button readyStateBtn, startGameBtn;
-    private FirebaseHandler fh;
+    private FirebaseRoomHandler fh;
     private TextView playerCount;
 
 
@@ -40,7 +39,7 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
-        fh = new FirebaseHandler(width, height, playerCount, startGameBtn);
+        fh = new FirebaseRoomHandler(width, height, playerCount, startGameBtn);
     }
 
     public void onClick(View v) {

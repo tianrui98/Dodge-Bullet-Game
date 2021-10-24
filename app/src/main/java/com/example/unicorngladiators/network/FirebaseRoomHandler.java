@@ -2,7 +2,6 @@ package com.example.unicorngladiators.network;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.example.unicorngladiators.GameActivity;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FirebaseHandler implements Parcelable {
+public class FirebaseRoomHandler implements Parcelable {
     private FirebaseDatabase database;
     private DatabaseReference players, rooms;
     private String puid, roomId;
@@ -40,7 +38,7 @@ public class FirebaseHandler implements Parcelable {
     private String[] playerNames = {"Toto", "Titi", "Tata", "Tutu"};
     private String[] initialPos;
 
-    public FirebaseHandler(int width, int height, TextView playerCount, Button startGameBtn){
+    public FirebaseRoomHandler(int width, int height, TextView playerCount, Button startGameBtn){
         this.playerCount = playerCount;
         this.startGameBtn = startGameBtn;
         this.width = width;
@@ -59,7 +57,7 @@ public class FirebaseHandler implements Parcelable {
         System.out.println("initing done");
     }
 
-    protected FirebaseHandler(Parcel in) {
+    protected FirebaseRoomHandler(Parcel in) {
         puid = in.readString();
         roomId = in.readString();
         width = in.readInt();
@@ -70,15 +68,15 @@ public class FirebaseHandler implements Parcelable {
         initialPos = in.createStringArray();
     }
 
-    public static final Creator<FirebaseHandler> CREATOR = new Creator<FirebaseHandler>() {
+    public static final Creator<FirebaseRoomHandler> CREATOR = new Creator<FirebaseRoomHandler>() {
         @Override
-        public FirebaseHandler createFromParcel(Parcel in) {
-            return new FirebaseHandler(in);
+        public FirebaseRoomHandler createFromParcel(Parcel in) {
+            return new FirebaseRoomHandler(in);
         }
 
         @Override
-        public FirebaseHandler[] newArray(int size) {
-            return new FirebaseHandler[size];
+        public FirebaseRoomHandler[] newArray(int size) {
+            return new FirebaseRoomHandler[size];
         }
     };
 
@@ -202,7 +200,16 @@ public class FirebaseHandler implements Parcelable {
     public void updateMove(String newMove){
         System.out.println("adding move...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
-        childUpdates.put(puid, newMove);
+        childUpdates.put(this.puid+"/pos", newMove);
+        players.updateChildren(childUpdates);
+        System.out.println("done");
+        return;
+    }
+
+    public void updateScore(int score){
+        System.out.println("updating score...");
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put(this.puid+"/score", score);
         players.updateChildren(childUpdates);
         System.out.println("done");
         return;
@@ -245,6 +252,7 @@ public class FirebaseHandler implements Parcelable {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
+                    System.out.println("room: "+room);
                     HashMap<String, Object> val = (HashMap<String, Object>) dataSnapshot.getValue();
                     HashMap<String, Object> room_spec = (HashMap<String, Object>) (val.get(room.getId()));
                     HashMap<String, String> player_ids = new HashMap<String, String>();

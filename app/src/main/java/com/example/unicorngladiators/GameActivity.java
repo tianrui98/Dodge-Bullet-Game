@@ -1,21 +1,14 @@
 package com.example.unicorngladiators;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.unicorngladiators.model.Universe;
-import com.example.unicorngladiators.network.FirebaseHandler;
+import com.example.unicorngladiators.network.FirebaseRoomHandler;
 import com.example.unicorngladiators.network.Room;
-import com.example.unicorngladiators.view.Renderer;
 
 public class GameActivity extends AppCompatActivity  {
     private static String TAG = "GameActivity";
@@ -34,7 +27,7 @@ public class GameActivity extends AppCompatActivity  {
         int width = displaymetrics.widthPixels;
 
         Room room = (Room) getIntent().getSerializableExtra("Room");
-        FirebaseHandler fh = (FirebaseHandler) getIntent().getSerializableExtra("FirebaseHandler");
+        FirebaseRoomHandler fh = (FirebaseRoomHandler) getIntent().getSerializableExtra("FirebaseHandler");
 
         if (room == null) {Log.d(TAG, "room is null");}
         if (fh == null) {Log.d(TAG, "fh is null");}

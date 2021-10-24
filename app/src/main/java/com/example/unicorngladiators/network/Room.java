@@ -3,6 +3,7 @@ package com.example.unicorngladiators.network;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class Room implements Parcelable {
     private String id;
     private int num_players;
     private HashMap<String, String> player_ids = new HashMap<String, String>();
+    private HashMap<String, Integer> player_scores = new HashMap<String, Integer>();
+    private HashMap<String, Position> player_pos = new HashMap<String, Position>();
     private List<Bullet> bullets;
 
     public Room(String id){
