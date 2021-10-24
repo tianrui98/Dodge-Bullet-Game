@@ -11,6 +11,7 @@ import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
+import com.example.unicorngladiators.network.Room;
 import com.example.unicorngladiators.view.Renderer;
 import android.content.res.Resources;
 
@@ -20,19 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController extends Thread{
+    private final Room room;
     private Renderer renderer;
     private SurfaceView sv;
     private Universe universe;
     private long startTime;
     SurfaceHolder holder;
 
-    public GameController(SurfaceView sv, Resources context,int height,int width) {
+    public GameController(SurfaceView sv, Resources context,int height,int width, Room room) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
-
+        this.room = room;
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         HashMap<String, Unicorn> emptyPlayerMap = new HashMap<>();
-        this.universe = new Universe(emptyPlayerMap,height,width);
+        this.universe = new Universe(emptyPlayerMap,height,width,room);
         this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
         this.universe.addPlayer("tata", new Position(800, 800), CharacterState.RIGHT1);
         this.universe.addPlayer("toto", new Position(400,200), CharacterState.LEFT1);

@@ -2,14 +2,14 @@ package com.example.unicorngladiators.network;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.example.unicorngladiators.GameActivity;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FirebaseHandler {
+public class FirebaseRoomHandler implements Parcelable {
     private FirebaseDatabase database;
     private DatabaseReference players, rooms;
     private String puid, roomId;
@@ -38,7 +38,7 @@ public class FirebaseHandler {
     private String[] playerNames = {"Toto", "Titi", "Tata", "Tutu"};
     private String[] initialPos;
 
-    public FirebaseHandler(int width, int height, TextView playerCount, Button startGameBtn){
+    public FirebaseRoomHandler(int width, int height, TextView playerCount, Button startGameBtn){
         this.playerCount = playerCount;
         this.startGameBtn = startGameBtn;
         this.width = width;
@@ -56,6 +56,29 @@ public class FirebaseHandler {
         addMovesEventListener(players);
         System.out.println("initing done");
     }
+
+    protected FirebaseRoomHandler(Parcel in) {
+        puid = in.readString();
+        roomId = in.readString();
+        width = in.readInt();
+        height = in.readInt();
+        inRoom = in.readByte() != 0;
+        started = in.readByte() != 0;
+        playerNames = in.createStringArray();
+        initialPos = in.createStringArray();
+    }
+
+    public static final Creator<FirebaseRoomHandler> CREATOR = new Creator<FirebaseRoomHandler>() {
+        @Override
+        public FirebaseRoomHandler createFromParcel(Parcel in) {
+            return new FirebaseRoomHandler(in);
+        }
+
+        @Override
+        public FirebaseRoomHandler[] newArray(int size) {
+            return new FirebaseRoomHandler[size];
+        }
+    };
 
     public void initRoom(){
         rooms = database.getReference("rooms");
@@ -94,6 +117,7 @@ public class FirebaseHandler {
                     room.setStart((boolean) start);
                     room.setEnd((boolean) ended);
                     room.setBullets((List<String>) states.get("bullets"));
+                    System.out.println("bullets after read room state:"+room.getBullets().size());
                     try {
                         addPlayer();
                     } catch (Exception e) {
@@ -177,7 +201,16 @@ public class FirebaseHandler {
     public void updateMove(String newMove){
         System.out.println("adding move...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
-        childUpdates.put(puid, newMove);
+        childUpdates.put(this.puid+"/pos", newMove);
+        players.updateChildren(childUpdates);
+        System.out.println("done");
+        return;
+    }
+
+    public void updateScore(int score){
+        System.out.println("updating score...");
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put(this.puid+"/score", score);
         players.updateChildren(childUpdates);
         System.out.println("done");
         return;
@@ -220,6 +253,7 @@ public class FirebaseHandler {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
+                    System.out.println("room: "+ room);
                     HashMap<String, Object> val = (HashMap<String, Object>) dataSnapshot.getValue();
                     HashMap<String, Object> room_spec = (HashMap<String, Object>) (val.get(room.getId()));
                     HashMap<String, String> player_ids = new HashMap<String, String>();
@@ -265,4 +299,20 @@ public class FirebaseHandler {
         roomRef.addValueEventListener(roomListener);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(puid);
+        parcel.writeString(roomId);
+        parcel.writeInt(width);
+        parcel.writeInt(height);
+        parcel.writeByte((byte) (inRoom ? 1 : 0));
+        parcel.writeByte((byte) (started ? 1 : 0));
+        parcel.writeStringArray(playerNames);
+        parcel.writeStringArray(initialPos);
+    }
 }

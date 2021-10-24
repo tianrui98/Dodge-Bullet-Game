@@ -1,6 +1,5 @@
 package com.example.unicorngladiators.view;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,7 +17,10 @@ public class SpriteSheet {
     private final Bitmap tataBitmap;
     private final Bitmap titiBitmap;
     private final Bitmap princessBitmap;
+    private final Bitmap objectsBitmap;
     private final HashMap<CharacterState, Sprite> characterSpriteHashMap;
+    private final HashMap<String, Sprite> projectileSpriteHashMap;
+
 
     public SpriteSheet (Resources context){
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -30,11 +32,27 @@ public class SpriteSheet {
         this.tutuBitmap = BitmapFactory.decodeResource(context, R.drawable.tutu_sprite_sheet, bitmapOptions);
         this.princessBitmap = BitmapFactory.decodeResource(context, R.drawable.princess_sprite_sheet, bitmapOptions);
         this.characterSpriteHashMap = this.getCharacterSpriteHashmap();
+        this.objectsBitmap = BitmapFactory.decodeResource(context, R.drawable.objects_sprite_sheet, bitmapOptions);
+        this.projectileSpriteHashMap = this.getObjectsSpriteHashmap();
     }
 
-    public Sprite getPlayerSprite(String name, CharacterState state) {
-        //TODO: allow retrieving sprites of differtetn unicorns
+    private HashMap<String, Sprite> getObjectsSpriteHashmap() {
+        int gridLength = 48;
+        HashMap<String, Sprite> spriteHashMap= new HashMap<String, Sprite>();
+        spriteHashMap.put("peach", new Sprite(this, new Rect(0 * gridLength, 0 *gridLength, 1 * gridLength, 1 * gridLength)));
+        spriteHashMap.put("bullet", new Sprite(this, new Rect(0 * gridLength, 1 *gridLength, 1 * gridLength, 2 * gridLength)));
+        return spriteHashMap;
+    }
+
+    public Sprite getProjectileSprite(String name) {
+        return this.projectileSpriteHashMap.get(name);
+
+    }
+
+    public Sprite getPlayerSprite(CharacterState state) {
+
         return this.characterSpriteHashMap.get(state);
+
     }
 
     public HashMap<CharacterState, Sprite> getCharacterSpriteHashmap() {
@@ -81,6 +99,9 @@ public class SpriteSheet {
                  break;
              case "princess":
                  res = this.princessBitmap;
+                 break;
+             case "objects":
+                 res = this.objectsBitmap;
                  break;
          }
      return res;

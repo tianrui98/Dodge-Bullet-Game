@@ -22,6 +22,8 @@ import com.example.unicorngladiators.model.characters.Character;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
+import com.example.unicorngladiators.model.projectiles.Bullet;
+import com.example.unicorngladiators.model.projectiles.Projectile;
 
 import java.util.*;
 
@@ -30,12 +32,12 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     private final Paint paint;
     private SurfaceHolder holder;
     private Universe universe;
-    private SpriteSheet character_sprite_sheet;
+    private SpriteSheet sprite_sheet;
 
     public Renderer(Universe universe, SurfaceHolder holder, Resources context) {
         this.universe = universe;
         this.universe.setCallBack(this);
-        this.character_sprite_sheet = new SpriteSheet(context);
+        this.sprite_sheet = new SpriteSheet(context);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL);
         Bitmap tiles = BitmapFactory.decodeResource(context.newTheme().getResources(), R.drawable.sand);
@@ -44,12 +46,11 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 
 
     private void drawPrincess(Canvas canvas) {
-        this.universe.getPrincess();
-        CharacterState state = universe.getPrincess().getState();
-        Position pos = universe.getPrincess().getPosition();
+        CharacterState state = this.universe.getPrincess().getState();
+        Position pos = this.universe.getPrincess().getPosition();
 
         //According to princess's state draw different bitmap
-        Sprite sprite = this.character_sprite_sheet.getPlayerSprite("princess", state);
+        Sprite sprite = this.sprite_sheet.getPlayerSprite(state);
         //offset is to help the draw function to draw the center of the picture
         int h_offset = sprite.getHeight() / 2;
         int w_offset = sprite.getWidth() / 2;
@@ -61,7 +62,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
 
         for (Unicorn player : players) {
-            Sprite unicorn_sprite = this.character_sprite_sheet.getPlayerSprite("toto", player.getState());
+            Sprite unicorn_sprite = this.sprite_sheet.getPlayerSprite(player.getState());
             //offset is to help the draw function to draw the center of the picture
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
@@ -81,6 +82,36 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         canvas.drawCircle(outerPos.getX(),outerPos.getY(),js.getOuterRadius(),colors); // hat of joystick
     }
 
+    private void drawBullets(Canvas canvas) {
+        List<Bullet> bullets = this.universe.getBullets();
+        for (Bullet bullet : bullets) {
+            System.out.println("drawing..."+bullet.toString());
+            Position pos = bullet.getPosition();
+            //According to princess's state draw different bitmap
+            Sprite sprite = this.sprite_sheet.getProjectileSprite("bullet");
+            //offset is to help the draw function to draw the center of the picture
+            int h_offset = sprite.getHeight() / 2;
+            int w_offset = sprite.getWidth() / 2;
+            Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
+            System.out.println(pos+"adjusted"+posAdjusted);
+            sprite.drawCharacter(canvas, posAdjusted, "bullet");
+        }
+    }
+
+    private void drawPeaches(Canvas canvas) {
+        List<Projectile> peaches = this.universe.getPeaches();
+        for (Projectile peach : peaches) {
+            Position pos = peach.getPosition();
+            //According to princess's state draw different bitmap
+            Sprite sprite = this.sprite_sheet.getProjectileSprite("peach");
+            //offset is to help the draw function to draw the center of the picture
+            int h_offset = sprite.getHeight() / 2;
+            int w_offset = sprite.getWidth() / 2;
+            Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
+            sprite.drawCharacter(canvas, posAdjusted, "peach");
+        }
+    }
+
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
@@ -88,27 +119,18 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             canvas.drawRGB(255,255,255);
 //            canvas.drawPaint(this.paint);
+
             //TODO draw more objects
             this.drawPrincess(canvas);
             this.drawUnicorns(canvas);
             this.drawJoystick(canvas);
+            this.drawBullets(canvas);
+            this.drawPeaches(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             Log.e(TAG, "error in drawSurfaceView");
         }
     }
-
-//    private float centerX;
-//    private float centerY;
-//    private float baseRadius;
-//    private float hatRadius;
-//
-//    private void setupDimensions() {
-//        centerX = getWidth()/2;
-//        centerY = getHeight()/2;
-//        baseRadius = Math.min(getWidth(), getHeight())/3;
-//        hatRadius = Math.min(getWidth(), getHeight())/5;
-//    }
 
     //manage callback
     @Override
