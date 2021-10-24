@@ -35,7 +35,9 @@ public class GameActivity extends AppCompatActivity  {
 
         Room room = (Room) getIntent().getSerializableExtra("Room");
         FirebaseHandler fh = (FirebaseHandler) getIntent().getSerializableExtra("FirebaseHandler");
-        //todo : pass fh to controller???
+
+        if (room == null) {Log.d(TAG, "room is null");}
+        if (fh == null) {Log.d(TAG, "fh is null");}
 
         GameController gc = new GameController(sv, getResources(),height,width, room);
         gc.start();

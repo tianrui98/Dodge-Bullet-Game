@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
     private state curr_state;
     private Button readyStateBtn, startGameBtn;
     private FirebaseHandler fh;
-    private Room room = null;
     private TextView playerCount;
 
 
@@ -49,6 +49,10 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
                 fh.startGame();
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtra("FirebaseHandler", fh);
+                Room room = fh.getRoom();
+                if (room == null) {
+                    Log.d("Waiting Room", "room in firebasehandler is null");
+                }
                 intent.putExtra("Room", room);
                 startActivity(intent);
                 break;
@@ -58,6 +62,9 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
                      case ENTER:
                         this.curr_state = state.LEAVE;
                         fh.joinRoom();
+                         if (fh.getRoom() == null) {
+                             Log.d("Waiting Room", "room in firebasehandler is null, after joinRoom is called");
+                         }
                         break;
                     default:
                         this.curr_state = state.ENTER;
