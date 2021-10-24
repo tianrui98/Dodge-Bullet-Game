@@ -1,5 +1,6 @@
 package com.example.unicorngladiators.model;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.example.unicorngladiators.model.characters.Character;
@@ -20,7 +21,7 @@ import java.util.Vector;
 public class Universe {
     private final Joystick joystick;
     private final List<Bullet> bullets;
-    private List<Projectile> currentBullets;
+    private List<Bullet> currentBullets;
     private int bulletIndex;
     private Princess princess;
     public HashMap<String, Unicorn> players;
@@ -42,8 +43,11 @@ public class Universe {
         this.room = room;
 
         this.bullets = this.room.getBullets();
+        System.out.println("in uni init");
+        for (Bullet i: bullets)
+            System.out.print(i);
         this.bulletIndex = 0;
-        this.currentBullets = new ArrayList<Projectile>();
+        this.currentBullets = new ArrayList<Bullet>();
         this.currentPeaches = new ArrayList<Projectile>();
     }
 
@@ -59,7 +63,7 @@ public class Universe {
 
     //manage projectiles
     public void addABullet(){
-        Projectile bullet = this.bullets.get(this.bulletIndex);
+        Bullet bullet = this.bullets.get(this.bulletIndex);
         this.bulletIndex += 1;
         this.currentBullets.add(bullet);
     }
@@ -88,7 +92,7 @@ public class Universe {
 //        Log.d(TAG, "Player position changed");
     }
 
-    public List<Projectile> getBullets() {
+    public List<Bullet> getBullets() {
         return this.currentBullets;
     }
 

@@ -6,11 +6,12 @@ import android.os.Parcelable;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Room implements Parcelable {
+public class Room implements Serializable {
     private boolean start;
     private boolean end;
     private String id;
@@ -19,6 +20,7 @@ public class Room implements Parcelable {
     private HashMap<String, Integer> player_scores = new HashMap<String, Integer>();
     private HashMap<String, Position> player_pos = new HashMap<String, Position>();
     private List<Bullet> bullets;
+    private List<String> bullet_strings;
 
     public Room(String id){
         this.start = false;
@@ -26,26 +28,9 @@ public class Room implements Parcelable {
         this.id = id;
         this.num_players = 0;
         this.bullets = new ArrayList<Bullet>();
+        this.bullet_strings = new ArrayList<String>();
     }
 
-    protected Room(Parcel in) {
-        start = in.readByte() != 0;
-        end = in.readByte() != 0;
-        id = in.readString();
-        num_players = in.readInt();
-    }
-
-    public static final Creator<Room> CREATOR = new Creator<Room>() {
-        @Override
-        public Room createFromParcel(Parcel in) {
-            return new Room(in);
-        }
-
-        @Override
-        public Room[] newArray(int size) {
-            return new Room[size];
-        }
-    };
 
     public void addPlayer(String playerUid, String playerName){
         player_ids.put(playerUid, playerName);
@@ -55,6 +40,11 @@ public class Room implements Parcelable {
     public void removePlayer(String playerUid){
         player_ids.remove(playerUid);
         num_players--;
+    }
+
+    public void updatePlayerState(String playerUid, HashMap<String, Object> states){
+        player_pos.put(playerUid, new Position((String) states.get("pos")));
+        player_scores.put(playerUid, (Integer) states.get("score"));
     }
 
     public String getPlayerName(String playerUid){
@@ -96,25 +86,24 @@ public class Room implements Parcelable {
     }
 
     public List<Bullet> getBullets() {
-        return bullets;
+        if(this.bullets.size() > 0) {
+            try {
+                this.bullets.get(0).toString();
+            } catch (Exception e) {
+                this.bullets = new ArrayList<>();
+                for(String s: this.bullet_strings)
+                    this.bullets.add(Bullet.fromString(s));
+            }
+        } else{
+            for(String s: this.bullet_strings)
+                this.bullets.add(Bullet.fromString(s));
+        }
+
+        return this.bullets;
     }
 
     public void setBullets(List<String> bullets) {
-        for(String s: bullets){
-
-        }
+        this.bullet_strings = bullets;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeByte((byte) (start ? 1 : 0));
-        parcel.writeByte((byte) (end ? 1 : 0));
-        parcel.writeString(id);
-        parcel.writeInt(num_players);
-    }
 }

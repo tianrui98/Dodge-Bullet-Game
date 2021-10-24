@@ -47,12 +47,15 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
             case R.id.startGameHost:
                 fh.startGame();
                 Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtra("FirebaseHandler", fh);
+                //intent.putExtra("FirebaseHandler", fh);
                 Room room = fh.getRoom();
                 if (room == null) {
-                    Log.d("Waiting Room", "room in firebasehandler is null");
+                    Log.d("Waiting Room", "room in firebasehandler is null at starting");
+                } else {
+                    Log.d("Waiting Room", "room in firebasehandler is not null at starting");
                 }
                 intent.putExtra("Room", room);
+                System.out.println("in waiting room: "+room.getPlayer_ids() + "<-- player ids; bullets: "+room.getBullets().size()+"first one: "+room.getBullets().get(0));
                 startActivity(intent);
                 break;
 
@@ -67,6 +70,11 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
                         break;
                     default:
                         this.curr_state = state.ENTER;
+                        if (fh.getRoom() == null) {
+                            Log.d("Waiting Room", "room in firebasehandler is null before leaving");
+                        } else {
+                            Log.d("Waiting Room", "room in firebasehandler is not null before leaving");
+                        }
                         fh.leaveRoom();
                         break;
                 }

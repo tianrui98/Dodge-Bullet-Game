@@ -40,6 +40,7 @@ public class FirebasePlayerHandler {
         players = database.getReference("players");
         player = database.getReference("players/"+this.puid);
         addMovesEventListener(players);
+        updateScore(0);
         System.out.println("initing done");
     }
 
@@ -58,6 +59,7 @@ public class FirebasePlayerHandler {
                     room.setStart((boolean) start);
                     room.setEnd((boolean) ended);
                     room.setBullets((List<String>) states.get("bullets"));
+
                 }
             }
         });
@@ -93,7 +95,16 @@ public class FirebasePlayerHandler {
     public void updateMove(String newMove){
         System.out.println("adding move...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
-        childUpdates.put(puid, newMove);
+        childUpdates.put(this.puid+"/pos", newMove);
+        players.updateChildren(childUpdates);
+        System.out.println("done");
+        return;
+    }
+
+    public void updateScore(int score){
+        System.out.println("updating score...");
+        Map<String, Object> childUpdates = new HashMap<String, Object>();
+        childUpdates.put(this.puid+"/score", score);
         players.updateChildren(childUpdates);
         System.out.println("done");
         return;
@@ -106,11 +117,18 @@ public class FirebasePlayerHandler {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
-                    HashMap<String, String> val = (HashMap<String, String>) dataSnapshot.getValue();
+                    HashMap<String, Object> val = (HashMap<String, Object>) dataSnapshot.getValue();
                     System.out.println(val);
-
+                    HashMap<String, String> player_ids = room.getPlayer_ids();
+                    for(String k : val.keySet()){
+                        HashMap<String, Object> val_prop = new HashMap<>();
+                        if (player_ids.containsKey(k) && !k.equals(puid)){
+                            val_prop = (HashMap<String, Object>) val.get(k);
+                            room.updatePlayerState(k, val_prop);
+                        }
+                    }
                 } catch (Exception e){
-
+                    e.printStackTrace();
                 }
                 //System.out.println(dataSnapshot.getValue().getClass());
 

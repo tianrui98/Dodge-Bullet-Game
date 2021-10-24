@@ -22,6 +22,7 @@ import com.example.unicorngladiators.model.characters.Character;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
+import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.example.unicorngladiators.model.projectiles.Projectile;
 
 import java.util.*;
@@ -82,8 +83,9 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawBullets(Canvas canvas) {
-        List<Projectile> bullets = this.universe.getBullets();
-        for (Projectile bullet : bullets) {
+        List<Bullet> bullets = this.universe.getBullets();
+        for (Bullet bullet : bullets) {
+            System.out.println("drawing..."+bullet.toString());
             Position pos = bullet.getPosition();
             //According to princess's state draw different bitmap
             Sprite sprite = this.sprite_sheet.getProjectileSprite("bullet");
@@ -91,6 +93,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
+            System.out.println(pos+"adjusted"+posAdjusted);
             sprite.drawCharacter(canvas, posAdjusted, "bullet");
         }
     }

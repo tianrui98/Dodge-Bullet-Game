@@ -117,6 +117,7 @@ public class FirebaseRoomHandler implements Parcelable {
                     room.setStart((boolean) start);
                     room.setEnd((boolean) ended);
                     room.setBullets((List<String>) states.get("bullets"));
+                    System.out.println("bullets after read room state:"+room.getBullets().size());
                     try {
                         addPlayer();
                     } catch (Exception e) {
@@ -252,7 +253,7 @@ public class FirebaseRoomHandler implements Parcelable {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
-                    System.out.println("room: "+room);
+                    System.out.println("room: "+ room);
                     HashMap<String, Object> val = (HashMap<String, Object>) dataSnapshot.getValue();
                     HashMap<String, Object> room_spec = (HashMap<String, Object>) (val.get(room.getId()));
                     HashMap<String, String> player_ids = new HashMap<String, String>();
