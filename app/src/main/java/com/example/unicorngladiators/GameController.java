@@ -13,12 +13,9 @@ import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.network.Room;
 import com.example.unicorngladiators.view.Renderer;
-import android.content.res.Resources;
 
 
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameController extends Thread{
     private final Room room;

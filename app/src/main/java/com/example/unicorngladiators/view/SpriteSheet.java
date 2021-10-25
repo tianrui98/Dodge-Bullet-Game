@@ -17,7 +17,7 @@ public class SpriteSheet {
     private final Bitmap tataBitmap;
     private final Bitmap titiBitmap;
     private final Bitmap princessBitmap;
-    private final Bitmap objectsBitmap;
+    private final Bitmap projectileBitmap;
     private final HashMap<CharacterState, Sprite> characterSpriteHashMap;
     private final HashMap<String, Sprite> projectileSpriteHashMap;
 
@@ -32,7 +32,7 @@ public class SpriteSheet {
         this.tutuBitmap = BitmapFactory.decodeResource(context, R.drawable.tutu_sprite_sheet, bitmapOptions);
         this.princessBitmap = BitmapFactory.decodeResource(context, R.drawable.princess_sprite_sheet, bitmapOptions);
         this.characterSpriteHashMap = this.getCharacterSpriteHashmap();
-        this.objectsBitmap = BitmapFactory.decodeResource(context, R.drawable.objects_sprite_sheet, bitmapOptions);
+        this.projectileBitmap = BitmapFactory.decodeResource(context, R.drawable.objects_sprite_sheet, bitmapOptions);
         this.projectileSpriteHashMap = this.getObjectsSpriteHashmap();
     }
 
@@ -100,8 +100,8 @@ public class SpriteSheet {
              case "princess":
                  res = this.princessBitmap;
                  break;
-             case "objects":
-                 res = this.objectsBitmap;
+             case "projectile":
+                 res = this.projectileBitmap;
                  break;
          }
      return res;

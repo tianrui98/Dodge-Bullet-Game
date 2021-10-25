@@ -16,7 +16,7 @@ public class Sprite {
         this.rect = rect;
     }
 
-    public void drawCharacter(Canvas canvas, Position pos, String name) {
+    public void drawSprite(Canvas canvas, Position pos, String name) {
         //add offset so that the image's center is draw at x and y
         int x = pos.getX() ;
         int y = pos.getY() ;

@@ -1,9 +1,5 @@
 package com.example.unicorngladiators.model;
 
-import android.os.Build;
-import android.util.Log;
-
-import com.example.unicorngladiators.model.characters.Character;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
@@ -13,10 +9,8 @@ import com.example.unicorngladiators.model.projectiles.Projectile;
 import com.example.unicorngladiators.network.Room;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 public class Universe {
     private final Joystick joystick;
@@ -48,6 +42,8 @@ public class Universe {
             System.out.print(i);
         this.bulletIndex = 0;
         this.currentBullets = new ArrayList<Bullet>();
+        //TODO: delete the following line
+        this.addABullet();
         this.currentPeaches = new ArrayList<Projectile>();
     }
 
@@ -68,8 +64,18 @@ public class Universe {
         this.currentBullets.add(bullet);
     }
 
+    public void removeABullet(){
+        //Todo: only remove a bullet when it's out of the arena or hit a unicorn
+        this.currentBullets.remove(this.currentBullets.size() - 1);
+    }
+
+    public void updateCurrentBulletPosition(){
+        for (Bullet bullet : this.currentBullets) {
+            bullet.step();
+        }
+    }
+
     public void addAPeach(){
-        //TODO: change height and width to arena's dimension
         Projectile peach = new Peach(1.0, this.getPrincess(), width, height);
         this.currentPeaches.add(peach);
     }
@@ -130,9 +136,9 @@ public class Universe {
         for (Unicorn player : players.values()) {
             player.updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         }
-
-        this.addABullet();
-        this.addAPeach();
+        this.updateCurrentBulletPosition();
+//        this.addABullet();
+//        this.addAPeach();
         this.castChanges();
 
     }
