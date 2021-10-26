@@ -53,7 +53,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         //offset is to help the draw function to draw the center of the picture
         int h_offset = sprite.getHeight() / 2;
         int w_offset = sprite.getWidth() / 2;
-        Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
+        Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
         sprite.drawCharacter(canvas, posAdjusted, "princess");
     }
 
