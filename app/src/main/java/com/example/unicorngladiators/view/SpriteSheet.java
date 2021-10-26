@@ -3,6 +3,7 @@ package com.example.unicorngladiators.view;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 
 import com.example.unicorngladiators.R;
@@ -84,26 +85,30 @@ public class SpriteSheet {
 
     public Bitmap getBitmap(String name) {
         Bitmap res = null;
-         switch (name) {
-             case "toto":
-                 res = this.totoBitmap;
-                 break;
-             case "titi":
-                 res = this.titiBitmap;
-                 break;
-             case "tata":
-                 res = this.tataBitmap;
-                 break;
-             case "tutu":
-                 res = this.tutuBitmap;
-                 break;
-             case "princess":
-                 res = this.princessBitmap;
-                 break;
-             case "projectile":
-                 res = this.projectileBitmap;
-                 break;
-         }
-     return res;
+        switch (name) {
+            case "toto":
+                res = this.totoBitmap;
+                break;
+            case "titi":
+                res = this.titiBitmap;
+                break;
+            case "tata":
+                res = this.tataBitmap;
+                break;
+            case "tutu":
+                res = this.tutuBitmap;
+                break;
+            case "princess":
+                res = this.princessBitmap;
+                break;
+            case "projectile":
+                res = this.projectileBitmap;
+                break;
+        }
+        return res;
     }
+
+
+
+
 }

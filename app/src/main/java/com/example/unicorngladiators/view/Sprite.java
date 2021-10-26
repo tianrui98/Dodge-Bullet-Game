@@ -1,8 +1,9 @@
 package com.example.unicorngladiators.view;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.example.unicorngladiators.model.Position;
 
@@ -16,11 +17,19 @@ public class Sprite {
         this.rect = rect;
     }
 
-    public void drawSprite(Canvas canvas, Position pos, String name) {
+    public Bitmap rotateBitmap(Bitmap bitmap, int rotation){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(rotation);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return rotatedBitmap;
+    }
+
+    public void drawSprite(Canvas canvas, Position pos, String name, int rotation) {
         //add offset so that the image's center is draw at x and y
         int x = pos.getX() ;
         int y = pos.getY() ;
-        canvas.drawBitmap(spriteSheet.getBitmap(name),
+        Bitmap bitmap = this.rotateBitmap(spriteSheet.getBitmap(name), rotation);
+        canvas.drawBitmap(bitmap,
                 rect,
                 //adjust size here
                 new Rect(x, y, x + 150, y+150),
