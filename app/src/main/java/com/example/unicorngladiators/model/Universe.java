@@ -158,7 +158,7 @@ public class Universe {
         this.princess.spin();
 
         this.joystick.update();
-        this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorX());
+        this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         this.updateCurrentBulletPosition();
         this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
 
