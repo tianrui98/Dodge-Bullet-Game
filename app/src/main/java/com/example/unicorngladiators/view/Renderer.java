@@ -56,12 +56,13 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 
     private void drawUnicorns(Canvas canvas) {
         Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
-
+        System.out.println("drawing unicorns: "+ this.universe.getPlayersHashMap());
         for (Unicorn player : players) {
             Sprite unicorn_sprite = this.sprite_sheet.getPlayerSprite(player.getState());
             //offset is to help the draw function to draw the center of the picture
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
+            System.out.println("drawing unicorn: "+ player.getName() + player.getPosition());
             Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getY() + h_offset);
             unicorn_sprite.drawSprite(canvas, posAdjusted, player.getName(), 0);
         }
@@ -82,15 +83,15 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 //        TODO: add rotation as an argument
         List<Bullet> bullets = this.universe.getBullets();
         for (Bullet bullet : bullets) {
-            System.out.println("drawing Bullet ..."+bullet.toString());
+            //System.out.println("drawing Bullet ..."+bullet.toString());
             Position pos = bullet.getPosition();
             Sprite sprite = this.sprite_sheet.getProjectileSprite("bullet");
             //offset is to help the draw function to draw the center of the picture
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
-            Log.d("Renderer","position: X "+pos.getX()+" Y: "+pos.getY());
-            Log.d("Renderer","position: "+pos+" Adjusted: "+posAdjusted);
+            //Log.d("Renderer","position: X "+pos.getX()+" Y: "+pos.getY());
+            //Log.d("Renderer","position: "+pos+" Adjusted: "+posAdjusted);
             sprite.drawSprite(canvas, posAdjusted, "projectile", 0 );
         }
     }
@@ -125,6 +126,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 //            this.drawPeaches(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
+            System.out.println("universe:" + universe + " holder "+holder);
             Log.e(TAG, "error in drawSurfaceView");
         }
     }

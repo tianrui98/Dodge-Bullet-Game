@@ -8,6 +8,7 @@ import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.example.unicorngladiators.model.projectiles.Peach;
 import com.example.unicorngladiators.model.projectiles.Projectile;
+import com.example.unicorngladiators.network.FirebasePlayerHandler;
 import com.example.unicorngladiators.network.Room;
 
 import java.util.ArrayList;
@@ -25,27 +26,35 @@ public class Universe {
     private int height;
     private int width;
     private Projectile peach;
-    private Room room;
-    private final String currentPlayerName;
+    private Room room = null;
+    private FirebasePlayerHandler fph;
+    private final String currentPlayerName, currentPlayerUID;
     private List<Projectile> currentPeaches;
 
 
-    public Universe(HashMap<String,Unicorn> players, int height,int width, Room room, String currentPlayerName) {
+    public Universe(HashMap<String,Unicorn> players, int height,int width, Room room, String currentPlayerUID, String currentPlayerName) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
         this.joystick = new Joystick();
         this.height = height;
         this.width = width;
-        this.room = room;
+        this.fph = new FirebasePlayerHandler(currentPlayerUID);
+
+        this.currentPlayerUID = currentPlayerUID;
 
         this.currentPlayerName = currentPlayerName;
         Log.d(TAG, "Current player name is " + this.currentPlayerName);
 
         //initialize projectiles
+        fph.readRoomStates();
+        this.room = fph.getRoom();
+        this.room.setPlayer_pos(room.getPlayer_pos());
+        this.room.setPlayer_scores(room.getPlayer_scores());
+
         this.bullets = this.room.getBullets();
         Log.d(TAG, "Bullets in uni init:");
-        for (Bullet i: bullets)
-            Log.d(TAG, "Bullet: " + i);
+        //for (Bullet i: bullets)
+        //    Log.d(TAG, "Bullet: " + i);
         this.bulletIndex = 0;
         this.currentBullets = new ArrayList<Bullet>();
 
@@ -53,6 +62,12 @@ public class Universe {
 //        this.addABullet();
         this.currentPeaches = new ArrayList<Projectile>();
 
+        //init the players:
+        System.out.println("all the players: "+this.room.getPlayer_ids());
+        for (String puids : this.room.getPlayer_ids().keySet()) {
+            System.out.println("adding "+puids);
+            this.addPlayer(this.room.getPlayerName(puids), this.room.getPlayer_pos().get(puids), CharacterState.RIGHT1);
+        }
     }
 
     //manage princess (npc)
@@ -67,6 +82,8 @@ public class Universe {
 
     //manage projectiles on screen
     public void addABullet(){
+        if (this.bulletIndex >= this.bullets.size())
+            return;
         Bullet bullet = this.bullets.get(this.bulletIndex);
         this.bulletIndex += 1;
         this.currentBullets.add(bullet);
@@ -141,8 +158,9 @@ public class Universe {
         this.princess.spin();
 
         this.joystick.update();
-        this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
+        this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorX());
         this.updateCurrentBulletPosition();
+        this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
 
         // TODO add bullets
         this.addABullet();
@@ -151,6 +169,19 @@ public class Universe {
 //        this.addAPeach();
         this.castChanges();
 
+        for (String puid : this.room.getPlayer_ids().keySet()) {
+            if (!puid.equals(this.currentPlayerUID)){
+                Position posToUpdate = this.room.getPlayer_pos().get(puid);
+                //System.out.println("current player: " + this.currentPlayerUID);
+                System.out.println(puid+this.room.getPlayerName(puid)+" bloody stepping: "+posToUpdate);
+                System.out.println("the entire pos: " + this.room.getPlayer_pos());
+                Position curPos = this.players.get(this.room.getPlayerName(puid)).getPosition();
+                this.players.get(this.room.getPlayerName(puid))
+                        .updatePositionState(
+                                posToUpdate.getX() - curPos.getX(),
+                                posToUpdate.getY() - curPos.getY());
+            }
+        }
     }
 
 

@@ -34,9 +34,9 @@ public class FirebasePlayerHandler {
 
     public FirebasePlayerHandler(String puid){
         this.puid = puid;
-        this.rooms = database.getReference("rooms");
         System.out.println("initing handler...");
         database = FirebaseDatabase.getInstance("https://unicorn-63649-default-rtdb.asia-southeast1.firebasedatabase.app");
+        this.rooms = database.getReference("rooms");
         players = database.getReference("players");
         player = database.getReference("players/"+this.puid);
         addMovesEventListener(players);
@@ -44,25 +44,46 @@ public class FirebasePlayerHandler {
         System.out.println("initing done");
     }
 
-    public void readRoomStates(){
-        rooms.child(roomId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    HashMap<String, Object> states = (HashMap<String, Object>) task.getResult().getValue();
-                    System.out.println("states:"+states);
-                    Boolean start = new Boolean(false);
-                    start = (Boolean) states.get("start");
-                    Boolean ended = new Boolean(false);
-                    ended = (Boolean) states.get("ended");
-                    room.setPlayerIds((HashMap<String, String>)states.get("player_ids"));
-                    room.setStart((boolean) start);
-                    room.setEnd((boolean) ended);
-                    room.setBullets((List<String>) states.get("bullets"));
+    public void readRoomStates() {
+        this.roomId = NULL;
+        Task<DataSnapshot> roomIdTask = rooms.child("rooms_listing").get();
 
-                }
+        while(!roomIdTask.isComplete()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
+        }
+
+        if (roomIdTask.isSuccessful()) {
+            roomId = String.valueOf(roomIdTask.getResult().getValue());
+            System.out.println("room id read: " + roomId);
+            room = new Room(roomId);
+        }
+
+        Task<DataSnapshot> roomStatesTask = rooms.child(roomId).get();
+        while(!roomStatesTask.isComplete()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (roomStatesTask.isSuccessful()) {
+            HashMap<String, Object> states = (HashMap<String, Object>) roomStatesTask.getResult().getValue();
+            System.out.println("states:"+states);
+            Boolean start = new Boolean(false);
+            start = (Boolean) states.get("start");
+            Boolean ended = new Boolean(false);
+            ended = (Boolean) states.get("ended");
+            room.setPlayerIds((HashMap<String, String>)states.get("player_ids"));
+            room.setStart((boolean) start);
+            room.setEnd((boolean) ended);
+            room.setBullets((List<String>) states.get("bullets"));
+
+        }
+        System.out.println("read room states in player handler completed.");
     }
 
     public void leaveRoom() {
@@ -92,11 +113,11 @@ public class FirebasePlayerHandler {
     public String getPuid(){ return this.puid; }
 
     public void updateMove(String newMove){
-        System.out.println("adding move...");
+        //System.out.println("adding move...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.puid+"/pos", newMove);
         players.updateChildren(childUpdates);
-        System.out.println("done");
+        //System.out.println("done");
         return;
     }
 
@@ -117,12 +138,13 @@ public class FirebasePlayerHandler {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
                     HashMap<String, Object> val = (HashMap<String, Object>) dataSnapshot.getValue();
-                    System.out.println(val);
+                    System.out.println("val: "+val);
                     HashMap<String, String> player_ids = room.getPlayer_ids();
                     for(String k : val.keySet()){
                         HashMap<String, Object> val_prop = new HashMap<>();
                         if (player_ids.containsKey(k) && !k.equals(puid)){
                             val_prop = (HashMap<String, Object>) val.get(k);
+                            System.out.println("val prop: "+val_prop);
                             room.updatePlayerState(k, val_prop);
                         }
                     }
