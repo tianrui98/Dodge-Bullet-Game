@@ -101,8 +101,11 @@ public class Universe {
                 Log.d("Bullet", String.valueOf(distance));
                 if (distance < 200) {
                     Log.d("SimiLaoBu", "Your mother got hit");
-                    unicorn.setLives(unicorn.getLives() - 1);
-                    unicorn.setInvulnerable(true);
+                    try {
+                        unicorn.takeBullet();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 }
             }
