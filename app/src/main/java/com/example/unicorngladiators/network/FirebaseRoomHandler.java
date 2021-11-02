@@ -118,17 +118,25 @@ public class FirebaseRoomHandler implements Parcelable {
                     System.out.println("states:"+states);
                     Boolean start = new Boolean(false);
                     start = (Boolean) states.get("start");
-                    Boolean ended = new Boolean(false);
-                    ended = (Boolean) states.get("ended");
-                    room.setPlayerIds((HashMap<String, String>)states.get("player_ids"));
-                    room.setStart((boolean) start);
-                    room.setEnd((boolean) ended);
-                    room.setBullets((List<String>) states.get("bullets"));
-                    System.out.println("bullets after read room state:"+room.getBullets().size());
-                    try {
-                        addPlayer();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (start) {
+                        initRoom();
+                        if (room.getNum_players() == 1) {
+                            startGameBtn.setVisibility(View.VISIBLE);
+                            startGameBtn.setEnabled(false);
+                        }
+                    } else {
+                        Boolean ended = new Boolean(false);
+                        ended = (Boolean) states.get("ended");
+                        room.setPlayerIds((HashMap<String, String>) states.get("player_ids"));
+                        room.setStart((boolean) start);
+                        room.setEnd((boolean) ended);
+                        room.setBullets((List<String>) states.get("bullets"));
+                        System.out.println("bullets after read room state:" + room.getBullets().size());
+                        try {
+                            addPlayer();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
