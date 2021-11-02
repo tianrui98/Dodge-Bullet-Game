@@ -30,7 +30,7 @@ public class Universe {
     private Room room = null;
     private FirebasePlayerHandler fph;
     private final String currentPlayerName, currentPlayerUID;
-    private List<Projectile> currentPeaches;
+    private List<Peach> currentPeaches;
 
     private long steps;
     private long period;
@@ -64,7 +64,7 @@ public class Universe {
 
         //TODO: delete the following line. Only add bullet in step()
 //        this.addABullet();
-        this.currentPeaches = new ArrayList<Projectile>();
+        this.currentPeaches = new ArrayList<Peach>();
 
         //init the players:
         System.out.println("all the players: "+this.room.getPlayer_ids());
@@ -129,8 +129,14 @@ public class Universe {
         }
     }
 
+    public void updateCurrentPeachPosition(){
+        for (Peach peach : this.currentPeaches) {
+            peach.step();
+        }
+    }
     public void addAPeach(){
-        Projectile peach = new Peach(1.0, this.getPrincess(), width, height);
+        Peach peach = new Peach(1.0, this.princess, width, height);
+        Log.d("peach position", String.valueOf(peach.getPosition()));
         this.currentPeaches.add(peach);
     }
 
@@ -156,7 +162,7 @@ public class Universe {
     }
 
 
-    public List<Projectile> getPeaches() {
+    public List<Peach> getPeaches() {
         return this.currentPeaches;
     }
 
@@ -184,24 +190,25 @@ public class Universe {
      */
     public void step(long elapsedTime) {
         // TODO round up elapsed time if we want something to happen every x seconds
-        //  Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
-        this.princess.spin();
+        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.stroll();
 
         this.joystick.update();
         this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         this.updateCurrentBulletPosition();
+        this.updateCurrentPeachPosition();
+
         this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
 
         if(this.steps % this.period == 0){
             this.addABullet();
         }
         this.steps += 1;
-        // TODO add bullets
 
-
-        // TODO add peach at random times
-        // this.addAPeach();
+        if (Math.round(elapsedTime/1000)%5 == 0) {
+            Log.d("peach debug time", String.valueOf(elapsedTime));
+            this.addAPeach();
+        }
 
         // Checking for Bullet Collisions here
         this.checkCollision();

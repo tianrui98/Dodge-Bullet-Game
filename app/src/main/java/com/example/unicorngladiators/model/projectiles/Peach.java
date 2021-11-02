@@ -1,12 +1,17 @@
 package com.example.unicorngladiators.model.projectiles;
 
+import android.util.Log;
+
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Peach extends Projectile {
+public class Peach extends Projectile implements Serializable {
     public Peach(double speed, Princess p, int maxX, int maxY) {
         this.setSpeed(speed);
         Random rand = new Random();
@@ -16,6 +21,7 @@ public class Peach extends Projectile {
         if (p_pos.getX() > maxX/2) offsetX = 0 - offsetX;
         if (p_pos.getY() > maxY/2) offsetY = 0 - offsetY;
 
+        this.setPosition(p_pos);
         this.setDirection(
                 new Direction(p_pos.getX(), p_pos.getY(), offsetX, offsetY));
         this.speedUpProjectile();
@@ -25,4 +31,5 @@ public class Peach extends Projectile {
     public void hit(Unicorn c) {
         c.takePeach();
     }
+
 }

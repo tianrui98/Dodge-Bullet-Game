@@ -19,6 +19,7 @@ import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.model.projectiles.Bullet;
+import com.example.unicorngladiators.model.projectiles.Peach;
 import com.example.unicorngladiators.model.projectiles.Projectile;
 
 import java.util.*;
@@ -97,16 +98,21 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawPeaches(Canvas canvas) {
-        List<Projectile> peaches = this.universe.getPeaches();
-        for (Projectile peach : peaches) {
-            Position pos = peach.getPosition();
-            //According to princess's state draw different bitmap
-            Sprite sprite = this.sprite_sheet.getProjectileSprite("peach");
-            //offset is to help the draw function to draw the center of the picture
-            int h_offset = sprite.getHeight() / 2;
-            int w_offset = sprite.getWidth() / 2;
-            Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
-            sprite.drawSprite(canvas, posAdjusted, "peach", 0);
+        List<Peach> peaches = this.universe.getPeaches();
+        for (Peach peach : peaches) {
+            if (peach != null){
+                Position pos = peach.getPosition();
+                //According to princess's state draw different bitmap
+                Sprite sprite = this.sprite_sheet.getProjectileSprite("peach");
+                if (sprite == null) {
+                Log.d("Renderer drawPeaches", "peach sprite is null");}
+                //offset is to help the draw function to draw the center of the picture
+                int h_offset = sprite.getHeight() / 2;
+                int w_offset = sprite.getWidth() / 2;
+                Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
+                sprite.drawSprite(canvas, posAdjusted, "projectile", 0);
+
+            }
         }
     }
 
@@ -123,7 +129,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             this.drawUnicorns(canvas);
             this.drawJoystick(canvas);
             this.drawBullets(canvas);
-//            this.drawPeaches(canvas);
+            this.drawPeaches(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             System.out.println("universe:" + universe + " holder "+holder);
