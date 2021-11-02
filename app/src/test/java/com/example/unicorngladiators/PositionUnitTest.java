@@ -85,4 +85,14 @@ public class PositionUnitTest {
             assertTrue(pos1.equals(pos2) == (pos1X == pos2X && pos1Y == pos2Y));
         }
     }
+
+    @Test
+    public void getDistance(){
+        Position pos1 = new Position(0,0);
+        Position pos2 = new Position(3,4);
+        System.out.println(pos1.getDistance(pos2));
+        assert(pos1.getDistance(pos2) == 5);
+        assert(pos1.getDistance(pos2) == pos2.getDistance(pos1));
+    }
+
 }
