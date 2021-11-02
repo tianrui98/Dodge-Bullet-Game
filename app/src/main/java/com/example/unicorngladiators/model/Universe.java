@@ -99,7 +99,7 @@ public class Universe {
                 int distance = unicornPos.getDistance(bulletPos);
                 // To do: Find appropriate distance
                 Log.d("Bullet", String.valueOf(distance));
-                if (distance < 20) {
+                if (distance < 200) {
                     Log.d("SimiLaoBu", "Your mother got hit");
                     unicorn.setLives(unicorn.getLives() - 1);
                     unicorn.setInvulnerable(true);

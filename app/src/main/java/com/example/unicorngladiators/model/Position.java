@@ -1,6 +1,8 @@
 package com.example.unicorngladiators.model;
 
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 public class Position implements Serializable {
@@ -65,9 +67,9 @@ public class Position implements Serializable {
     }
 
     public int getDistance(Position pos) {
-        int xDelta = this.getX() - pos.getX();
-        int yDelta = this.getY() - pos.getY();
-        return (int) Math.sqrt(xDelta ^ 2 + yDelta ^ 2);
+        int xDelta = (int) Math.pow(this.getX() - pos.getX(), 2);
+        int yDelta = (int) Math.pow(this.getY() - pos.getY(), 2);
+        return (int) Math.sqrt(xDelta + yDelta);
     }
 }
 
