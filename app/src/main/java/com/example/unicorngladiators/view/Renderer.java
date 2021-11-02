@@ -56,12 +56,13 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 
     private void drawUnicorns(Canvas canvas) {
         Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
-
+        System.out.println("drawing unicorns: "+ this.universe.getPlayersHashMap());
         for (Unicorn player : players) {
             Sprite unicorn_sprite = this.sprite_sheet.getPlayerSprite(player.getState());
             //offset is to help the draw function to draw the center of the picture
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
+            System.out.println("drawing unicorn: "+ player.getName() + player.getPosition());
             Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getY() + h_offset);
             unicorn_sprite.drawSprite(canvas, posAdjusted, player.getName(), 0);
         }

@@ -171,11 +171,15 @@ public class Universe {
 
         for (String puid : this.room.getPlayer_ids().keySet()) {
             if (!puid.equals(this.currentPlayerUID)){
-                Position puid_pos = this.room.getPlayer_pos().get(puid);
+                Position posToUpdate = this.room.getPlayer_pos().get(puid);
                 //System.out.println("current player: " + this.currentPlayerUID);
-                //System.out.println(puid+" bloody stepping: "+puid_pos);
+                System.out.println(puid+this.room.getPlayerName(puid)+" bloody stepping: "+posToUpdate);
                 System.out.println("the entire pos: " + this.room.getPlayer_pos());
-                this.players.get(this.room.getPlayerName(puid)).updatePositionState((double)puid_pos.getX(), (double)puid_pos.getY());
+                Position curPos = this.players.get(this.room.getPlayerName(puid)).getPosition();
+                this.players.get(this.room.getPlayerName(puid))
+                        .updatePositionState(
+                                posToUpdate.getX() - curPos.getX(),
+                                posToUpdate.getY() - curPos.getY());
             }
         }
     }

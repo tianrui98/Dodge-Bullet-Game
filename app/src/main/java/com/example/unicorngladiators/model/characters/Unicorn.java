@@ -60,6 +60,10 @@ public class Unicorn extends Character {
         this.walk(new Motion(velocityX, velocityY) );
     }
 
+    public void updatePositionState(int actuatorX, int actuatorY){
+        this.walk(new Motion(actuatorX, actuatorX) );
+    }
+
     //Getters
     public String getName() {
         return name;
