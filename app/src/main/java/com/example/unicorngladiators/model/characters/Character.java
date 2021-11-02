@@ -2,11 +2,19 @@ package com.example.unicorngladiators.model.characters;
 
 // Generic character class. Can walk in four directions
 
+
 import com.example.unicorngladiators.model.Facing;
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 
 public class Character {
+    public enum CharacterDirection {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+    
     private Position pos;
     private CharacterState state;
     private Facing facing;
@@ -24,6 +32,7 @@ public class Character {
         int dx = m.getX();
         int dy = m.getY();
         float ratio;
+
         Facing dir = this.getFacing();
         if (dx != 0 || dy != 0){
             Position p = new Position(dx, dy);
@@ -34,6 +43,7 @@ public class Character {
 
             if (ratio >= 1 ) {
                  if (dy <= 0) {
+
                      if (dir != Facing.UP){
                          this.setState(CharacterState.BACK1);
                          this.setFacing(Facing.UP);}
