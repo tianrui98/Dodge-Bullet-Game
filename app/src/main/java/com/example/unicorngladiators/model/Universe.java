@@ -90,30 +90,30 @@ public class Universe {
         return this.players.get(this.currentPlayerName).getLives();
     }
 
-    public void checkCollision() {
-        for (Map.Entry<String, Unicorn> entry: this.players.entrySet()) {
-            String key = entry.getKey();
+    static public boolean validCollision(Bullet x, Unicorn y, int distance){
+        return y.getPosition().getDistance(x.getPosition()) <= distance && !y.getIsInvulnerable();
+    }
+
+    static public void checkCollisionHelper(HashMap<String, Unicorn> e,List<Bullet> b){
+        for(Map.Entry<String,Unicorn> entry:e.entrySet()){
             Unicorn unicorn = entry.getValue();
-            Position unicornPos = unicorn.getPosition();
-            if (unicorn.getIsInvulnerable()) {
-                continue;
-            }
-            for (Bullet bullet: this.bullets) {
-                Position bulletPos = bullet.getPosition();
-                int distance = unicornPos.getDistance(bulletPos);
-                // To do: Find appropriate distance
-                Log.d("Bullet", String.valueOf(distance));
-                if (distance < 200) {
-                    Log.d("SimiLaoBu", "Your mother got hit");
+            for(Bullet bullet:b){
+                if(Universe.validCollision(bullet,unicorn,200)){
                     try {
                         unicorn.takeBullet();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception excep) {
+                        excep.printStackTrace();
                     }
                     break;
                 }
             }
         }
+
+
+    }
+
+    public void checkCollision() {
+        Universe.checkCollisionHelper(this.players,this.bullets);
     }
 
     //manage projectiles on screen
