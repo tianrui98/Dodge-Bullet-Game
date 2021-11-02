@@ -1,19 +1,14 @@
 package com.example.unicorngladiators;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.unicorngladiators.model.Universe;
-import com.example.unicorngladiators.view.Renderer;
+import com.example.unicorngladiators.network.FirebaseRoomHandler;
+import com.example.unicorngladiators.network.Room;
 
 public class GameActivity extends AppCompatActivity  {
     private static String TAG = "GameActivity";
@@ -31,7 +26,15 @@ public class GameActivity extends AppCompatActivity  {
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
 
-        GameController gc = new GameController(sv, getResources(),height,width);
+        Room room = (Room) getIntent().getSerializableExtra("Room");
+        String puid = (String) getIntent().getSerializableExtra("PlayerUID");
+        //FirebaseRoomHandler fh = (FirebaseRoomHandler) getIntent().getExtras().getParcelable("FirebaseHandler");
+
+        if (room == null) {Log.d(TAG, "room is null");}
+        //if (fh == null) {Log.d(TAG, "fh is null");}
+        //System.out.println("in game activity: "+room.getPlayer_ids());
+        //System.out.println("bullets: "+room.getBullets().size()+"first one: "+room.getBullets().get(0));
+        GameController gc = new GameController(sv, getResources(), height, width, room, puid);
         gc.start();
         Log.d(TAG, "onCreate finished.");
     }

@@ -2,9 +2,12 @@ package com.example.unicorngladiators.model.projectiles;
 
 import com.example.unicorngladiators.model.characters.Unicorn;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 // TODO implement Bullet class
-public class Bullet extends Projectile {
+public class Bullet extends Projectile implements Serializable {
     public Bullet(double speed,int maxX, int maxY) {
         this.setSpeed(speed);
         Random rand = new Random();
@@ -14,24 +17,24 @@ public class Bullet extends Projectile {
         if (fromX < maxX/2) fromX = 0;
         else {
             fromX = maxX;
-            offsetX = 0 - offsetX;
+            offsetX = - offsetX;
         }
 
         if (fromY < maxY/2) fromY = 0;
         else {
             fromY = maxY;
-            offsetY = 0 - offsetY;
+            offsetY = - offsetY;
         }
 
-
-        this.setDirection(
-                new Direction(fromX, fromY, offsetX, offsetY));
-        this.speedUpProjectile();
+        Direction direction = new Direction(fromX, fromY, offsetX, offsetY);
+        this.setDirection(direction);
+        this.setPosition(direction.getFrom());
     }
 
     public Bullet(Direction direction, Double speed){
         this.setDirection(direction);
         this.setSpeed(speed);
+        this.setPosition(direction.getFrom());
     }
 
     @Override
@@ -41,20 +44,32 @@ public class Bullet extends Projectile {
 
     @Override
     public String toString(){
-        return String.format("%s,%,.2f", this.getDirection().toString(), this.getSpeed());
+        return String.format("%s,%.2f", this.getDirection().toString(), this.getSpeed());
     }
 
     public static Bullet fromString(String stringRepr){
+        stringRepr = stringRepr.replaceAll("\\s+","");
         String[] splits = stringRepr.split(",");
-        for(String s: splits)
-            System.out.print(s+", ");
-        System.out.println();
+        //System.out.println("Bullet string: "+ stringRepr);
         //[fromX, fromY, offsetX, offsetY, speed]
         int fromX = Integer.parseInt(splits[0]);
         int fromY = Integer.parseInt(splits[1]);
         int offsetX = Integer.parseInt(splits[2]);
         int offsetY = Integer.parseInt(splits[3]);
         double speed = Double.parseDouble(splits[4]);
-        return new Bullet(new Direction(fromX, fromY, offsetX, offsetY), speed);
+        Bullet b = new Bullet(new Direction(fromX, fromY, offsetX, offsetY), speed);
+        //System.out.println(b);
+        return b;
+    }
+
+    public static List<String> generateBulletStringList(int number, int height,int width, double speedup){
+        List<String> bullets = new ArrayList<String>();
+        double current_speed = 1.0;
+        for(int i=0;i<number;i++) {
+            Bullet tmp = new Bullet(current_speed, width, height);
+            bullets.add(tmp.toString());
+            current_speed *= speedup;
+        }
+        return bullets;
     }
 }

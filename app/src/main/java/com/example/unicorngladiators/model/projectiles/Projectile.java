@@ -45,4 +45,9 @@ public abstract class Projectile {
     public void step(){
         this.currentPos.add(this.offset);
     }
+
+    public Position getPosition(){
+        return this.currentPos;
+    }
+    public void setPosition(Position pos) { this.currentPos = pos;}
 }

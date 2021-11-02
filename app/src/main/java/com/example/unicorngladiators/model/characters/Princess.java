@@ -1,9 +1,9 @@
 package com.example.unicorngladiators.model.characters;
 
+
 import android.util.Log;
 
 import com.example.unicorngladiators.model.Motion;
-import com.example.unicorngladiators.model.Position;
 
 /**
  * Princess is an NPC who moves along the arena and throws peaches every 15 seconds

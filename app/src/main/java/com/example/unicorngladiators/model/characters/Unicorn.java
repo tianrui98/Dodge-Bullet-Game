@@ -13,12 +13,8 @@ It can perform two actions
 - takePeach
  */
 
-import android.util.Log;
-
-import com.example.unicorngladiators.model.Joystick;
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
-import com.example.unicorngladiators.model.characters.Character;
 
 import java.util.concurrent.TimeUnit;
 
@@ -62,6 +58,10 @@ public class Unicorn extends Character {
         int velocityX = (int) Math.round(actuatorX * MAX_SPEED);
         int velocityY = (int) Math.round(actuatorY * MAX_SPEED);
         this.walk(new Motion(velocityX, velocityY) );
+    }
+
+    public void updatePositionState(int actuatorX, int actuatorY){
+        this.walk(new Motion(actuatorX, actuatorY));
     }
 
     //Getters

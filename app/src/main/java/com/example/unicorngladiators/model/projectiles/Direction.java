@@ -2,7 +2,9 @@ package com.example.unicorngladiators.model.projectiles;
 
 import com.example.unicorngladiators.model.Position;
 
-public class Direction {
+import java.io.Serializable;
+
+public class Direction implements Serializable {
     private Position from, offset;
 
     public Direction(int fromX, int fromY, int offsetX, int offsetY){
@@ -12,15 +14,19 @@ public class Direction {
 
     public Direction(Position from, Position offset){
         this.from = from;
-        this.offset = this.offset;
+        this.offset = offset;
     }
 
     public Position getOffset(){
         return this.offset;
     }
 
+    public Position getFrom() {
+        return from;
+    }
+
     @Override
     public String toString(){
-        return String.format("%s,%s", this.from.shortString(), this.offset.shortString());
+        return String.format("%s, %s", this.from.shortString(), this.offset.shortString());
     }
 }

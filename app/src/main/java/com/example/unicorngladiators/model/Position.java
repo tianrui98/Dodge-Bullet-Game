@@ -1,7 +1,9 @@
 package com.example.unicorngladiators.model;
 
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable {
     private int x, y;
 
     public Position(int x, int y) {
@@ -38,7 +40,7 @@ public class Position {
     @Override
     public boolean equals(Object obj) {
         Position p = (Position) obj;
-        if (p != null) return x == p.x && y == p.y;
+        if (p != null) return this.x == p.x && this.y == p.y;
         return false;
     }
 

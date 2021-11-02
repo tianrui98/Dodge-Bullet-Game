@@ -2,11 +2,10 @@ package com.example.unicorngladiators.model.characters;
 
 // Generic character class. Can walk in four directions
 
-import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.example.unicorngladiators.model.Facing;
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
-import com.example.unicorngladiators.model.Universe;
 
 public class Character {
     public enum CharacterDirection {
@@ -18,13 +17,13 @@ public class Character {
     
     private Position pos;
     private CharacterState state;
-    private CharacterDirection direction;
+    private Facing facing;
 
 
     public Character(Position pos, CharacterState state) {
         this.pos = pos;
         this.state = state;
-        this.direction = null;
+        this.facing = null;
     }
 
     //p.x and p.y means how many units to move along x and y
@@ -33,7 +32,8 @@ public class Character {
         int dx = m.getX();
         int dy = m.getY();
         float ratio;
-        CharacterDirection dir = this.getDirection();
+
+        Facing dir = this.getFacing();
         if (dx != 0 || dy != 0){
             Position p = new Position(dx, dy);
             this.pos.add(p);
@@ -43,27 +43,28 @@ public class Character {
 
             if (ratio >= 1 ) {
                  if (dy <= 0) {
-                     if (dir != CharacterDirection.UP){
+
+                     if (dir != Facing.UP){
                          this.setState(CharacterState.BACK1);
-                         this.setDirection(CharacterDirection.UP);}
+                         this.setFacing(Facing.UP);}
                          this.walkUpStateChange();}
 
                  else {
-                     if (dir != CharacterDirection.DOWN) {
+                     if (dir != Facing.DOWN) {
                          this.setState(CharacterState.FRONT1);
-                         this.setDirection(CharacterDirection.DOWN);}
+                         this.setFacing(Facing.DOWN);}
                          this.walkDownStateChange();
                      }
              } else {
                  if (dx <= 0) {
-                     if (dir != CharacterDirection.LEFT){
+                     if (dir != Facing.LEFT){
                          this.setState(CharacterState.LEFT1);
-                         this.setDirection(CharacterDirection.LEFT);}
+                         this.setFacing(Facing.LEFT);}
                          this.walkLeftStateChange();}
                  else {
-                     if (dir != CharacterDirection.RIGHT){
+                     if (dir != Facing.RIGHT){
                      this.setState(CharacterState.RIGHT1);
-                     this.setDirection(CharacterDirection.RIGHT);}
+                     this.setFacing(Facing.RIGHT);}
                      this.walkRightStateChange();
              }
          }
@@ -142,12 +143,12 @@ public class Character {
         return this.pos;
     }
 
-    public CharacterDirection getDirection(){
-        return  this.direction;
+    public Facing getFacing(){
+        return  this.facing;
     }
 
-    public void setDirection(CharacterDirection direction){
-        this.direction = direction;
+    public void setFacing(Facing facing){
+        this.facing = facing;
     }
 
     public CharacterState getState(){return this.state;}
