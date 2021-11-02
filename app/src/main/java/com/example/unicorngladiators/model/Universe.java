@@ -14,6 +14,7 @@ import com.example.unicorngladiators.network.Room;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Universe {
     private final Joystick joystick;
@@ -80,6 +81,26 @@ public class Universe {
         this.princess.setPosition(pos);
     }
 
+    public void checkCollision() {
+        for (Map.Entry<String, Unicorn> entry: this.players.entrySet()) {
+            String key = entry.getKey();
+            Unicorn unicorn = entry.getValue();
+            Position unicornPos = unicorn.getPosition();
+            for (Bullet bullet: this.bullets) {
+                Position bulletPos = bullet.getPosition();
+                int distance = unicornPos.getDistance(bulletPos);
+                // To do: Find appropriate distance
+                Log.d("Bullet", String.valueOf(distance));
+                if (distance < 20) {
+                    Log.d("SimiLaoBu", "Your mother got hit");
+                    unicorn.setLives(unicorn.getLives() - 1);
+                    unicorn.setInvulnerable(true);
+                    break;
+                }
+            }
+        }
+    }
+
     //manage projectiles on screen
     public void addABullet(){
         if (this.bulletIndex >= this.bullets.size())
@@ -112,7 +133,6 @@ public class Universe {
     }
     public HashMap<String, Unicorn> getPlayersHashMap() {
         return this.players;
-
     }
 
         //chang player position
@@ -165,8 +185,12 @@ public class Universe {
         // TODO add bullets
         this.addABullet();
 
-        //TODO add peach at random times
-//        this.addAPeach();
+        // TODO add peach at random times
+        // this.addAPeach();
+
+        // Checking for Bullet Collisions here
+        this.checkCollision();
+
         this.castChanges();
 
         for (String puid : this.room.getPlayer_ids().keySet()) {

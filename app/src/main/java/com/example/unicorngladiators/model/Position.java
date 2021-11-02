@@ -63,5 +63,11 @@ public class Position implements Serializable {
     public int getY() {
         return y;
     }
+
+    public int getDistance(Position pos) {
+        int xDelta = this.getX() - pos.getX();
+        int yDelta = this.getY() - pos.getY();
+        return (int) Math.sqrt(xDelta ^ 2 + yDelta ^ 2);
+    }
 }
 
