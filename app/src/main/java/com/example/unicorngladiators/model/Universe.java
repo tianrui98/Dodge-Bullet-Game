@@ -114,19 +114,6 @@ public class Universe {
 
     public void checkCollision() {
         Universe.checkCollisionHelper(this.players,this.bullets);
-//        for (Map.Entry<String, Unicorn> entry: this.players.entrySet()) {
-//            Unicorn unicorn = entry.getValue();
-//            for (Bullet bullet: this.bullets) {
-//                if(Universe.validCollision(bullet,unicorn,200)){
-//                    try {
-//                        unicorn.takeBullet();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                    break;
-//                }
-//            }
-//        }
     }
 
     //manage projectiles on screen
