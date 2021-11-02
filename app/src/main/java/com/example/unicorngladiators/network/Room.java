@@ -32,8 +32,10 @@ public class Room implements Serializable {
     }
 
 
-    public void addPlayer(String playerUid, String playerName){
+    public void addPlayer(String playerUid, String playerName, Position p){
         player_ids.put(playerUid, playerName);
+        player_pos.put(playerUid, p);
+        player_scores.put(playerUid, 0);
         num_players++;
     }
 
@@ -44,7 +46,17 @@ public class Room implements Serializable {
 
     public void updatePlayerState(String playerUid, HashMap<String, Object> states){
         player_pos.put(playerUid, new Position((String) states.get("pos")));
-        player_scores.put(playerUid, (Integer) states.get("score"));
+        Long tmp = new Long(0);
+        tmp = (Long) states.get("score");
+        player_scores.put(playerUid, tmp.intValue());
+    }
+
+    public HashMap<String, Integer> getPlayer_scores() {
+        return player_scores;
+    }
+
+    public HashMap<String, Position> getPlayer_pos() {
+        return player_pos;
     }
 
     public String getPlayerName(String playerUid){
@@ -54,6 +66,14 @@ public class Room implements Serializable {
     public void setPlayerIds(HashMap<String, String> player_ids){
         this.player_ids = player_ids;
         this.num_players = this.player_ids.size();
+    }
+
+    public void setPlayer_scores(HashMap<String, Integer> player_scores) {
+        this.player_scores = player_scores;
+    }
+
+    public void setPlayer_pos(HashMap<String, Position> player_pos) {
+        this.player_pos = player_pos;
     }
 
     public void setStart(boolean start){

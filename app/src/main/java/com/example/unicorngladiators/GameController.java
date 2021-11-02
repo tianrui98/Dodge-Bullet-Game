@@ -29,23 +29,18 @@ public class GameController extends Thread{
     private long startTime;
     SurfaceHolder holder;
 
-    public GameController(SurfaceView sv, Resources context, int height, int width, Room room, FirebaseRoomHandler fb) {
+    public GameController(SurfaceView sv, Resources context, int height, int width, Room room, String puid) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
-        this.room = room;
+
 
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         HashMap<String, Unicorn> emptyPlayerMap = new HashMap<>();
-        String currentPlayerName = room.getPlayerName(fb.getPuid());
-        this.universe = new Universe(emptyPlayerMap,height,width,room, currentPlayerName);
-
+        String currentPlayerName = room.getPlayerName(puid);
+        this.universe = new Universe(emptyPlayerMap,height,width, room, puid, currentPlayerName);
+        this.room = room;
         //transfer players from Room to universe
         this.allPlayers = room.getPlayer_ids();
-        int xPos = 200;
-        int yPos = 200;
-        for (String playerName : allPlayers.values()) {
-        this.universe.addPlayer(playerName, new Position(xPos, yPos), CharacterState.RIGHT1);
-        yPos += 200;}
 
         Log.d(TAG, "Universe initialized with players: " + this.universe.getPlayersHashMap().keySet());
 

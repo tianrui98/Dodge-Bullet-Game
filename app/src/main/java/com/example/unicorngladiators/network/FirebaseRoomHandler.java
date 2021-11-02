@@ -2,6 +2,7 @@ package com.example.unicorngladiators.network;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
+import android.graphics.PostProcessor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
@@ -44,11 +45,17 @@ public class FirebaseRoomHandler implements Parcelable {
         this.width = width;
         this.height = height;
         initialPos = new String[] {
+                new Position(200, 200).shortString(),
+                new Position(200, 220).shortString(),
+                new Position(200, 240).shortString(),
+                new Position(200, 260).shortString()
+        };
+                /*new String[] {
                 new Position(width / 5, height / 2).shortString(),
                 new Position(2*width / 5, height / 2).shortString(),
                 new Position(3*width / 5, height / 2).shortString(),
                 new Position(4*width / 5, height / 2).shortString(),
-        };
+        };*/
         System.out.println("initing handler...");
         database = FirebaseDatabase.getInstance("https://unicorn-63649-default-rtdb.asia-southeast1.firebasedatabase.app");
         players = database.getReference("players");
@@ -157,8 +164,10 @@ public class FirebaseRoomHandler implements Parcelable {
     public void addPlayer() throws Exception {
         if (room.getNum_players() > 4) throw new Exception("Room is full--try again later.");
         //if (room.isStart()) throw new Exception("Game is started--try again later.");
-        this.room.addPlayer(this.puid, this.playerNames[this.room.getNum_players()]);
+        this.room.addPlayer(this.puid, this.playerNames[this.room.getNum_players()],
+                new Position(this.initialPos[this.room.getNum_players()]));
         this.updateMove(this.initialPos[this.room.getNum_players()]);
+        this.updateScore(0);
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.roomId+"/num_players", this.room.getNum_players());
         childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());
@@ -207,6 +216,22 @@ public class FirebaseRoomHandler implements Parcelable {
         return;
     }
 
+    public String getOtherPlayerPos(String other){
+        System.out.println("reading move...");
+        Task<DataSnapshot> tmp = players.child(other + "/pos").get();
+        while (!tmp.isComplete()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (tmp.isSuccessful()){
+            return String.valueOf(tmp.getResult().getValue());
+        }
+        return "0, 0";
+    }
+
     public void updateScore(int score){
         System.out.println("updating score...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -214,6 +239,22 @@ public class FirebaseRoomHandler implements Parcelable {
         players.updateChildren(childUpdates);
         System.out.println("done");
         return;
+    }
+
+    public int getOtherPlayerScore(String other){
+        System.out.println("reading move...");
+        Task<DataSnapshot> tmp = players.child(other + "/score").get();
+        while (!tmp.isComplete()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (tmp.isSuccessful()){
+            return ((Long) tmp.getResult().getValue()).intValue();
+        }
+        return 0;
     }
 
     public Room getRoom(){ return this.room; }
@@ -259,6 +300,14 @@ public class FirebaseRoomHandler implements Parcelable {
                     HashMap<String, String> player_ids = new HashMap<String, String>();
                     player_ids = (HashMap<String, String>) room_spec.get("player_ids");
                     room.setPlayerIds(player_ids);
+                    HashMap<String, Position> tmpPos = new HashMap<String, Position>();
+                    HashMap<String, Integer> tmpScores = new HashMap<String, Integer>();
+                    for(String p : player_ids.keySet()){
+                        tmpPos.put(p, new Position(getOtherPlayerPos(p)));
+                        tmpScores.put(p, getOtherPlayerScore(p));
+                    }
+                    room.setPlayer_pos(tmpPos);
+                    room.setPlayer_scores(tmpScores);
                     List<String> bullets = new ArrayList<String>();
                     bullets = (List<String>) room_spec.get("bullets");
                     room.setBullets(bullets);

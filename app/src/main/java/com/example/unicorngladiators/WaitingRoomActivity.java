@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.unicorngladiators.network.FirebaseRoomHandler;
 import com.example.unicorngladiators.network.Room;
 
-public class WaitingRoom extends AppCompatActivity implements View.OnClickListener{
+public class WaitingRoomActivity extends AppCompatActivity implements View.OnClickListener{
     private state curr_state;
     private Button readyStateBtn, startGameBtn;
     private FirebaseRoomHandler fh;
@@ -55,6 +55,7 @@ public class WaitingRoom extends AppCompatActivity implements View.OnClickListen
                     Log.d("Waiting Room", "room in firebasehandler is not null at starting");
                 }
                 intent.putExtra("Room", room);
+                intent.putExtra("PlayerUID", fh.getPuid());
                 System.out.println("in waiting room: "+room.getPlayer_ids() + "<-- player ids; bullets: "+room.getBullets().size()+"first one: "+room.getBullets().get(0));
                 startActivity(intent);
                 break;
