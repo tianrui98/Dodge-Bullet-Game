@@ -1,6 +1,7 @@
 package com.example.unicorngladiators;
 
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -11,6 +12,7 @@ import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
+import com.example.unicorngladiators.network.FirebaseRoomHandler;
 import com.example.unicorngladiators.network.Room;
 import com.example.unicorngladiators.view.Renderer;
 
@@ -18,23 +20,34 @@ import com.example.unicorngladiators.view.Renderer;
 import java.util.HashMap;
 
 public class GameController extends Thread{
+    private final String TAG = "GameController" ;
     private final Room room;
+    private final HashMap<String, String> allPlayers;
     private Renderer renderer;
     private SurfaceView sv;
     private Universe universe;
     private long startTime;
     SurfaceHolder holder;
 
-    public GameController(SurfaceView sv, Resources context,int height,int width, Room room) {
+    public GameController(SurfaceView sv, Resources context, int height, int width, Room room, FirebaseRoomHandler fb) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
         this.room = room;
+
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         HashMap<String, Unicorn> emptyPlayerMap = new HashMap<>();
-        this.universe = new Universe(emptyPlayerMap,height,width,room);
-        this.universe.addPlayer("titi", new Position(200,100), CharacterState.RIGHT1);
-        this.universe.addPlayer("tata", new Position(800, 800), CharacterState.RIGHT1);
-        this.universe.addPlayer("toto", new Position(400,200), CharacterState.LEFT1);
+        String currentPlayerName = room.getPlayerName(fb.getPuid());
+        this.universe = new Universe(emptyPlayerMap,height,width,room, currentPlayerName);
+
+        //transfer players from Room to universe
+        this.allPlayers = room.getPlayer_ids();
+        int xPos = 200;
+        int yPos = 200;
+        for (String playerName : allPlayers.values()) {
+        this.universe.addPlayer(playerName, new Position(xPos, yPos), CharacterState.RIGHT1);
+        yPos += 200;}
+
+        Log.d(TAG, "Universe initialized with players: " + this.universe.getPlayersHashMap().keySet());
 
         //manage relationship between surface holder and renderer, and between universe and renderer
         this.renderer = new Renderer(this.universe, holder, context);

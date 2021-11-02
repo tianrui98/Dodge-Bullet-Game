@@ -35,7 +35,7 @@ public class FirebaseRoomHandler implements Parcelable {
     private Button startGameBtn;
     private boolean inRoom, started = false;
 
-    private String[] playerNames = {"Toto", "Titi", "Tata", "Tutu"};
+    private String[] playerNames = {"toto", "titi", "tata", "tutu"};
     private String[] initialPos;
 
     public FirebaseRoomHandler(int width, int height, TextView playerCount, Button startGameBtn){

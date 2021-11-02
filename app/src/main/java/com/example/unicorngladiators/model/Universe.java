@@ -1,5 +1,7 @@
 package com.example.unicorngladiators.model;
 
+import android.util.Log;
+
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
@@ -24,27 +26,33 @@ public class Universe {
     private int width;
     private Projectile peach;
     private Room room;
+    private final String currentPlayerName;
     private List<Projectile> currentPeaches;
 
 
-    public Universe(HashMap<String,Unicorn> players, int height,int width, Room room) {
+    public Universe(HashMap<String,Unicorn> players, int height,int width, Room room, String currentPlayerName) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
         this.joystick = new Joystick();
-
         this.height = height;
         this.width = width;
         this.room = room;
 
+        this.currentPlayerName = currentPlayerName;
+        Log.d(TAG, "Current player name is " + this.currentPlayerName);
+
+        //initialize projectiles
         this.bullets = this.room.getBullets();
-        System.out.println("in uni init");
+        Log.d(TAG, "Bullets in uni init:");
         for (Bullet i: bullets)
-            System.out.print(i);
+            Log.d(TAG, "Bullet: " + i);
         this.bulletIndex = 0;
         this.currentBullets = new ArrayList<Bullet>();
-        //TODO: delete the following line
-        this.addABullet();
+
+        //TODO: delete the following line. Only add bullet in step()
+//        this.addABullet();
         this.currentPeaches = new ArrayList<Projectile>();
+
     }
 
     //manage princess (npc)
@@ -57,7 +65,7 @@ public class Universe {
         this.princess.setPosition(pos);
     }
 
-    //manage projectiles
+    //manage projectiles on screen
     public void addABullet(){
         Bullet bullet = this.bullets.get(this.bulletIndex);
         this.bulletIndex += 1;
@@ -133,18 +141,18 @@ public class Universe {
         this.princess.spin();
 
         this.joystick.update();
-        for (Unicorn player : players.values()) {
-            player.updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
-        }
+        this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         this.updateCurrentBulletPosition();
-//        this.addABullet();
+
+        // TODO add bullets
+        this.addABullet();
+
+        //TODO add peach at random times
 //        this.addAPeach();
         this.castChanges();
 
     }
 
-//        Log.d(TAG,"Height of screen is currently " + Integer.toString(this.height));
-//        Log.d(TAG,"Width of screen is currently " + Integer.toString(this.width));
 
     private Callback callback = null;
 

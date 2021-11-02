@@ -77,7 +77,6 @@ public class FirebasePlayerHandler {
 
         if (this.room.getNum_players() == 0)
             endGame();
-
     }
 
     public void endGame() {

@@ -79,14 +79,15 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawBullets(Canvas canvas) {
+//        TODO: add rotation as an argument
         List<Bullet> bullets = this.universe.getBullets();
         for (Bullet bullet : bullets) {
             System.out.println("drawing Bullet ..."+bullet.toString());
             Position pos = bullet.getPosition();
             Sprite sprite = this.sprite_sheet.getProjectileSprite("bullet");
             //offset is to help the draw function to draw the center of the picture
-            int h_offset = 24;
-            int w_offset = 24;
+            int h_offset = sprite.getHeight() / 2;
+            int w_offset = sprite.getWidth() / 2;
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
             Log.d("Renderer","position: X "+pos.getX()+" Y: "+pos.getY());
             Log.d("Renderer","position: "+pos+" Adjusted: "+posAdjusted);
