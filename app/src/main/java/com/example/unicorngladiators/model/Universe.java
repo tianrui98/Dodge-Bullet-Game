@@ -38,7 +38,7 @@ public class Universe {
 
     public Universe(HashMap<String,Unicorn> players, int height,int width, Room room, String currentPlayerUID, String currentPlayerName) {
         this.players = players;
-        this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1);
+        this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1, height, width);
         this.joystick = new Joystick();
         this.height = height;
         this.width = width;
@@ -179,11 +179,14 @@ public class Universe {
     public void resetActuatorForJoystick() {
         this.joystick.resetActuator(); }
 
-    //tell universe what to update
+    /**
+     * Step tells universe what to update
+     */
     public void step(long elapsedTime) {
         // TODO round up elapsed time if we want something to happen every x seconds
         //  Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.spin();
+        this.princess.stroll();
 
         this.joystick.update();
         this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());

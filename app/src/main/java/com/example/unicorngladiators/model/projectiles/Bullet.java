@@ -58,13 +58,12 @@ public class Bullet extends Projectile implements Serializable {
         int offsetY = Integer.parseInt(splits[3]);
         double speed = Double.parseDouble(splits[4]);
         Bullet b = new Bullet(new Direction(fromX, fromY, offsetX, offsetY), speed);
-        //System.out.println(b);
         return b;
     }
 
     public static List<String> generateBulletStringList(int number, int height,int width, double speedup){
         List<String> bullets = new ArrayList<String>();
-        double current_speed = 1.0;
+        double current_speed = 100.0;
         for(int i=0;i<number;i++) {
             Bullet tmp = new Bullet(current_speed, width, height);
             bullets.add(tmp.toString());
