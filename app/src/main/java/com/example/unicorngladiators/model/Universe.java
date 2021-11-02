@@ -86,6 +86,10 @@ public class Universe {
         this.princess.setPosition(pos);
     }
 
+    public int getPlayerLives(){
+        return this.players.get(this.currentPlayerName).getLives();
+    }
+
     public void checkCollision() {
         for (Map.Entry<String, Unicorn> entry: this.players.entrySet()) {
             String key = entry.getKey();
