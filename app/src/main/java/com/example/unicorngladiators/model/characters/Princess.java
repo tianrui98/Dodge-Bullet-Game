@@ -25,9 +25,9 @@ public class Princess extends Character {
         this.state = state;
         this.direction = null;
         this.name = "princess";
-        this.top_y = (int) (0.2 * height);
+        this.top_y = (int) (0.03 * height);
         this.bottom_y = height - (int) (0.2 * height);
-        this.left_x = (int) (0.1 * width);
+        this.left_x = (int) (0.03 * width);
         this.right_x = width - (int) (0.2 * width);
     }
 
@@ -55,25 +55,21 @@ public class Princess extends Character {
         Character.CharacterDirection dir = this.getDirection();
         // walk up
         if (dy >= this.top_y && dx <= this.left_x){
-            Log.d("princess walking up",Integer.toString(dx)+Integer.toString(dy));
+//            Log.d("princess walking up",Integer.toString(dx)+Integer.toString(dy));
             Position p = new Position(0,-40);
             this.pos.add(p);
             this.setState(CharacterState.BACK1);
             this.setDirection(CharacterDirection.UP);
             this.walkUpStateChange();
-//            Motion m = new Motion(0,-40);
-//            this.walk(m);
         }
         // walk right
         else if (dy <= this.top_y && dx <= this.right_x){
-            Log.d("princess walking right",Integer.toString(dx)+Integer.toString(dy));
+//            Log.d("princess walking right",Integer.toString(dx)+Integer.toString(dy));
             Position p = new Position(40,0);
             this.pos.add(p);
             this.setState(CharacterState.RIGHT1);
             this.setDirection(CharacterDirection.RIGHT);
             this.walkRightStateChange();
-//            Motion m = new Motion(10,0);
-//            this.walk(m);
         }
         // walk down
         else if (dy <= this.bottom_y && dx >= this.right_x){
@@ -83,8 +79,6 @@ public class Princess extends Character {
             this.setState(CharacterState.FRONT1);
             this.setDirection(CharacterDirection.DOWN);
             this.walkDownStateChange();
-//            Motion m = new Motion(0,10);
-//            this.walk(m);
         }
         // walk left
         else if (dy >= this.bottom_y && dx >= this.left_x){
@@ -94,8 +88,6 @@ public class Princess extends Character {
             this.setState(CharacterState.LEFT1);
             this.setDirection(CharacterDirection.LEFT);
             this.walkLeftStateChange();
-//            Motion m = new Motion(-10,0);
-//            this.walk(m);
         }
     }
 
