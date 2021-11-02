@@ -1,6 +1,6 @@
 package com.example.unicorngladiators.model;
 
-public enum Direction {
+public enum Facing{
     UP,
     DOWN,
     LEFT,

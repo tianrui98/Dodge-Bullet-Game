@@ -8,19 +8,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import com.example.unicorngladiators.R;
 import com.example.unicorngladiators.model.Joystick;
 import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
-import com.example.unicorngladiators.model.characters.Character;
 import com.example.unicorngladiators.model.characters.CharacterState;
-import com.example.unicorngladiators.model.characters.Princess;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.example.unicorngladiators.model.projectiles.Projectile;
@@ -55,7 +51,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         int h_offset = sprite.getHeight() / 2;
         int w_offset = sprite.getWidth() / 2;
         Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
-        sprite.drawCharacter(canvas, posAdjusted, "princess");
+        sprite.drawSprite(canvas, posAdjusted, "princess", 0);
     }
 
     private void drawUnicorns(Canvas canvas) {
@@ -67,7 +63,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
             Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getY() + h_offset);
-            unicorn_sprite.drawCharacter(canvas, posAdjusted, player.getName());
+            unicorn_sprite.drawSprite(canvas, posAdjusted, player.getName(), 0);
         }
     };
 
@@ -83,18 +79,19 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawBullets(Canvas canvas) {
+//        TODO: add rotation as an argument
         List<Bullet> bullets = this.universe.getBullets();
         for (Bullet bullet : bullets) {
-            System.out.println("drawing..."+bullet.toString());
+            System.out.println("drawing Bullet ..."+bullet.toString());
             Position pos = bullet.getPosition();
-            //According to princess's state draw different bitmap
             Sprite sprite = this.sprite_sheet.getProjectileSprite("bullet");
             //offset is to help the draw function to draw the center of the picture
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
-            Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
-            System.out.println(pos+"adjusted"+posAdjusted);
-            sprite.drawCharacter(canvas, posAdjusted, "bullet");
+            Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
+            Log.d("Renderer","position: X "+pos.getX()+" Y: "+pos.getY());
+            Log.d("Renderer","position: "+pos+" Adjusted: "+posAdjusted);
+            sprite.drawSprite(canvas, posAdjusted, "projectile", 0 );
         }
     }
 
@@ -107,8 +104,8 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             //offset is to help the draw function to draw the center of the picture
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
-            Position posAdjusted = new Position(pos.getX() + w_offset, pos.getX() + h_offset);
-            sprite.drawCharacter(canvas, posAdjusted, "peach");
+            Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
+            sprite.drawSprite(canvas, posAdjusted, "peach", 0);
         }
     }
 
@@ -125,7 +122,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             this.drawUnicorns(canvas);
             this.drawJoystick(canvas);
             this.drawBullets(canvas);
-            this.drawPeaches(canvas);
+//            this.drawPeaches(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             Log.e(TAG, "error in drawSurfaceView");

@@ -13,12 +13,8 @@ It can perform two actions
 - takePeach
  */
 
-import android.util.Log;
-
-import com.example.unicorngladiators.model.Joystick;
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
-import com.example.unicorngladiators.model.characters.Character;
 
 import java.util.concurrent.TimeUnit;
 

@@ -27,13 +27,13 @@ public class GameActivity extends AppCompatActivity  {
         int width = displaymetrics.widthPixels;
 
         Room room = (Room) getIntent().getSerializableExtra("Room");
-        //FirebaseRoomHandler fh = (FirebaseRoomHandler) getIntent().getExtras().getParcelable("FirebaseHandler");
+        FirebaseRoomHandler fh = (FirebaseRoomHandler) getIntent().getExtras().getParcelable("FirebaseHandler");
 
         if (room == null) {Log.d(TAG, "room is null");}
         //if (fh == null) {Log.d(TAG, "fh is null");}
         System.out.println("in game activity: "+room.getPlayer_ids());
         System.out.println("bullets: "+room.getBullets().size()+"first one: "+room.getBullets().get(0));
-        GameController gc = new GameController(sv, getResources(), height, width, room);
+        GameController gc = new GameController(sv, getResources(), height, width, room, fh);
         gc.start();
         Log.d(TAG, "onCreate finished.");
     }
