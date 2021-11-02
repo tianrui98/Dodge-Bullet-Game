@@ -29,7 +29,6 @@ public class Princess extends Character {
         this.bottom_y = height - (int) (0.2 * height);
         this.left_x = (int) (0.1 * width);
         this.right_x = width - (int) (0.2 * width);
-//        Log.d("grid", )
     }
 
     public void spin (){
@@ -53,11 +52,6 @@ public class Princess extends Character {
         Position pos = this.getPosition();
         int dx = pos.getX();
         int dy = pos.getY();
-//        Log.d("bottom_y", Integer.toString(this.bottom_y));
-//        Log.d("top_y", Integer.toString(this.top_y));
-//        Log.d("left_x", Integer.toString(this.left_x));
-//        Log.d("right_x", Integer.toString(this.right_x));
-//        Log.d("princess pos y", Integer.toString(dy));
         Character.CharacterDirection dir = this.getDirection();
         // walk up
         if (dy >= this.top_y && dx <= this.left_x){
@@ -67,6 +61,8 @@ public class Princess extends Character {
             this.setState(CharacterState.BACK1);
             this.setDirection(CharacterDirection.UP);
             this.walkUpStateChange();
+//            Motion m = new Motion(0,-40);
+//            this.walk(m);
         }
         // walk right
         else if (dy <= this.top_y && dx <= this.right_x){
