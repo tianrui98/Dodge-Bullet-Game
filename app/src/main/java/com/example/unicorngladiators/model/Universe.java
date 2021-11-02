@@ -91,6 +91,9 @@ public class Universe {
             String key = entry.getKey();
             Unicorn unicorn = entry.getValue();
             Position unicornPos = unicorn.getPosition();
+            if (unicorn.getIsInvulnerable()) {
+                continue;
+            }
             for (Bullet bullet: this.bullets) {
                 Position bulletPos = bullet.getPosition();
                 int distance = unicornPos.getDistance(bulletPos);
