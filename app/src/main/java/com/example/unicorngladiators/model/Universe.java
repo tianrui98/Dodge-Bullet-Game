@@ -31,6 +31,9 @@ public class Universe {
     private final String currentPlayerName, currentPlayerUID;
     private List<Projectile> currentPeaches;
 
+    private long steps;
+    private long period;
+
 
     public Universe(HashMap<String,Unicorn> players, int height,int width, Room room, String currentPlayerUID, String currentPlayerName) {
         this.players = players;
@@ -68,6 +71,8 @@ public class Universe {
             System.out.println("adding "+puids);
             this.addPlayer(this.room.getPlayerName(puids), this.room.getPlayer_pos().get(puids), CharacterState.RIGHT1);
         }
+        this.steps = 1;
+        this.period = 20;
     }
 
     //manage princess (npc)
@@ -162,8 +167,12 @@ public class Universe {
         this.updateCurrentBulletPosition();
         this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
 
+        if(this.steps % this.period == 0){
+            this.addABullet();
+        }
+        this.steps += 1;
         // TODO add bullets
-        this.addABullet();
+
 
         //TODO add peach at random times
 //        this.addAPeach();
