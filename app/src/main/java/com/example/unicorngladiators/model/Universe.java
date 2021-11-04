@@ -77,6 +77,11 @@ public class Universe {
     }
 
     //manage princess (npc)
+
+    /**
+     *
+     * @return Current state of princess
+     */
     public Princess getPrincess() {
         return this.princess;
     }
@@ -109,7 +114,9 @@ public class Universe {
         }
     }
 
-    //manage projectiles on screen
+    /**
+     * Manages projectiles on screen
+     */
     public void addABullet(){
         if (this.bulletIndex >= this.bullets.size())
             return;
@@ -149,12 +156,15 @@ public class Universe {
         return this.players;
     }
 
-        //chang player position
+    /**
+     * Change player position
+     * @param name The identifier of the player for the position to be updated for
+     * @param m The vector we want to update the player's position by
+     */
     public void updatePlayerPosition(String name, Motion m) {
         Unicorn player = this.players.get(name);
         player.walk(m);
         this.players.put(name,player);
-//        Log.d(TAG, "Player position changed");
     }
 
     public List<Bullet> getBullets() {
