@@ -77,11 +77,6 @@ public class Universe {
     }
 
     //manage princess (npc)
-
-    /**
-     *
-     * @return Current state of princess
-     */
     public Princess getPrincess() {
         return this.princess;
     }
