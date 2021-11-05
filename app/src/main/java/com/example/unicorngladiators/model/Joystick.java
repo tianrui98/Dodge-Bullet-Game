@@ -3,6 +3,11 @@ package com.example.unicorngladiators.model;
 import android.util.Log;
 
 //TODO implement Joystick based on this https://www.youtube.com/watch?v=3oZ2jt0hQmo&list=PL2EfDMM6n_LYJdzaOQ5jZZ3Dj5L4tbAuM&index=5
+
+/**
+ * The Joystick class is the state manager of the Joystick component on the GameActivity.
+ * It has a MAX_SPEED attribute that can be set.  The rest of attributes can be tuned too.
+ */
 public class Joystick {
 
     private static final int MAX_SPEED = 2;
@@ -16,6 +21,9 @@ public class Joystick {
     private double actuatorX;
     private double actuatorY;
 
+    /**
+     * This constructor initialized all of the Joystick attributes to the default values.
+     */
     public Joystick(){
         this.innerPosX = 1000;
         this.innerPosY = 1600;
@@ -28,22 +36,37 @@ public class Joystick {
         this.isPressed = false;
     }
 
-
+    /**
+     * This returns the innerCenter position of the Joystick as a Position object.
+     * @return
+     */
     public Position getInnerCenterPosition(){
         Position p = new Position(this.innerPosX, this.innerPosY);
         return p;
     }
+
+    /**
+     * This returns the outerCenter position of the Joystick as a Position object.
+     * @return
+     */
     public Position getOuterCenterPosition(){
         Position p = new Position(this.outerPosX, this.outerPosY);
         return p;
     }
 
+    //Getter
     public int getInnerRadius(){
         return innerRadius;
     }
 
+    //Setter
     public int getOuterRadius() {return outerRadius;}
 
+    /**
+     * This method
+     * @param eventPos
+     * @return
+     */
     public boolean isPressed(Position eventPos) {
         double dX = eventPos.getX() - this.outerPosX ;
         double dY = eventPos.getY() - this.outerPosY ;
