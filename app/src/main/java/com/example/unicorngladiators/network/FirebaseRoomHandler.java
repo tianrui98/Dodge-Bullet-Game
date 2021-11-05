@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +29,10 @@ import java.util.Map;
 
 /**
  * The FirebaseRoomHandler class abstracts the handling of the Firebase operations to
- * simple method calls
+ * simple method calls. It will also update the waiting room activities so the UI
+ * components are passed into its constructor.
  */
-public class FirebaseRoomHandler implements Parcelable {
+public class FirebaseRoomHandler implements Serializable {
     private FirebaseDatabase database;
     private DatabaseReference players, rooms;
     private String puid, roomId;
@@ -43,6 +45,21 @@ public class FirebaseRoomHandler implements Parcelable {
     private String[] playerNames = {"toto", "titi", "tata", "tutu"};
     private String[] initialPos;
 
+    /**
+     * The constructor takes in the width and height of the screen to make sure the bullet spawning
+     * will be out of screen and go across the screen.  The playerCount TextView component is for
+     * updating the waiting room activity on how many players are in the waiting room.  The
+     * startGameBtn Button is enabled for the host of the waiting room and is enabled when there are
+     * at least 2 players.
+     *
+     * This initialized the connection to Firebase and create the database, players, room, and add
+     * a player record to the Firebase Real-time Database (RTDB).  This write returns a unique ID
+     * for the player.
+     * @param width
+     * @param height
+     * @param playerCount
+     * @param startGameBtn
+     */
     public FirebaseRoomHandler(int width, int height, TextView playerCount, Button startGameBtn){
         this.playerCount = playerCount;
         this.startGameBtn = startGameBtn;
@@ -54,43 +71,19 @@ public class FirebaseRoomHandler implements Parcelable {
                 new Position(200, 240).shortString(),
                 new Position(200, 260).shortString()
         };
-                /*new String[] {
-                new Position(width / 5, height / 2).shortString(),
-                new Position(2*width / 5, height / 2).shortString(),
-                new Position(3*width / 5, height / 2).shortString(),
-                new Position(4*width / 5, height / 2).shortString(),
-        };*/
         System.out.println("initing handler...");
         database = FirebaseDatabase.getInstance("https://unicorn-63649-default-rtdb.asia-southeast1.firebasedatabase.app");
         players = database.getReference("players");
         this.puid = players.push().getKey();
-        addMovesEventListener(players);
         System.out.println("initing done");
     }
 
-    protected FirebaseRoomHandler(Parcel in) {
-        puid = in.readString();
-        roomId = in.readString();
-        width = in.readInt();
-        height = in.readInt();
-        inRoom = in.readByte() != 0;
-        started = in.readByte() != 0;
-        playerNames = in.createStringArray();
-        initialPos = in.createStringArray();
-    }
-
-    public static final Creator<FirebaseRoomHandler> CREATOR = new Creator<FirebaseRoomHandler>() {
-        @Override
-        public FirebaseRoomHandler createFromParcel(Parcel in) {
-            return new FirebaseRoomHandler(in);
-        }
-
-        @Override
-        public FirebaseRoomHandler[] newArray(int size) {
-            return new FirebaseRoomHandler[size];
-        }
-    };
-
+    /**
+     * This method initialize the room attributes on Firebase.  It pushes a room record and retrieve
+     * the room ID.  It generates the Bullet list in string representation and the record it under
+     * the room ID record and initializes the start, and end state to false.  It also initializes
+     * the number of players to 0 and the player ID-name mapping to an empty HashMap.
+     */
     public void initRoom(){
         rooms = database.getReference("rooms");
         this.roomId = rooms.push().getKey();
@@ -113,6 +106,10 @@ public class FirebaseRoomHandler implements Parcelable {
         }
     }
 
+    /**
+     * This parses the room state that was written to under the room ID to local.
+     * If the game is already started in the room then initialize a new room.
+     */
     public void readRoomStates(){
         rooms.child(roomId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -147,6 +144,12 @@ public class FirebaseRoomHandler implements Parcelable {
         });
     }
 
+    /**
+     * This allows an instance to join a room and read its Firebase state to local.
+     * If there is only one player in the room (i.e. the current instance initing
+     * the room) then the instance is the host and the start button is set to visible
+     * but is disabled (cannot start a game with one player).
+     */
     public void joinRoom() {
         System.out.println("starting join...");
         rooms = database.getReference("rooms");
@@ -173,6 +176,11 @@ public class FirebaseRoomHandler implements Parcelable {
         });
     }
 
+    /**
+     * This adds a player to the room.  This is called by the constructor.  When the instance is
+     * created the player is added to the room.
+     * @throws Exception
+     */
     public void addPlayer() throws Exception {
         if (room.getNum_players() > 4) throw new Exception("Room is full--try again later.");
         //if (room.isStart()) throw new Exception("Game is started--try again later.");
@@ -188,6 +196,10 @@ public class FirebaseRoomHandler implements Parcelable {
         this.playerCount.setText("Current Number Of Players : "+this.room.getNum_players());
     }
 
+    /**
+     * This allows the current instance to leave the waiting room.  If the instance is the last one
+     * in the room, it resets the Firebase instance to the empty state.
+     */
     public void leaveRoom() {
         if (!inRoom) return;
         inRoom = false;
@@ -207,6 +219,9 @@ public class FirebaseRoomHandler implements Parcelable {
 
     }
 
+    /**
+     * This function resets the Firebase RTDB to the initial state.
+     */
     public void endGame() {
         if (this.room == null) return;
         players.setValue("");
@@ -217,8 +232,16 @@ public class FirebaseRoomHandler implements Parcelable {
         room = null;
     }
 
+    /**
+     * Get the player unique ID.
+     * @return
+     */
     public String getPuid(){ return this.puid; }
 
+    /**
+     * Update the move of the current player by writing to RTDB under the player record.
+     * @param newMove
+     */
     public void updateMove(String newMove){
         System.out.println("adding move...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -228,6 +251,11 @@ public class FirebaseRoomHandler implements Parcelable {
         return;
     }
 
+    /**
+     * Get other player's (identify using their unique ID as other) Position in shortString representation.
+     * @param other
+     * @return
+     */
     public String getOtherPlayerPos(String other){
         System.out.println("reading move...");
         Task<DataSnapshot> tmp = players.child(other + "/pos").get();
@@ -244,6 +272,10 @@ public class FirebaseRoomHandler implements Parcelable {
         return "0, 0";
     }
 
+    /**
+     * Update the current player score by writing to RTDB under the player record.
+     * @param score
+     */
     public void updateScore(int score){
         System.out.println("updating score...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -253,6 +285,11 @@ public class FirebaseRoomHandler implements Parcelable {
         return;
     }
 
+    /**
+     * Get other player's (identify using their unique ID as other) score.
+     * @param other
+     * @return
+     */
     public int getOtherPlayerScore(String other){
         System.out.println("reading move...");
         Task<DataSnapshot> tmp = players.child(other + "/score").get();
@@ -269,8 +306,16 @@ public class FirebaseRoomHandler implements Parcelable {
         return 0;
     }
 
+    /**
+     * Getter for the Room object.
+     * @return
+     */
     public Room getRoom(){ return this.room; }
 
+    /**
+     * Start the game by writing true to the start state of the room.
+     * This also update the room state locally.
+     */
     public void startGame() {
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.roomId+"/start", true);
@@ -279,28 +324,13 @@ public class FirebaseRoomHandler implements Parcelable {
         started = true;
     }
 
-    private void addMovesEventListener(DatabaseReference playersRef) {
-        ValueEventListener movesListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try{
-                    HashMap<String, String> val = (HashMap<String, String>) dataSnapshot.getValue();
-                    System.out.println(val);
-                } catch (Exception e){
-
-                }
-                //System.out.println(dataSnapshot.getValue().getClass());
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println(databaseError.toException());
-            }
-        };
-        playersRef.addValueEventListener(movesListener);
-    }
-
+    /**
+     * This is the room event change listener adder to the room RTDB reference.
+     * This updates all the room states that is changed to the local room object.  This also checks
+     * if the game is started and start the game on other instances as the host press start.
+     * This updates the waiting room activity's number of player component.
+     * @param roomRef
+     */
     private void addRoomEventListener(DatabaseReference roomRef) {
         ValueEventListener roomListener = new ValueEventListener() {
             @Override
@@ -358,22 +388,5 @@ public class FirebaseRoomHandler implements Parcelable {
             }
         };
         roomRef.addValueEventListener(roomListener);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(puid);
-        parcel.writeString(roomId);
-        parcel.writeInt(width);
-        parcel.writeInt(height);
-        parcel.writeByte((byte) (inRoom ? 1 : 0));
-        parcel.writeByte((byte) (started ? 1 : 0));
-        parcel.writeStringArray(playerNames);
-        parcel.writeStringArray(initialPos);
     }
 }
