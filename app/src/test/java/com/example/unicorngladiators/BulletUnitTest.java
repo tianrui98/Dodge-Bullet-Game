@@ -15,7 +15,7 @@ public class BulletUnitTest {
      */
     @Test
     public void equalPosition() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 1000; i++) {
             int xFrom = (int) (Math.random() * 10);
             int yFrom = (int) (Math.random() * 10);
             int xTo = (int) (Math.random() * 10);

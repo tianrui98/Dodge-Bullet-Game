@@ -189,8 +189,7 @@ public class Universe {
     /**
      * Step tells universe what to update
      */
-    public void step(long elapsedTime) {
-        // TODO round up elapsed time if we want something to happen every x seconds
+    public void step() {
         //  Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.spin();
         this.princess.stroll();
