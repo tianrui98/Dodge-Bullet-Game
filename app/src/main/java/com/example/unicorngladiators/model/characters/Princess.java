@@ -19,7 +19,13 @@ public class Princess extends Character {
     private final int left_x;
     private final int right_x;
 
-
+    /**
+     * Princess initializes the princess state
+     * @param pos Coordinate position of the princess
+     * @param state Character state
+     * @param height Screen height used to set boundaries for princess
+     * @param width Screen width used to set boundaries for princess
+     */
     public Princess(Position pos, CharacterState state, int height, int width) {
         super(pos,state);
         this.pos = pos;
@@ -32,6 +38,9 @@ public class Princess extends Character {
         this.right_x = width - (int) (0.2 * width);
     }
 
+    /**
+     * Method to get princess spinning
+     */
     public void spin (){
         switch (this.getState()){
             case SPECIAL1:
@@ -49,6 +58,9 @@ public class Princess extends Character {
         }
     }
 
+    /**
+     * Method to get princess strolling through the arena
+     */
     public void stroll() {
         Position pos = this.getPosition();
         int dx = pos.getX();
@@ -92,6 +104,9 @@ public class Princess extends Character {
         }
     }
 
+    /**
+     * Method that changes the princess state to face the front while walking down
+     */
     public void walkDownStateChange (){
         switch (this.getState()){
             case FRONT1:
@@ -109,6 +124,9 @@ public class Princess extends Character {
         }
     }
 
+    /**
+     * Method that changes the princess state to face right when walking right
+     */
     public void walkRightStateChange(){
         switch (this.getState()){
             case RIGHT1:
@@ -126,6 +144,9 @@ public class Princess extends Character {
         }
     }
 
+    /**
+     * Method that changes the princess state to left when walking left
+     */
     public void walkLeftStateChange(){
         switch (this.getState()){
             case LEFT1:
@@ -143,6 +164,9 @@ public class Princess extends Character {
         }
     }
 
+    /**
+     * Method that changes the princess state to face the back when walking up
+     */
     public void walkUpStateChange(){
         switch (this.getState()){
             case BACK1:
@@ -160,23 +184,46 @@ public class Princess extends Character {
         }
     }
 
+    /**
+     * Retrieves the current position of princess
+     * @return princess position
+     */
     public Position getPosition() {
         return this.pos;
     }
 
+    /**
+     * Retrieves the current direction of princess
+     * @return princess direction
+     */
     public CharacterDirection getDirection(){
         return  this.direction;
     }
 
+    /**
+     * Sets the princess direction
+     * @param direction direction to set the princess direction with
+     */
     public void setDirection(CharacterDirection direction){
         this.direction = direction;
     }
 
+    /**
+     * Retrieves current state of princess
+     * @return princess state
+     */
     public CharacterState getState(){return this.state;}
 
-
+    /**
+     * Sets the princess position
+     * @param pos position to set the princess position with
+     */
     public void setPosition (Position pos) {this.pos = pos;}
 
+    /**
+     * Sets the princess state
+     * @param state state to set the princess state with
+     */
     public void setState (CharacterState state) {this.state = state;}
 
 }
