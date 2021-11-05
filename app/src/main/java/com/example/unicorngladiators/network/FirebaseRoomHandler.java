@@ -26,6 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The FirebaseRoomHandler class abstracts the handling of the Firebase operations to
+ * simple method calls
+ */
 public class FirebaseRoomHandler implements Parcelable {
     private FirebaseDatabase database;
     private DatabaseReference players, rooms;
