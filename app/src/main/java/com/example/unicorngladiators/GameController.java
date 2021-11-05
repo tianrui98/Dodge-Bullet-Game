@@ -29,6 +29,8 @@ public class GameController extends Thread{
     private long startTime;
     SurfaceHolder holder;
 
+    // Constructor Class for the game, helps handle resource allocation and acts as an intermediary
+    // between android interface and the inner universe class
     public GameController(SurfaceView sv, Resources context, int height, int width, Room room, String puid) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
@@ -66,11 +68,13 @@ public class GameController extends Thread{
     }
 
     @Override
+    // Defining a class method to help step through the universe. This ensures
+    // that the universe is being incremented every 20 miliseconds
     public void run() {
         while (true) {
 
             long elapsedTime = System.currentTimeMillis();
-            this.universe.step( elapsedTime - this.startTime);
+            this.universe.step();
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {

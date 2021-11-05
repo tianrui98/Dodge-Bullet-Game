@@ -2,6 +2,10 @@ package com.example.unicorngladiators.model.characters;
 
 //FRONT = standing still, facing front
 //FRONT1 = moving & facing front
+
+/**
+ * Enumeration of character movement states.
+ */
 public enum CharacterState {
     FRONT1,
     FRONT2,
