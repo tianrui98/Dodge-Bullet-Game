@@ -1,3 +1,5 @@
+apply plugin: 'java'
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -13,13 +15,12 @@ buildscript {
     }
 }
 
-task clean(type: Delete) {
+clean {
     delete rootProject.buildDir
 }
 
-/*task javadoc(type: Javadoc) {
-    dependsOn 'assembleRelease'
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../documentation/")
-}*/
+
+task myjavadoc(type: Javadoc) {
+    source = sourceSets.main.allJava
+    destinationDir = reporting.file("../documentation/")
+}
