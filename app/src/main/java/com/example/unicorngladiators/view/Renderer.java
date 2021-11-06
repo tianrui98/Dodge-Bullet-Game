@@ -20,7 +20,6 @@ import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.model.projectiles.Bullet;
 import com.example.unicorngladiators.model.projectiles.Peach;
-import com.example.unicorngladiators.model.projectiles.Projectile;
 
 import java.util.*;
 
@@ -80,20 +79,50 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         canvas.drawCircle(outerPos.getX(),outerPos.getY(),js.getOuterRadius(),colors); // hat of joystick
     }
 
+    private int rotateProjectile(int x, int y) {
+        //angle
+        double offsetX;
+        if (x == 0) { offsetX = (double) x + 0.001;}
+        else {offsetX = (double) x + 0.00;}
+        double offsetY = (double) y + 0.00 ;
+
+        double basicAngle = Math.atan(Math.abs(offsetY/offsetX)) * 180 / Math.PI;
+        double rotation;
+        //TODO change the rotation to account for x y on the SCREEN! Y -> lower
+        // second quadrant
+        if (offsetX < 0 && offsetY < 0) {
+            rotation = 180 + basicAngle;
+        // third quadrant
+        } else if (offsetX < 0) {
+            rotation = 180 - basicAngle;
+        // fourth quadrant
+        } else if (offsetX > 0 && offsetY >= 0){
+            rotation = basicAngle;
+        }
+        // first quadrant
+        else{
+            rotation = 360 - basicAngle;
+        }
+        Log.d(TAG, "basic angle = " + basicAngle);
+        Log.d(TAG, "rotation = " + rotation);
+
+        int degree = (int) rotation;
+        return degree;
+    }
     private void drawBullets(Canvas canvas) {
 //        TODO: add rotation as an argument
         List<Bullet> bullets = this.universe.getBullets();
         for (Bullet bullet : bullets) {
-            //System.out.println("drawing Bullet ..."+bullet.toString());
             Position pos = bullet.getPosition();
-            Sprite sprite = this.sprite_sheet.getProjectileSprite("bullet");
+            Sprite sprite = this.sprite_sheet.getProjectileSprite();
             //offset is to help the draw function to draw the center of the picture
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
-            //Log.d("Renderer","position: X "+pos.getX()+" Y: "+pos.getY());
-            //Log.d("Renderer","position: "+pos+" Adjusted: "+posAdjusted);
-            sprite.drawSprite(canvas, posAdjusted, "object", 0 );
+            Log.d(TAG, "Bullet rotation");
+            Log.d(TAG, "offsetX = "+ bullet.getDirection().getOffset().getX() + "offsetY = " + bullet.getDirection().getOffset().getY());
+            int degree = this.rotateProjectile(bullet.getDirection().getOffset().getX(), bullet.getDirection().getOffset().getY());
+            sprite.drawSprite(canvas, posAdjusted, "bullet", degree);
         }
     }
 
@@ -102,12 +131,15 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         for (Peach peach : peaches) {
             Position pos = peach.getPosition();
             //According to princess's state draw different bitmap
-            Sprite sprite = this.sprite_sheet.getProjectileSprite("peach");
+            Sprite sprite = this.sprite_sheet.getProjectileSprite();
             //offset is to help the draw function to draw the center of the picture
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
+            Log.d(TAG, "Peach rotation");
+            Log.d(TAG, "offsetX = "+ peach.getDirection().getOffset().getX() + "offsetY = " + peach.getDirection().getOffset().getY());
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
-            sprite.drawSprite(canvas, posAdjusted, "object", 0);
+            int degree = this.rotateProjectile(peach.getDirection().getOffset().getX(), peach.getDirection().getOffset().getY());
+            sprite.drawSprite(canvas, posAdjusted, "peach", degree);
         }
     }
 
@@ -140,7 +172,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             String sprite_name;
             if (player.getLives() <= 0) {sprite_name = player.getName()+ "_mort";}
             else{sprite_name = player.getName()+ "_frame"; }
-            Sprite unicorn_frame_sprite = this.sprite_sheet.getObjectsSpriteHashmap().get(sprite_name);
+            Sprite unicorn_frame_sprite = this.sprite_sheet.getObjectsSprite(sprite_name);
             //offset is to help the draw function to draw the center of the picture
             Position posAdjusted = new Position(frameX, frameY);
             unicorn_frame_sprite.drawSprite(canvas, posAdjusted, "object", 0);
@@ -152,7 +184,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             canvas.drawText(player.getName(),frameX + 40 ,frameY + 20, textPaint);
 
             //draw hearts
-            Sprite heart_sprite = this.sprite_sheet.getObjectsSpriteHashmap().get("heart");
+            Sprite heart_sprite = this.sprite_sheet.getObjectsSprite("heart");
             int heartX = frameX + 65;
             int heartY = frameY + 10;
             for (int i = 0; i < player.getLives() && i < 3; i ++ ) {

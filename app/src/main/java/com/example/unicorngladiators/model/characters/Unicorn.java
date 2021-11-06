@@ -108,7 +108,7 @@ public class Unicorn extends Character {
         int finalX = currX + velocityX;
         int finalY = currY + velocityY;
 
-        if(finalY <= 50 || finalY >= this.getyBound()-50){
+        if(finalY <= 50 || finalY >= this.getyBound() - 400){
             velocityY = 0;
         }
         if(finalX <= 50 || finalX >= this.getxBound() - 200 ){

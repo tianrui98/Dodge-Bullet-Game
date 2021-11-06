@@ -20,6 +20,8 @@ public class SpriteSheet {
     private final Bitmap projectileBitmap;
     private final HashMap<CharacterState, Sprite> characterSpriteHashMap;
     private final HashMap<String, Sprite> objectSpriteHashMap;
+    private final Bitmap bulletBitmap;
+    private final Bitmap peachBitmap;
 
 
     public SpriteSheet (Resources context){
@@ -34,7 +36,10 @@ public class SpriteSheet {
         this.characterSpriteHashMap = this.getCharacterSpriteHashmap();
         this.projectileBitmap = BitmapFactory.decodeResource(context, R.drawable.objects_sprite_sheet, bitmapOptions);
         this.objectSpriteHashMap = this.getObjectsSpriteHashmap();
+        this.bulletBitmap = BitmapFactory.decodeResource(context, R.drawable.bullet_sprite_sheet, bitmapOptions);
+        this.peachBitmap = BitmapFactory.decodeResource(context, R.drawable.peach_sprite_sheet, bitmapOptions);
     }
+
     public HashMap<String, Sprite> getObjectsSpriteHashmap() {
         int gridLength = 48;
         HashMap<String, Sprite> spriteHashMap= new HashMap<String, Sprite>();
@@ -52,15 +57,19 @@ public class SpriteSheet {
         return spriteHashMap;
     }
 
-    public Sprite getProjectileSprite(String name) {
+    public Sprite getObjectsSprite(String name) {
         return this.objectSpriteHashMap.get(name);
 
     }
 
+    public Sprite getProjectileSprite(){
+        int gridLength = 48;
+        Sprite sprite = new Sprite(this, new Rect(0 * gridLength, 0 *gridLength, 1 * gridLength, 1 * gridLength));
+        return sprite;
+    }
+
     public Sprite getPlayerSprite(CharacterState state) {
-
         return this.characterSpriteHashMap.get(state);
-
     }
 
     public HashMap<CharacterState, Sprite> getCharacterSpriteHashmap() {
@@ -110,6 +119,12 @@ public class SpriteSheet {
                 break;
             case "object":
                 res = this.projectileBitmap;
+                break;
+            case "bullet":
+                res = this.bulletBitmap;
+                break;
+            case "peach":
+                res = this.peachBitmap;
                 break;
         }
         return res;
