@@ -10,6 +10,7 @@ import com.example.unicorngladiators.model.characters.Unicorn;
 public abstract class Projectile {
     private static double speedUp = 5;
     private double speed = 1;
+    private boolean isUsed = false;
 
     /**
      * Getter for projectile direction.
@@ -93,4 +94,18 @@ public abstract class Projectile {
      * @param pos
      */
     public void setPosition(Position pos) { this.currentPos = pos;}
+
+    /**
+     * Getter for the projectile's state.
+     * @return
+     */
+    public Boolean getIsUsed(){
+        return this.isUsed;
+    }
+
+    /**
+     * Setter for the projectile's state.
+     * @param b
+     */
+    public void setIsUsed(Boolean b) { this.isUsed = b;}
 }

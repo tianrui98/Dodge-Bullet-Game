@@ -66,7 +66,7 @@ public class Unicorn extends Character {
     public void takeBullet () throws InterruptedException {
         if (!this.getIsInvulnerable() && this.getLives() > 0)
         {
-            this.setLives((this.getLives() - 1));
+            this.setLives(Math.max(0, (this.getLives() - 1)));
             this.setInvulnerable(true);
             this.invulnerabilityCounter = invulnerabilityTimer;
         }
@@ -88,7 +88,7 @@ public class Unicorn extends Character {
      */
     public void takePeach (){
         if (!this.getIsInvulnerable()) {
-            this.setLives((this.getLives() + 1));
+            this.setLives(Math.min(3, (this.getLives() + 1)));
             this.setInvulnerable(true);
             this.invulnerabilityCounter = invulnerabilityTimer;
         }
