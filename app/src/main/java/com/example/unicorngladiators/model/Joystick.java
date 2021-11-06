@@ -25,12 +25,12 @@ public class Joystick {
      * This constructor initialized all of the Joystick attributes to the default values.
      */
     public Joystick(){
-        this.innerPosX = 1000;
-        this.innerPosY = 1600;
-        this.outerPosX = 1000;
-        this.outerPosY = 1600;
-        innerRadius = 30;
-        outerRadius = 50;
+        this.innerPosX = 800;
+        this.innerPosY = 1400;
+        this.outerPosX = 800;
+        this.outerPosY = 1400;
+        innerRadius = 80;
+        outerRadius = 150;
         this.actuatorX = 0.0;
         this.actuatorY = 0.0;
         this.isPressed = false;
