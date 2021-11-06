@@ -1,6 +1,7 @@
 package com.example.unicorngladiators;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -29,13 +30,12 @@ public class GameActivity extends Activity {
 
         Room room = (Room) getIntent().getSerializableExtra("Room");
         String puid = (String) getIntent().getSerializableExtra("PlayerUID");
-        //FirebaseRoomHandler fh = (FirebaseRoomHandler) getIntent().getExtras().getParcelable("FirebaseHandler");
 
         if (room == null) {Log.d(TAG, "room is null");}
         //if (fh == null) {Log.d(TAG, "fh is null");}
         //System.out.println("in game activity: "+room.getPlayer_ids());
         //System.out.println("bullets: "+room.getBullets().size()+"first one: "+room.getBullets().get(0));
-        GameController gc = new GameController(sv, getResources(), height, width, room, puid);
+        GameController gc = new GameController(sv, getResources(), height, width, room, puid, this);
         gc.start();
         Log.d(TAG, "onCreate finished.");
     }
