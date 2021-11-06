@@ -11,16 +11,11 @@ import com.example.unicorngladiators.model.Position;
  * Character class stores and updates 3 information: the position, the state, and the direction.
  */
 public class Character {
-    public enum CharacterDirection {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
-    
+
     private Position pos;
     private CharacterState state;
     private Facing facing;
+    private Boolean isVisible = true;
 
 
     /**
@@ -164,6 +159,7 @@ public class Character {
         }
     }
 
+
     /**
      * Getter for position state.
      * @return
@@ -208,4 +204,11 @@ public class Character {
     public void setState (CharacterState state) {this.state = state;}
 
 
+    public Boolean getVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(Boolean visible) {
+        isVisible = visible;
+    }
 }

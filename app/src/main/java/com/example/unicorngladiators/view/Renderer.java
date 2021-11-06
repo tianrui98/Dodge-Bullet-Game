@@ -58,7 +58,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
         System.out.println("drawing unicorns: "+ this.universe.getPlayersHashMap());
         for (Unicorn player : players) {
-            if (player.getLives() > 0) {
+            if (player.getLives() > 0 && player.getVisible()) {
                 Sprite unicorn_sprite = this.sprite_sheet.getPlayerSprite(player.getState());
                 //offset is to help the draw function to draw the center of the picture
                 int h_offset = unicorn_sprite.getHeight() / 2;
@@ -167,7 +167,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             int lives = playersLives.get(playerName);
             //draw the icon
             String sprite_name;
-            Log.d(TAG, "Playername: " + playerName);
             if (lives <= 0) {sprite_name = playerName+ "_mort";}
             else{sprite_name = playerName+ "_frame"; }
             Sprite unicorn_frame_sprite = this.sprite_sheet.getObjectsSprite(sprite_name);
@@ -213,7 +212,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             this.drawBullets(canvas);
             this.drawPeaches(canvas);
             this.drawScoreboard(canvas);
-            this.drawLives(canvas);
+//            this.drawLives(canvas);
 
             holder.unlockCanvasAndPost(canvas);
         } else {

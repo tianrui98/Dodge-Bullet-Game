@@ -327,17 +327,20 @@ public class Universe {
         Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
 
         this.princess.stroll();
+
         if (elapsedTime%5000 >= 0 && elapsedTime%5000 <= 140) {
-            Log.d("peach debug time", String.valueOf(elapsedTime));
             this.addAPeach();
+            this.princess.setThrowing(true);
         }
 
         // Update Player's existing position
         this.joystick.update();
         this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
+        this.players.get(this.currentPlayerName).flash();
         this.updateCurrentBulletPosition();
         this.updateCurrentPeachPosition();
 
+        // Update Players's position and lives on Firebase
         this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
         this.fph.updateScore(this.players.get(this.currentPlayerName).getLives());
         this.room.getPlayer_scores().put(this.currentPlayerUID, this.players.get(this.currentPlayerName).getLives());
@@ -370,7 +373,7 @@ public class Universe {
             }
             if(this.room.getPlayer_scores().get(puid) == 0) {
                 countDead++;
-                this.players.get(this.room.getPlayerName(puid)).setState(CharacterState.INVISIBLE);
+                this.players.get(this.room.getPlayerName(puid)).setVisible(true);
             }
         }
         Log.d(TAG, this.room.getPlayer_scores()+"dead count: "+countDead);
