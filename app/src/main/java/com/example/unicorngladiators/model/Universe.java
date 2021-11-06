@@ -340,6 +340,7 @@ public class Universe {
         this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         this.updateCurrentBulletPosition();
         this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
+        this.players.get(this.currentPlayerName).UnicornStep();
 
         // We Add a bullet every 20 calls to step ~ 400 MS
         if(this.steps % this.period == 0){
