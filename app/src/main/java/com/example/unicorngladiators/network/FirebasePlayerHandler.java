@@ -2,6 +2,17 @@ package com.example.unicorngladiators.network;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+import com.example.unicorngladiators.model.Position;
+import com.example.unicorngladiators.model.projectiles.Bullet;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -9,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +110,7 @@ public class FirebasePlayerHandler {
         if (!inRoom) return;
         inRoom = false;
         this.room.removePlayer(this.puid);
-        this.updateMove("-1,-1");
+        database.getReference("players/"+this.puid).removeValue();
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.roomId+"/num_players", this.room.getNum_players());
         childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());
@@ -113,11 +125,7 @@ public class FirebasePlayerHandler {
      */
     public void endGame() {
         if (this.room == null) return;
-        players.setValue("");
-        rooms.setValue("");
-        Map<String, Object> childUpdates = new HashMap<String, Object>();
-        childUpdates.put("rooms_listing", "");
-        rooms.updateChildren(childUpdates);
+        database.getReference("rooms/"+this.roomId).removeValue();
         room = null;
     }
 

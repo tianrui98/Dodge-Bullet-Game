@@ -42,6 +42,7 @@ public class Universe {
     private long steps;
     private long period;
 
+    private boolean bigSleep = false;
 
     /**
      * Instantiates a new Universe.
@@ -235,7 +236,7 @@ public class Universe {
      */
 //manage players
     public void addPlayer(String name, Position pos, CharacterState state) {
-        this.players.put(name, new Unicorn (name, 3, false, pos, state, this.height, this.width));
+        this.players.put(name, new Unicorn (name, 3, false, pos, state));
         castChanges();
     }
 
@@ -403,4 +404,19 @@ public class Universe {
         }
     }
 
+    /**
+     * Check for the end of the game/Universe.
+     * @return
+     */
+    public boolean isBigSleeping(){
+        return this.bigSleep;
+    }
+
+    /**
+     * End the game/Universe.
+     */
+    public void setBigSleep(){
+        fph.leaveRoom();
+        this.bigSleep = true;
+    }
 }
