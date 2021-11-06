@@ -25,8 +25,8 @@ public class Joystick {
      * This constructor initialized all of the Joystick attributes to the default values.
      */
     public Joystick(int screenWidth, int screenHeight){
-        this.outerPosX = (int) (screenWidth * 0.9);
-        this.outerPosY = (int) (screenHeight * 0.9);
+        this.outerPosX = (int) (screenWidth * 0.8);
+        this.outerPosY = (int) (screenHeight * 0.8);
         this.innerPosX = 800;
         this.innerPosY = 1400;
         this.outerRadius = (int) (screenWidth * 0.05);
