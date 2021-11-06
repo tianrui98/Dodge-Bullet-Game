@@ -123,6 +123,11 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             canvas.drawRGB(255,255,255);
 //            canvas.drawPaint(this.paint);
+            Paint textPaint = new Paint();
+            textPaint.setColor(Color.BLACK);
+            textPaint.setTextSize(50);
+            String ss = String.format("Lives : %d",this.universe.getPlayerLives());
+            canvas.drawText(ss,100,50,textPaint);
 
             //TODO draw more objects
             this.drawPrincess(canvas);

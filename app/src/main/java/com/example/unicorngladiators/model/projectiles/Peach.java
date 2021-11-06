@@ -12,15 +12,17 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Peach extends projectile
+ * The Peach class is just peachy. It is similar to the Bullet class representation but
+ * has different hit behaviors and is dependent on Princess Peach.
  */
-public class Peach extends Projectile implements Serializable {
+public class Peach extends Projectile {
     /**
-     * Initializes peach object
-     * @param speed Initial speed of peach
-     * @param p Princess object
-     * @param maxX Screen width
-     * @param maxY Screen height
+     * This constructor initializes the Peach object using the speed,
+     * position of the Princess and the screen constraints.
+     * @param speed
+     * @param p
+     * @param maxX
+     * @param maxY
      */
     public Peach(double speed, Princess p, int maxX, int maxY) {
         this.setSpeed(speed);
@@ -37,8 +39,9 @@ public class Peach extends Projectile implements Serializable {
     }
 
     /**
-     * Method increases life of unicorn if it collides with peach
-     * @param c Unicorn object
+     * This method overrides the hit behavior of the Peach on the character.
+     * It is defined using the character takePeach behavior.
+     * @param c
      */
     @Override
     public void hit(Unicorn c) {

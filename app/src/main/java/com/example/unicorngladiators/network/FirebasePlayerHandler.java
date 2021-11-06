@@ -25,6 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The FirebasePlayerHandler class is similar to the FirebaseRoomHandler but is specifically built
+ * for the Universe class.  It reads the room states from the Firebase Real-time Database (RTDB) and
+ * allows the instance to be update the move and the score for itself and update its local
+ * room state (along with other players state within the room) from the RTDB.
+ */
 public class FirebasePlayerHandler {
     private FirebaseDatabase database;
     private DatabaseReference rooms, players, player;
@@ -32,6 +38,11 @@ public class FirebasePlayerHandler {
     private Room room = null;
     private boolean inRoom, started = false;
 
+    /**
+     * Instantiate the player handler with the player unique ID. It connects to RTDB and get the
+     * references for the rooms, players, and player unique ID.
+     * @param puid
+     */
     public FirebasePlayerHandler(String puid){
         this.puid = puid;
         System.out.println("initing handler...");
@@ -44,6 +55,11 @@ public class FirebasePlayerHandler {
         System.out.println("initing done");
     }
 
+    /**
+     * This method reads the room state from RTDB and parse it locally to the Room object.
+     * Breaking this down into sequential rather than callback as that stops the Universe
+     * from getting null values.
+     */
     public void readRoomStates() {
         this.roomId = NULL;
         Task<DataSnapshot> roomIdTask = rooms.child("rooms_listing").get();
@@ -86,6 +102,10 @@ public class FirebasePlayerHandler {
         System.out.println("read room states in player handler completed.");
     }
 
+    /**
+     * This allows the player to leave the room at the end of the game--same logic as in the
+     * FirebaseRoomHandler.
+     */
     public void leaveRoom() {
         if (!inRoom) return;
         inRoom = false;
@@ -100,6 +120,9 @@ public class FirebasePlayerHandler {
             endGame();
     }
 
+    /**
+     * This allows the player to end the game--same logic as in the FirebaseRoomHandler.
+     */
     public void endGame() {
         if (this.room == null) return;
         players.setValue("");
@@ -110,8 +133,10 @@ public class FirebasePlayerHandler {
         room = null;
     }
 
-    public String getPuid(){ return this.puid; }
-
+    /**
+     * This allows the player update their move to RTDB--same logic as in the FirebaseRoomHandler.
+     * @param newMove
+     */
     public void updateMove(String newMove){
         //System.out.println("adding move...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -121,6 +146,10 @@ public class FirebasePlayerHandler {
         return;
     }
 
+    /**
+     * This allows the player update their score to RTDB--same logic as in the FirebaseRoomHandler.
+     * @param score
+     */
     public void updateScore(int score){
         System.out.println("updating score...");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
@@ -130,8 +159,17 @@ public class FirebasePlayerHandler {
         return;
     }
 
+    /**
+     * Getter for the local Room object.
+     * @return
+     */
     public Room getRoom(){ return this.room; }
 
+    /**
+     * The player event listener is added to the players reference and parse all the changes to
+     * the local Room variable which is read by the Universe.
+     * @param playersRef
+     */
     private void addMovesEventListener(DatabaseReference playersRef) {
         ValueEventListener movesListener = new ValueEventListener() {
             @Override

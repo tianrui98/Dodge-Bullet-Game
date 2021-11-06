@@ -1,6 +1,8 @@
 package com.example.unicorngladiators.model;
 
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 /**
@@ -112,15 +114,16 @@ public class Position implements Serializable {
         return y;
     }
 
+
     /**
      * Calculates distance from current position to the input position via Pythagorean Theorem
      * @param pos position to check the distance from
      * @return distance from current position to input position
      */
     public int getDistance(Position pos) {
-        int xDelta = this.getX() - pos.getX();
-        int yDelta = this.getY() - pos.getY();
-        return (int) Math.sqrt(xDelta ^ 2 + yDelta ^ 2);
+        int xDelta = (this.getX() - pos.getX())*(this.getX() - pos.getX());
+        int yDelta = (this.getY() - pos.getY())*(this.getY() - pos.getY());
+        return (int) Math.sqrt(xDelta  + yDelta);
     }
 }
 
