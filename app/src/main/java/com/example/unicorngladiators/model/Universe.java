@@ -20,6 +20,7 @@ public class Universe {
     private final Joystick joystick;
     private final List<Bullet> bullets;
     private List<Bullet> currentBullets;
+    private int peachIndex;
     private int bulletIndex;
     private Princess princess;
     public HashMap<String, Unicorn> players;
@@ -61,9 +62,6 @@ public class Universe {
         //    Log.d(TAG, "Bullet: " + i);
         this.bulletIndex = 0;
         this.currentBullets = new ArrayList<Bullet>();
-
-        //TODO: delete the following line. Only add bullet in step()
-//        this.addABullet();
         this.currentPeaches = new ArrayList<Peach>();
 
         //init the players:
@@ -137,7 +135,7 @@ public class Universe {
         }
     }
     public void addAPeach(){
-        Peach peach = new Peach(1.0, this.princess, width, height);
+        Peach peach = new Peach(5.0, this.princess, width, height);
         Log.d("peach position", String.valueOf(peach.getPosition()));
         this.currentPeaches.add(peach);
     }
@@ -197,6 +195,10 @@ public class Universe {
         // TODO round up elapsed time if we want something to happen every x seconds
         Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
         this.princess.stroll();
+        if (elapsedTime%5000 >= 0 && elapsedTime%5000 <= 140) {
+            Log.d("peach debug time", String.valueOf(elapsedTime));
+            this.addAPeach();
+        }
 
         this.joystick.update();
         this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
@@ -209,11 +211,6 @@ public class Universe {
             this.addABullet();
         }
         this.steps += 1;
-
-        if (Math.round(elapsedTime/1000)%5 == 0) {
-            Log.d("peach debug time", String.valueOf(elapsedTime));
-            this.addAPeach();
-        }
 
         // Checking for Bullet Collisions here
         this.checkCollision();
