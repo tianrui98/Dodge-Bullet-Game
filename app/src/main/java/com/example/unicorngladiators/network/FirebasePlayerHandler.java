@@ -175,7 +175,7 @@ public class FirebasePlayerHandler {
                     System.out.println("val: "+val);
                     HashMap<String, String> player_ids = room.getPlayer_ids();
                     for(String k : val.keySet()){
-                        HashMap<String, Object> val_prop = new HashMap<>();
+                        HashMap<String, Object> val_prop;
                         if (player_ids.containsKey(k) && !k.equals(puid)){
                             val_prop = (HashMap<String, Object>) val.get(k);
                             System.out.println("val prop: "+val_prop);

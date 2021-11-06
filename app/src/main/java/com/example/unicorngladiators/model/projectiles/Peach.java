@@ -46,6 +46,7 @@ public class Peach extends Projectile {
     @Override
     public void hit(Unicorn c) {
         c.takePeach();
+        this.setIsUsed(true);
     }
 
 }

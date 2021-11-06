@@ -58,13 +58,14 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
         System.out.println("drawing unicorns: "+ this.universe.getPlayersHashMap());
         for (Unicorn player : players) {
+            if (player.getState() != CharacterState.INVISIBLE) {
             Sprite unicorn_sprite = this.sprite_sheet.getPlayerSprite(player.getState());
             //offset is to help the draw function to draw the center of the picture
             int h_offset = unicorn_sprite.getHeight() / 2;
             int w_offset = unicorn_sprite.getWidth() / 2;
-            System.out.println("drawing unicorn: "+ player.getName() + player.getPosition());
             Position posAdjusted = new Position(player.getPosition().getX() + w_offset, player.getPosition().getY() + h_offset);
             unicorn_sprite.drawSprite(canvas, posAdjusted, player.getName(), 0);
+        }
         }
     };
 
@@ -110,6 +111,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 //        TODO: add rotation as an argument
         List<Bullet> bullets = this.universe.getBullets();
         for (Bullet bullet : bullets) {
+            if (!bullet.getIsUsed()) {
             Position pos = bullet.getPosition();
             Sprite sprite = this.sprite_sheet.getProjectileSprite();
             //offset is to help the draw function to draw the center of the picture
@@ -118,12 +120,13 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
             int degree = this.rotateProjectile(bullet.getDirection().getOffset().getX(), bullet.getDirection().getOffset().getY());
             sprite.drawSprite(canvas, posAdjusted, "bullet", degree);
-        }
+        }}
     }
 
     private void drawPeaches(Canvas canvas) {
         List<Peach> peaches = this.universe.getPeaches();
         for (Peach peach : peaches) {
+            if (!peach.getIsUsed()) {
             Position pos = peach.getPosition();
             //According to princess's state draw different bitmap
             Sprite sprite = this.sprite_sheet.getProjectileSprite();
@@ -133,7 +136,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
             int degree = this.rotateProjectile(peach.getDirection().getOffset().getX(), peach.getDirection().getOffset().getY());
             sprite.drawSprite(canvas, posAdjusted, "peach", degree);
-        }
+        }}
     }
 
     //Todo delete this function. It's only for debugging

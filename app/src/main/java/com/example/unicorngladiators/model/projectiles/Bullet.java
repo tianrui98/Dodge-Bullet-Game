@@ -67,6 +67,7 @@ public class Bullet extends Projectile implements Serializable {
     @Override
     public void hit(Unicorn c) throws InterruptedException {
         c.takeBullet();
+        this.setIsUsed(true);
     }
 
     /**

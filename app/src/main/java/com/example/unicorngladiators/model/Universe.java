@@ -115,25 +115,11 @@ public class Universe {
     }
 
     /**
-     * Get current player's lives int.
-     *
-     * @return the int
-     */
-    public int getPlayerLives(){
-        return this.players.get(this.currentPlayerName).getLives();
-    }
-
-    /**
      * Get all player's lives as a Hashmap
      * @return
      */
     public HashMap<String, Integer> getPlayersLives() {
-        HashMap<String, Integer>playerLives = new HashMap<>();
-        for (String playerName: this.players.keySet()) {
-            int lives = this.players.get(playerName).getLives();
-            playerLives.put(playerName, lives);
-        };
-        return playerLives;
+        return this.room.getPlayer_scores();
     }
     /**
      * Valid collision boolean.
@@ -164,6 +150,7 @@ public class Universe {
                 if(Universe.validCollision(bullet,unicorn,200)){
                     try {
                         unicorn.takeBullet();
+                        bullet.setIsUsed(true);
                     } catch (Exception excep) {
                         excep.printStackTrace();
                     }
@@ -180,6 +167,7 @@ public class Universe {
                 if(Universe.validCollisionPeach(peach,unicorn,200)){
                     try {
                         unicorn.takePeach();
+                        peach.setIsUsed(true);
                     } catch (Exception excep) {
                         excep.printStackTrace();
                     }
@@ -209,13 +197,6 @@ public class Universe {
         this.currentBullets.add(bullet);
     }
 
-    /**
-     * Remove a bullet.
-     */
-    public void removeABullet(){
-        //Todo: only remove a bullet when it's out of the arena or hit a unicorn
-        this.currentBullets.remove(this.currentBullets.size() - 1);
-    }
 
     /**
      * Update all existing bullet positions.
@@ -262,18 +243,6 @@ public class Universe {
     }
 
     /**
-
-     * Change player position
-     * @param name The identifier of the player for the position to be updated for
-     * @param m The vector we want to update the player's position by
-     */
-    public void updatePlayerPosition(String name, Motion m) {
-        Unicorn player = this.players.get(name);
-        player.walk(m);
-        this.players.put(name,player);
-    }
-
-    /**
      * Gets bullets.
      *
      * @return the bullets
@@ -281,7 +250,6 @@ public class Universe {
     public List<Bullet> getBullets() {
         return this.currentBullets;
     }
-
 
 
     /**
@@ -351,7 +319,6 @@ public class Universe {
      * 5. We then update the local state of all the player positions by making a call to firebase
      */
     public void step(long elapsedTime) {
-        // TODO round up elapsed time if we want something to happen every x seconds
         Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
 
         this.princess.stroll();
@@ -393,10 +360,11 @@ public class Universe {
                                 posToUpdate.getY() - curPos.getY());
             }
             if(this.room.getPlayer_scores().get(puid) == 0)
-                countDead++;
+            {countDead++;
+            this.players.get(this.room.getPlayerName(puid)).setState(CharacterState.INVISIBLE);
+            }
 
-
-            System.out.println(this.room.getPlayer_scores()+"dead count: "+countDead);
+            Log.d(TAG, this.room.getPlayer_scores()+"dead count: "+countDead);
 
             if(countDead >= this.room.getNum_players() - 1)
                 this.snapping();
