@@ -1,5 +1,7 @@
 package com.example.unicorngladiators;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -8,11 +10,8 @@ import android.view.SurfaceView;
 import com.example.unicorngladiators.io.InputHandler;
 import com.example.unicorngladiators.io.InputListener;
 import com.example.unicorngladiators.io.JoystickAction;
-import com.example.unicorngladiators.model.Position;
 import com.example.unicorngladiators.model.Universe;
-import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
-import com.example.unicorngladiators.network.FirebaseRoomHandler;
 import com.example.unicorngladiators.network.Room;
 import com.example.unicorngladiators.view.Renderer;
 
@@ -27,14 +26,17 @@ public class GameController extends Thread{
     private SurfaceView sv;
     private Universe universe;
     private long startTime;
-    SurfaceHolder holder;
+    private SurfaceHolder holder;
+    private Activity gameActivity;
+    private String puid;
 
     // Constructor Class for the game, helps handle resource allocation and acts as an intermediary
     // between android interface and the inner universe class
-    public GameController(SurfaceView sv, Resources context, int height, int width, Room room, String puid) {
+    public GameController(SurfaceView sv, Resources context, int height, int width, Room room, String puid, Activity gameActivity) {
         this.startTime = System.currentTimeMillis();
         this.sv = sv;
-
+        this.gameActivity = gameActivity;
+        this.puid = puid;
 
         //instantiate universe, princess, unicorns and ask Renderer to draw them
         HashMap<String, Unicorn> emptyPlayerMap = new HashMap<>();
@@ -71,8 +73,7 @@ public class GameController extends Thread{
     // Defining a class method to help step through the universe. This ensures
     // that the universe is being incremented every 20 miliseconds
     public void run() {
-        while (true) {
-
+        while (!this.universe.snapped()) {
             long elapsedTime = System.currentTimeMillis();
             this.universe.step(elapsedTime);
             try {
@@ -81,5 +82,15 @@ public class GameController extends Thread{
                 e.printStackTrace();
             }
         }
+        Intent intent = new Intent(this.gameActivity, EndGameActivity.class);
+
+        intent.putExtra("Room", room);
+        intent.putExtra("PlayerUID", puid);
+        System.out.println("in waiting room: "+room.getPlayer_ids() + "<-- player ids");
+        gameActivity.startActivity(intent);
+    }
+
+    public Room getRoom(){
+        return this.universe.getRoom();
     }
 }
