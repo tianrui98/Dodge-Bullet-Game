@@ -19,6 +19,7 @@ import com.example.unicorngladiators.model.Universe;
 import com.example.unicorngladiators.model.characters.CharacterState;
 import com.example.unicorngladiators.model.characters.Unicorn;
 import com.example.unicorngladiators.model.projectiles.Bullet;
+import com.example.unicorngladiators.model.projectiles.Peach;
 import com.example.unicorngladiators.model.projectiles.Projectile;
 
 import java.util.*;
@@ -97,8 +98,8 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
     }
 
     private void drawPeaches(Canvas canvas) {
-        List<Projectile> peaches = this.universe.getPeaches();
-        for (Projectile peach : peaches) {
+        List<Peach> peaches = this.universe.getPeaches();
+        for (Peach peach : peaches) {
             Position pos = peach.getPosition();
             //According to princess's state draw different bitmap
             Sprite sprite = this.sprite_sheet.getProjectileSprite("peach");
@@ -178,6 +179,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             this.drawBullets(canvas);
             this.drawPeaches(canvas);
             this.drawScoreboard(canvas);
+
             holder.unlockCanvasAndPost(canvas);
         } else {
             System.out.println("universe:" + universe + " holder "+holder);

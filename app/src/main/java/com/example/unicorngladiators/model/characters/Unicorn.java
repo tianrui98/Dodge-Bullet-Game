@@ -89,6 +89,8 @@ public class Unicorn extends Character {
     public void takePeach (){
         if (!this.getIsInvulnerable()) {
             this.setLives((this.getLives() + 1));
+            this.setInvulnerable(true);
+            this.invulnerabilityCounter = invulnerabilityTimer;
         }
     }
 

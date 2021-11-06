@@ -23,6 +23,7 @@ public class Universe {
     private final Joystick joystick;
     private final List<Bullet> bullets;
     private List<Bullet> currentBullets;
+    private int peachIndex;
     private int bulletIndex;
     private Princess princess;
     /**
@@ -36,7 +37,7 @@ public class Universe {
     private Room room = null;
     private FirebasePlayerHandler fph;
     private final String currentPlayerName, currentPlayerUID;
-    private List<Projectile> currentPeaches;
+    private List<Peach> currentPeaches;
 
     private long steps;
     private long period;
@@ -80,10 +81,7 @@ public class Universe {
         //    Log.d(TAG, "Bullet: " + i);
         this.bulletIndex = 0;
         this.currentBullets = new ArrayList<Bullet>();
-
-        //TODO: delete the following line. Only add bullet in step()
-//        this.addABullet();
-        this.currentPeaches = new ArrayList<Projectile>();
+        this.currentPeaches = new ArrayList<Peach>();
 
         //init the players:
         System.out.println("all the players: "+this.room.getPlayer_ids());
@@ -148,6 +146,10 @@ public class Universe {
         return y.getPosition().getDistance(x.getPosition()) <= distance && !y.getIsInvulnerable();
     }
 
+    static public boolean validCollisionPeach(Peach x, Unicorn y, int distance){
+        return y.getPosition().getDistance(x.getPosition()) <= distance && !y.getIsInvulnerable();
+    }
+
     /**
      * Check collision helper.
      *
@@ -168,8 +170,22 @@ public class Universe {
                 }
             }
         }
+    }
 
-
+    static public void checkCollisionPeach(HashMap<String, Unicorn> e,List<Peach> b){
+        for(Map.Entry<String,Unicorn> entry:e.entrySet()){
+            Unicorn unicorn = entry.getValue();
+            for(Peach peach:b){
+                if(Universe.validCollisionPeach(peach,unicorn,200)){
+                    try {
+                        unicorn.takePeach();
+                    } catch (Exception excep) {
+                        excep.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -177,6 +193,7 @@ public class Universe {
      */
     public void checkCollision() {
         Universe.checkCollisionHelper(this.players,this.bullets);
+        Universe.checkCollisionPeach(this.players,this.currentPeaches);
     }
 
     /**
@@ -208,11 +225,16 @@ public class Universe {
         }
     }
 
-    /**
-     * Add a peach.
-     */
+
+    public void updateCurrentPeachPosition(){
+        for (Peach peach : this.currentPeaches) {
+            peach.step();
+        }
+    }
+
     public void addAPeach(){
-        Projectile peach = new Peach(1.0, this.getPrincess(), width, height);
+        Peach peach = new Peach(5.0, this.princess, width, height);
+        Log.d("peach position", String.valueOf(peach.getPosition()));
         this.currentPeaches.add(peach);
     }
 
@@ -239,12 +261,11 @@ public class Universe {
     }
 
     /**
-     * Update player position.
-     *
-     * @param name Name of Player's Unicorn
-     * @param m    Motion : The direction which the player is moving in
+
+     * Change player position
+     * @param name The identifier of the player for the position to be updated for
+     * @param m The vector we want to update the player's position by
      */
-//chang player position
     public void updatePlayerPosition(String name, Motion m) {
         Unicorn player = this.players.get(name);
         player.walk(m);
@@ -261,12 +282,13 @@ public class Universe {
     }
 
 
+
     /**
      * Gets peaches.
      *
      * @return the peaches
      */
-    public List<Projectile> getPeaches() {
+    public List<Peach> getPeaches() {
         return this.currentPeaches;
     }
 
@@ -274,7 +296,6 @@ public class Universe {
     /**
      * The interface Callback.
      */
-//manage callback
     public interface Callback {
         /**
          * Universe changed.
@@ -289,7 +310,6 @@ public class Universe {
      *
      * @return the joystick
      */
-//manage joystick
     public Joystick getJoystick() {
         return this.joystick ;
     }
@@ -329,16 +349,22 @@ public class Universe {
      * 4. Any existing collisions that a unicorn might have with a bullet
      * 5. We then update the local state of all the player positions by making a call to firebase
      */
-    public void step() {
+    public void step(long elapsedTime) {
+        // TODO round up elapsed time if we want something to happen every x seconds
+        Log.d(TAG, ("Elapsed time = " + Long.toString(elapsedTime)));
 
-        // Update Princess Peach's position
-        this.princess.spin();
         this.princess.stroll();
+        if (elapsedTime%5000 >= 0 && elapsedTime%5000 <= 140) {
+            Log.d("peach debug time", String.valueOf(elapsedTime));
+            this.addAPeach();
+        }
 
         // Update Player's existing position
         this.joystick.update();
         this.players.get(this.currentPlayerName).updatePositionState(this.joystick.getActuatorX(), this.joystick.getActuatorY());
         this.updateCurrentBulletPosition();
+        this.updateCurrentPeachPosition();
+
         this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
         this.players.get(this.currentPlayerName).UnicornStep();
 
@@ -347,10 +373,6 @@ public class Universe {
             this.addABullet();
         }
         this.steps += 1;
-
-
-        // TODO add peach at random times
-        // this.addAPeach();
 
         // Checking for Bullet Collisions here
         this.checkCollision();

@@ -74,7 +74,7 @@ public class GameController extends Thread{
         while (true) {
 
             long elapsedTime = System.currentTimeMillis();
-            this.universe.step();
+            this.universe.step(elapsedTime);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
