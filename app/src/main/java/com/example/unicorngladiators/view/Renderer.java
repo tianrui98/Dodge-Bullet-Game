@@ -92,7 +92,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
             //Log.d("Renderer","position: X "+pos.getX()+" Y: "+pos.getY());
             //Log.d("Renderer","position: "+pos+" Adjusted: "+posAdjusted);
-            sprite.drawSprite(canvas, posAdjusted, "projectile", 0 );
+            sprite.drawSprite(canvas, posAdjusted, "object", 0 );
         }
     }
 
@@ -106,10 +106,11 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
-            sprite.drawSprite(canvas, posAdjusted, "peach", 0);
+            sprite.drawSprite(canvas, posAdjusted, "object", 0);
         }
     }
 
+    //Todo delete this function. It's only for debugging
     private void drawLives(Canvas canvas) {
         HashMap<String, Integer> playersLives = this.universe.getPlayersLives();
         Paint textPaint = new Paint();
@@ -124,6 +125,47 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         };
     }
 
+    /**
+     * Draw the character's icon on scoreboard
+     * @param canvas
+     */
+    private void drawScoreboard(Canvas canvas) {
+        Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
+        int frameX = 10;
+        int frameY = 1600;
+
+        //todo add initial x and y
+        for (Unicorn player : players) {
+            //draw the icon
+            String sprite_name;
+            if (player.getLives() <= 0) {sprite_name = player.getName()+ "_mort";}
+            else{sprite_name = player.getName()+ "_frame"; }
+            Sprite unicorn_frame_sprite = this.sprite_sheet.getObjectsSpriteHashmap().get(sprite_name);
+            //offset is to help the draw function to draw the center of the picture
+            Position posAdjusted = new Position(frameX, frameY);
+            unicorn_frame_sprite.drawSprite(canvas, posAdjusted, "object", 0);
+
+            //draw name
+            Paint textPaint = new Paint();
+            textPaint.setColor(Color.BLACK);
+            textPaint.setTextSize(50);
+            canvas.drawText(player.getName(),frameX + 40 ,frameY + 20, textPaint);
+
+            //draw hearts
+            Sprite heart_sprite = this.sprite_sheet.getObjectsSpriteHashmap().get("heart");
+            int heartX = frameX + 65;
+            int heartY = frameY + 10;
+            for (int i = 0; i < player.getLives() && i < 3; i ++ ) {
+            Position heartPos = new Position(heartX,heartY);
+            heart_sprite.drawSprite(canvas, heartPos,"object", 0 );
+            heartX += 55;
+            }
+
+            //update frame position
+            frameX += 250;
+        }
+    }
+
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
@@ -135,8 +177,8 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             this.drawUnicorns(canvas);
             this.drawJoystick(canvas);
             this.drawBullets(canvas);
-            this.drawLives(canvas);
-//            this.drawPeaches(canvas);
+            this.drawPeaches(canvas);
+            this.drawScoreboard(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
             System.out.println("universe:" + universe + " holder "+holder);
