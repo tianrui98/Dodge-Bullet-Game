@@ -23,7 +23,6 @@ public class Universe {
     private final Joystick joystick;
     private final List<Bullet> bullets;
     private List<Bullet> currentBullets;
-    private int peachIndex;
     private int bulletIndex;
     private Princess princess;
     /**
@@ -33,8 +32,7 @@ public class Universe {
     private final String TAG = "Universe";
     private int height;
     private int width;
-    private Projectile peach;
-    private Room room = null;
+    private Room room ;
     private FirebasePlayerHandler fph;
     private final String currentPlayerName, currentPlayerUID;
     private List<Peach> currentPeaches;
@@ -60,7 +58,7 @@ public class Universe {
     public Universe(HashMap<String,Unicorn> players, int height,int width, Room room, String currentPlayerUID, String currentPlayerName) {
         this.players = players;
         this.princess = new Princess(new Position(20,20), CharacterState.SPECIAL1, height, width);
-        this.joystick = new Joystick();
+        this.joystick = new Joystick(width, height);
         this.height = height;
         this.width = width;
         this.fph = new FirebasePlayerHandler(currentPlayerUID);

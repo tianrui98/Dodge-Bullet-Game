@@ -12,8 +12,8 @@ public class Joystick {
 
     private static final int MAX_SPEED = 2;
     private boolean isPressed;
-    private final int innerRadius;
-    private final int outerRadius;
+    private int innerRadius;
+    private int outerRadius;
     private int innerPosY;
     private int innerPosX;
     private final int outerPosY;
@@ -24,13 +24,14 @@ public class Joystick {
     /**
      * This constructor initialized all of the Joystick attributes to the default values.
      */
-    public Joystick(){
+    public Joystick(int screenWidth, int screenHeight){
+        this.outerPosX = (int) (screenWidth * 0.9);
+        this.outerPosY = (int) (screenHeight * 0.9);
         this.innerPosX = 800;
         this.innerPosY = 1400;
-        this.outerPosX = 800;
-        this.outerPosY = 1400;
-        innerRadius = 80;
-        outerRadius = 150;
+        this.outerRadius = (int) (screenWidth * 0.05);
+        this.innerRadius = (int) (outerRadius * 0.6);
+
         this.actuatorX = 0.0;
         this.actuatorY = 0.0;
         this.isPressed = false;
@@ -56,12 +57,9 @@ public class Joystick {
 
     //Getter
     public int getInnerRadius(){
-        return innerRadius;
+        return this.innerRadius;
     }
-
-    //Setter
-    public int getOuterRadius() {return outerRadius;}
-
+    public int getOuterRadius() {return this.outerRadius;}
     /**
      * This method check whether the Joystick component is pressed with an event.
      * @param eventPos
