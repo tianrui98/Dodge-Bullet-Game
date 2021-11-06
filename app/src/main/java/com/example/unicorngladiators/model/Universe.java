@@ -134,6 +134,10 @@ public class Universe {
         return y.getPosition().getDistance(x.getPosition()) <= distance && !y.getIsInvulnerable();
     }
 
+    static public boolean validCollisionPeach(Peach x, Unicorn y, int distance){
+        return y.getPosition().getDistance(x.getPosition()) <= distance && !y.getIsInvulnerable();
+    }
+
     /**
      * Check collision helper.
      *
@@ -154,8 +158,22 @@ public class Universe {
                 }
             }
         }
+    }
 
-
+    static public void checkCollisionPeach(HashMap<String, Unicorn> e,List<Peach> b){
+        for(Map.Entry<String,Unicorn> entry:e.entrySet()){
+            Unicorn unicorn = entry.getValue();
+            for(Peach peach:b){
+                if(Universe.validCollisionPeach(peach,unicorn,200)){
+                    try {
+                        unicorn.takePeach();
+                    } catch (Exception excep) {
+                        excep.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -163,6 +181,7 @@ public class Universe {
      */
     public void checkCollision() {
         Universe.checkCollisionHelper(this.players,this.bullets);
+        Universe.checkCollisionPeach(this.players,this.currentPeaches);
     }
 
     /**
