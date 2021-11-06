@@ -2,7 +2,10 @@ package com.example.unicorngladiators;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class EndGameActivity extends AppCompatActivity implements View.OnClickListener{
+public class EndGameActivity extends Activity implements View.OnClickListener{
     private Room room;
     private String puid;
     private Button playAgain;
@@ -30,8 +33,8 @@ public class EndGameActivity extends AppCompatActivity implements View.OnClickLi
         this.room = room;
         this.puid = puid;
 
-        //this.playAgain = (Button) findViewById(R.id.playAgain);
-        //playAgain.setOnClickListener(this);
+        this.playAgain = (Button) findViewById(R.id.playAgain);
+        playAgain.setOnClickListener(EndGameActivity.this);
 
         this.leaderboard = (TextView) findViewById(R.id.leaderBoardText);
         Map<String, Integer> sortedScores = null;
@@ -58,6 +61,13 @@ public class EndGameActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.playAgain:
+                Intent intent = new Intent(this, WaitingRoomActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 }

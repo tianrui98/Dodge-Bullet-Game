@@ -42,13 +42,13 @@
 
 
 
-<!--Button
-    android:layout_below="@+id/playAgain"
+<Button
+    android:layout_below="@+id/leaderBoardText"
     android:layout_centerInParent="true"
-    android:id="@+id/quitGameBtn"
+    android:id="@+id/playAgain"
     android:layout_margin="50dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Play Again"/-->
+    android:text="Play Again"/>
 
 </android.widget.RelativeLayout>
