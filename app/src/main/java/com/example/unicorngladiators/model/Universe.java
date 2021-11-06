@@ -225,7 +225,7 @@ public class Universe {
      */
 //manage players
     public void addPlayer(String name, Position pos, CharacterState state) {
-        this.players.put(name, new Unicorn (name, 3, false, pos, state));
+        this.players.put(name, new Unicorn (name, 3, false, pos, state, this.height, this.width));
         castChanges();
     }
 
