@@ -52,7 +52,6 @@ public class Princess extends Character {
                 break;
             case SPECIAL4:
                 this.setState(CharacterState.SPECIAL1);
-                this.setThrowing(false);
                 break;
         }
     }

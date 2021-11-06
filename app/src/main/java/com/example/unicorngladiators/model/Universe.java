@@ -330,7 +330,6 @@ public class Universe {
 
         if (elapsedTime%5000 >= 0 && elapsedTime%5000 <= 140) {
             this.addAPeach();
-            this.princess.setThrowing(true);
         }
 
         // Update Player's existing position
