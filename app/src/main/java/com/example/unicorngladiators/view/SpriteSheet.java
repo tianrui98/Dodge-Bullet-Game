@@ -27,7 +27,6 @@ public class SpriteSheet {
     public SpriteSheet (Resources context){
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inScaled = false;
-        //TODO: switch. Allow function to take in the character name eg Toto titi tata tutu
         this.totoBitmap = BitmapFactory.decodeResource(context, R.drawable.toto_sprite_sheet, bitmapOptions);
         this.titiBitmap = BitmapFactory.decodeResource(context, R.drawable.titi_sprite_sheet, bitmapOptions);
         this.tataBitmap = BitmapFactory.decodeResource(context, R.drawable.tata_sprite_sheet, bitmapOptions);

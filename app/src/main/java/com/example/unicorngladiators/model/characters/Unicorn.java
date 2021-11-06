@@ -95,6 +95,16 @@ public class Unicorn extends Character {
     }
 
     /**
+     * Make unicorn flash when it is invulnerable
+     */
+    public void flash(){
+        if (this.getIsInvulnerable()) {
+            if (this.getVisible()) {this.setVisible(false);}
+            else {this.setVisible(true);}
+        }
+    }
+
+    /**
      * Updates the position and state of the unicorn based on the displacement of the Joystick.
      * @param actuatorX Actuator X from the Joystick
      * @param actuatorY Actuator Y from the Joystick
@@ -114,19 +124,6 @@ public class Unicorn extends Character {
         if(finalX <= 50 || finalX >= this.getxBound() - 200 ){
             velocityX = 0;
         }
-//
-//        if (currY <= 50  && velocityY < 0) {
-//            velocityY = 0;
-//        }
-//        if (this.getyBound() - currY <= 50 && velocityY > 0) {
-//            velocityY = 0;
-//        }
-//        if (currX <= 50  && velocityX < 0) {
-//            velocityX = 0;
-//        }
-//        if (this.getxBound() - currX <= 50 && velocityX > 0) {
-//            velocityX = 0;
-//        }
         this.walk(new Motion(velocityX, velocityY) );
     }
 

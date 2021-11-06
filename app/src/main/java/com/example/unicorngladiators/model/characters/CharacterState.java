@@ -27,5 +27,4 @@ public enum CharacterState {
     SPECIAL2,
     SPECIAL3,
     SPECIAL4,
-    INVISIBLE,
 }
