@@ -88,7 +88,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 
         double basicAngle = Math.atan(Math.abs(offsetY/offsetX)) * 180 / Math.PI;
         double rotation;
-        //TODO change the rotation to account for x y on the SCREEN! Y -> lower
         // second quadrant
         if (offsetX < 0 && offsetY < 0) {
             rotation = 180 + basicAngle;
@@ -103,8 +102,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         else{
             rotation = 360 - basicAngle;
         }
-        Log.d(TAG, "basic angle = " + basicAngle);
-        Log.d(TAG, "rotation = " + rotation);
 
         int degree = (int) rotation;
         return degree;
@@ -119,8 +116,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
-            Log.d(TAG, "Bullet rotation");
-            Log.d(TAG, "offsetX = "+ bullet.getDirection().getOffset().getX() + "offsetY = " + bullet.getDirection().getOffset().getY());
             int degree = this.rotateProjectile(bullet.getDirection().getOffset().getX(), bullet.getDirection().getOffset().getY());
             sprite.drawSprite(canvas, posAdjusted, "bullet", degree);
         }
@@ -135,8 +130,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             //offset is to help the draw function to draw the center of the picture
             int h_offset = sprite.getHeight() / 2;
             int w_offset = sprite.getWidth() / 2;
-            Log.d(TAG, "Peach rotation");
-            Log.d(TAG, "offsetX = "+ peach.getDirection().getOffset().getX() + "offsetY = " + peach.getDirection().getOffset().getY());
             Position posAdjusted = new Position(pos.getX() + w_offset, pos.getY() + h_offset);
             int degree = this.rotateProjectile(peach.getDirection().getOffset().getX(), peach.getDirection().getOffset().getY());
             sprite.drawSprite(canvas, posAdjusted, "peach", degree);
