@@ -103,18 +103,28 @@ public class Unicorn extends Character {
         int currX = this.getPosition().getX();
         int currY = this.getPosition().getY();
         /* Check movement conditions */
-        if (currY <= 50  && velocityY < 0) {
+        int finalX = currX + velocityX;
+        int finalY = currY + velocityY;
+
+        if(finalY <= 50 || finalY >= this.getyBound()-50){
             velocityY = 0;
         }
-        if (this.getyBound() - currY <= 50 && velocityY > 0) {
-            velocityY = 0;
-        }
-        if (currX <= 50  && velocityX < 0) {
+        if(finalX <= 50 || finalX >= this.getxBound() - 200 ){
             velocityX = 0;
         }
-        if (this.getxBound() - currX <= 50 && velocityX > 0) {
-            velocityX = 0;
-        }
+//
+//        if (currY <= 50  && velocityY < 0) {
+//            velocityY = 0;
+//        }
+//        if (this.getyBound() - currY <= 50 && velocityY > 0) {
+//            velocityY = 0;
+//        }
+//        if (currX <= 50  && velocityX < 0) {
+//            velocityX = 0;
+//        }
+//        if (this.getxBound() - currX <= 50 && velocityX > 0) {
+//            velocityX = 0;
+//        }
         this.walk(new Motion(velocityX, velocityY) );
     }
 
