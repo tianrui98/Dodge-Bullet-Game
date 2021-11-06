@@ -26,7 +26,7 @@ public class Unicorn extends Character {
     private boolean isInvulnerable;
     private int MAX_SPEED = 50;
     private int invulnerabilityCounter;
-    private int invulnerabilityTimer = 50;
+    private int invulnerabilityTimer = 20;
     private int xBound;
     private int yBound;
 

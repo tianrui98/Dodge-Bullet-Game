@@ -350,12 +350,14 @@ public class Universe {
         this.steps += 1;
 
         // Checking for Bullet Collisions here
-        this.checkCollision();
+        if (this.players.get(this.currentPlayerName).getLives() > 0)
+            this.checkCollision();
 
         this.castChanges();
 
+        int countDead = 0;
         for (String puid : this.room.getPlayer_ids().keySet()) {
-            int countDead = 0;
+
             if (!puid.equals(this.currentPlayerUID)){
                 Position posToUpdate = this.room.getPlayer_pos().get(puid);
                 Position curPos = this.players.get(this.room.getPlayerName(puid)).getPosition();
@@ -363,17 +365,18 @@ public class Universe {
                         .updatePositionState(
                                 posToUpdate.getX() - curPos.getX(),
                                 posToUpdate.getY() - curPos.getY());
+                this.players.get(this.room.getPlayerName(puid))
+                        .setLives(this.room.getPlayer_scores().get(puid));
             }
-            if(this.room.getPlayer_scores().get(puid) == 0)
-            {countDead++;
-            this.players.get(this.room.getPlayerName(puid)).setState(CharacterState.INVISIBLE);
+            if(this.room.getPlayer_scores().get(puid) == 0) {
+                countDead++;
+                this.players.get(this.room.getPlayerName(puid)).setState(CharacterState.INVISIBLE);
             }
-
-            Log.d(TAG, this.room.getPlayer_scores()+"dead count: "+countDead);
-
-            if(countDead >= this.room.getNum_players() - 1)
-                this.snapping();
         }
+        Log.d(TAG, this.room.getPlayer_scores()+"dead count: "+countDead);
+
+        if(countDead >= this.room.getNum_players() - 1)
+            this.snapping();
     }
 
 
