@@ -134,7 +134,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         int frameX = 10;
         int frameY = 1600;
 
-        //todo add initial x and y
         for (Unicorn player : players) {
             //draw the icon
             String sprite_name;
