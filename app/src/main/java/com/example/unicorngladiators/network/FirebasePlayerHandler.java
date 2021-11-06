@@ -51,7 +51,7 @@ public class FirebasePlayerHandler {
         players = database.getReference("players");
         player = database.getReference("players/"+this.puid);
         addMovesEventListener(players);
-        updateScore(0);
+        updateScore(3);
         System.out.println("initing done");
     }
 
@@ -110,7 +110,7 @@ public class FirebasePlayerHandler {
         if (!inRoom) return;
         inRoom = false;
         this.room.removePlayer(this.puid);
-        database.getReference("players/"+this.puid).removeValue();
+        // database.getReference("players/"+this.puid).removeValue();
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.roomId+"/num_players", this.room.getNum_players());
         childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());

@@ -10,12 +10,7 @@ import android.widget.TextView;
 import com.example.unicorngladiators.network.Room;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,8 +30,8 @@ public class EndGameActivity extends AppCompatActivity implements View.OnClickLi
         this.room = room;
         this.puid = puid;
 
-        this.playAgain = (Button) findViewById(R.id.playAgain);
-        playAgain.setOnClickListener(this);
+        //this.playAgain = (Button) findViewById(R.id.playAgain);
+        //playAgain.setOnClickListener(this);
 
         this.leaderboard = (TextView) findViewById(R.id.leaderBoardText);
         Map<String, Integer> sortedScores = null;
@@ -48,13 +43,15 @@ public class EndGameActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         String leaderboardText = "";
-        int i = 1;
+        int i = this.room.getNum_players();
         for(String player : sortedScores.keySet()) {
-            leaderboardText += i + ". ";
-            leaderboardText += player + ": ";
-            leaderboardText += sortedScores.get(player) + "\n";
-            i++;
+            String tmp = i + ". ";
+            tmp += this.room.getPlayerName(player) + ": ";
+            tmp += sortedScores.get(player) + "\n";
+            i--;
+            leaderboardText = tmp + leaderboardText;
         }
+
         this.leaderboard.setText(leaderboardText);
     }
 

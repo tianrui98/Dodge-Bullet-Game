@@ -64,7 +64,7 @@ public class Unicorn extends Character {
      * @throws InterruptedException
      */
     public void takeBullet () throws InterruptedException {
-        if (!this.getIsInvulnerable())
+        if (!this.getIsInvulnerable() && this.getLives() > 0)
         {
             this.setLives((this.getLives() - 1));
             this.setInvulnerable(true);
