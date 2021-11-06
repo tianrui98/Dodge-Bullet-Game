@@ -41,7 +41,7 @@ public class Universe {
     private long steps;
     private long period;
 
-    private boolean bigSleep = false;
+    private boolean snap = false;
 
     /**
      * Instantiates a new Universe.
@@ -359,6 +359,9 @@ public class Universe {
                                 posToUpdate.getY() - curPos.getY());
             }
         }
+        if(this.players.get(this.currentPlayerName).getLives() == 0){
+            this.snapping();
+        }
     }
 
 
@@ -386,15 +389,19 @@ public class Universe {
      * Check for the end of the game/Universe.
      * @return
      */
-    public boolean isBigSleeping(){
-        return this.bigSleep;
+    public boolean snapped(){
+        return this.snap;
     }
 
     /**
      * End the game/Universe.
      */
-    public void setBigSleep(){
+    public void snapping(){
         fph.leaveRoom();
-        this.bigSleep = true;
+        this.snap = true;
+    }
+
+    public Room getRoom(){
+        return this.room;
     }
 }

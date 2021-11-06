@@ -125,7 +125,7 @@ public class FirebasePlayerHandler {
      */
     public void endGame() {
         if (this.room == null) return;
-        database.getReference("rooms/"+this.roomId).removeValue();
+        // database.getReference("rooms/"+this.roomId).removeValue();
         room = null;
     }
 

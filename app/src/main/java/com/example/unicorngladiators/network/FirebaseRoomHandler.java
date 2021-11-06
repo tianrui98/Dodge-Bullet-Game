@@ -224,7 +224,7 @@ public class FirebaseRoomHandler implements Serializable {
      */
     public void endGame() {
         if (this.room == null) return;
-        database.getReference("rooms/"+this.roomId).removeValue();
+        // database.getReference("rooms/"+this.roomId).removeValue();
         room = null;
     }
 
@@ -313,11 +313,14 @@ public class FirebaseRoomHandler implements Serializable {
      * This also update the room state locally.
      */
     public void startGame() {
+        Map<String, Object> childUpdatesListing = new HashMap<String, Object>();
+        childUpdatesListing.put("rooms_listing", "");
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.roomId+"/start", true);
         rooms.updateChildren(childUpdates);
         room.setStart(true);
         started = true;
+
     }
 
     /**
