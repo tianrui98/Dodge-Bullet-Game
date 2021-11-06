@@ -159,15 +159,17 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
      * @param canvas
      */
     private void drawScoreboard(Canvas canvas) {
-        Collection<Unicorn> players = this.universe.getPlayersHashMap().values();
+        HashMap<String, Integer> playersLives = this.universe.getPlayersLives();
         int frameX = 10;
         int frameY = 1600;
 
-        for (Unicorn player : players) {
+        for (String playerName: playersLives.keySet()) {
+            int lives = playersLives.get(playerName);
             //draw the icon
             String sprite_name;
-            if (player.getLives() <= 0) {sprite_name = player.getName()+ "_mort";}
-            else{sprite_name = player.getName()+ "_frame"; }
+            Log.d(TAG, "Playername: " + playerName);
+            if (lives <= 0) {sprite_name = playerName+ "_mort";}
+            else{sprite_name = playerName+ "_frame"; }
             Sprite unicorn_frame_sprite = this.sprite_sheet.getObjectsSprite(sprite_name);
             //offset is to help the draw function to draw the center of the picture
             Position posAdjusted = new Position(frameX, frameY);
@@ -177,13 +179,13 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Paint textPaint = new Paint();
             textPaint.setColor(Color.BLACK);
             textPaint.setTextSize(50);
-            canvas.drawText(player.getName(),frameX + 40 ,frameY + 20, textPaint);
+            canvas.drawText(playerName,frameX + 40 ,frameY + 20, textPaint);
 
             //draw hearts
             Sprite heart_sprite = this.sprite_sheet.getObjectsSprite("heart");
             int heartX = frameX + 65;
             int heartY = frameY + 10;
-            for (int i = 0; i < player.getLives() && i < 3; i ++ ) {
+            for (int i = 0; i < lives; i ++ ) {
             Position heartPos = new Position(heartX,heartY);
             heart_sprite.drawSprite(canvas, heartPos,"object", 0 );
             heartX += 55;
@@ -211,6 +213,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             this.drawBullets(canvas);
             this.drawPeaches(canvas);
             this.drawScoreboard(canvas);
+            this.drawLives(canvas);
 
             holder.unlockCanvasAndPost(canvas);
         } else {

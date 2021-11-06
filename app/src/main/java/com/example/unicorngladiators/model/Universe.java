@@ -115,11 +115,16 @@ public class Universe {
     }
 
     /**
-     * Get all player's lives as a Hashmap
+     * Get all player's lives as a Hashmap where keys are player names and values are number of lives
      * @return
      */
     public HashMap<String, Integer> getPlayersLives() {
-        return this.room.getPlayer_scores();
+        HashMap<String, Integer> map = this.room.getPlayer_scores();
+        HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
+        for (String id : map.keySet()){
+            nameMap.put(this.room.getPlayerName(id), map.get(id));
+        }
+        return nameMap;
     }
     /**
      * Valid collision boolean.
