@@ -23,6 +23,8 @@ public class Unicorn extends Character {
     private int lives;
     private boolean isInvulnerable;
     private int MAX_SPEED = 50;
+    private int invulnerabilityCounter;
+    private int invulnerabilityTimer = 50;
 
     /**
      * This constructor takes in all its attributes and initialized it.
@@ -37,6 +39,7 @@ public class Unicorn extends Character {
         this.name = name;
         this.lives = lives;
         this.isInvulnerable = isInvulnerable;
+        this.invulnerabilityCounter = 0;
     }
 
     /**
@@ -50,8 +53,17 @@ public class Unicorn extends Character {
         {
         this.setLives((this.getLives() - 1));
         this.setInvulnerable(true);
-        TimeUnit.SECONDS.sleep(3);
-        this.setInvulnerable(false);
+        this.invulnerabilityCounter = invulnerabilityTimer;
+        }
+    }
+
+    public void UnicornStep (){
+        if(this.invulnerabilityCounter > 0){
+            System.out.println("Unicorn has " + this.invulnerabilityCounter + " seconds of invulnerability left");
+            this.invulnerabilityCounter-=1;
+            if(this.invulnerabilityCounter==0){
+                this.setInvulnerable(false);
+            }
         }
     }
 
