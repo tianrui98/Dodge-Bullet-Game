@@ -17,9 +17,10 @@ public class Sprite {
         this.rect = rect;
     }
 
-    public Bitmap rotateBitmap(Bitmap bitmap, int rotation){
+    public Bitmap rotateBitmap(Bitmap bitmap, int degrees){
         Matrix matrix = new Matrix();
-        matrix.postRotate(rotation);
+//        matrix.postRotate(rotation);
+        matrix.preRotate(degrees);
         Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         return rotatedBitmap;
     }

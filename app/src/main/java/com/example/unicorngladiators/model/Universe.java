@@ -115,7 +115,7 @@ public class Universe {
     }
 
     /**
-     * Get player lives int.
+     * Get current player's lives int.
      *
      * @return the int
      */
@@ -123,6 +123,18 @@ public class Universe {
         return this.players.get(this.currentPlayerName).getLives();
     }
 
+    /**
+     * Get all player's lives as a Hashmap
+     * @return
+     */
+    public HashMap<String, Integer> getPlayersLives() {
+        HashMap<String, Integer>playerLives = new HashMap<>();
+        for (String playerName: this.players.keySet()) {
+            int lives = this.players.get(playerName).getLives();
+            playerLives.put(playerName, lives);
+        };
+        return playerLives;
+    }
     /**
      * Valid collision boolean.
      *
