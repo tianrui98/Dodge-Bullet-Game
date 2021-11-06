@@ -8,7 +8,7 @@ import com.example.unicorngladiators.model.characters.Unicorn;
  * It defines the direction, speed, and speedUp attributes.
  */
 public abstract class Projectile {
-    private static double speedUp = 1.1;
+    private static double speedUp = 5;
     private double speed = 1;
 
     /**
