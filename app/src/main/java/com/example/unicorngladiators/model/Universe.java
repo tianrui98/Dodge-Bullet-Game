@@ -90,7 +90,7 @@ public class Universe {
             this.addPlayer(this.room.getPlayerName(puids), this.room.getPlayer_pos().get(puids), CharacterState.RIGHT1);
         }
         this.steps = 1;
-        this.period = 20;
+        this.period = 10;
     }
 
     /**
