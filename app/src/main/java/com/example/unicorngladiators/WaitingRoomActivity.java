@@ -48,7 +48,6 @@ public class WaitingRoomActivity extends Activity implements View.OnClickListene
             case R.id.startGameHost:
                 fh.startGame();
                 Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtra("FirebaseHandler", fh);
                 Room room = fh.getRoom();
                 if (room == null) {
                     Log.d("Waiting Room", "room in firebasehandler is null at starting");
