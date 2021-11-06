@@ -1,4 +1,6 @@
 apply plugin: 'java'
+apply plugin: 'idea'
+
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
@@ -17,10 +19,4 @@ buildscript {
 
 clean {
     delete rootProject.buildDir
-}
-
-
-task myjavadoc(type: Javadoc) {
-    source = sourceSets.main.allJava
-    destinationDir = reporting.file("../documentation/")
 }

@@ -2,17 +2,6 @@ package com.example.unicorngladiators.network;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-
-import com.example.unicorngladiators.model.Position;
-import com.example.unicorngladiators.model.projectiles.Bullet;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +9,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

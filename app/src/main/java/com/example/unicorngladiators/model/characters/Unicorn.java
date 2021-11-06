@@ -1,5 +1,7 @@
 package com.example.unicorngladiators.model.characters;
 
+import android.util.Log;
+
 import com.example.unicorngladiators.model.Motion;
 import com.example.unicorngladiators.model.Position;
 
@@ -25,6 +27,8 @@ public class Unicorn extends Character {
     private int MAX_SPEED = 50;
     private int invulnerabilityCounter;
     private int invulnerabilityTimer = 50;
+    private int xBound;
+    private int yBound;
 
     /**
      * This constructor takes in all its attributes and initialized it.
@@ -34,12 +38,23 @@ public class Unicorn extends Character {
      * @param pos
      * @param state
      */
+    public Unicorn(String name, int lives, boolean isInvulnerable, Position pos, CharacterState state, int yBound, int xBound) {
+        super(pos, state);
+        this.name = name;
+        this.lives = lives;
+        this.isInvulnerable = isInvulnerable;
+        this.yBound = yBound;
+        this.xBound = xBound;
+    }
+
     public Unicorn(String name, int lives, boolean isInvulnerable, Position pos, CharacterState state) {
         super(pos, state);
         this.name = name;
         this.lives = lives;
         this.isInvulnerable = isInvulnerable;
         this.invulnerabilityCounter = 0;
+        this.xBound = 1200;
+        this.yBound = 1800;
     }
 
     /**
@@ -51,9 +66,9 @@ public class Unicorn extends Character {
     public void takeBullet () throws InterruptedException {
         if (!this.getIsInvulnerable())
         {
-        this.setLives((this.getLives() - 1));
-        this.setInvulnerable(true);
-        this.invulnerabilityCounter = invulnerabilityTimer;
+            this.setLives((this.getLives() - 1));
+            this.setInvulnerable(true);
+            this.invulnerabilityCounter = invulnerabilityTimer;
         }
     }
 
@@ -87,6 +102,31 @@ public class Unicorn extends Character {
     public void updatePositionState(double actuatorX, double actuatorY){
         int velocityX = (int) Math.round(actuatorX * MAX_SPEED);
         int velocityY = (int) Math.round(actuatorY * MAX_SPEED);
+        int currX = this.getPosition().getX();
+        int currY = this.getPosition().getY();
+        /* Check movement conditions */
+        int finalX = currX + velocityX;
+        int finalY = currY + velocityY;
+
+        if(finalY <= 50 || finalY >= this.getyBound()-50){
+            velocityY = 0;
+        }
+        if(finalX <= 50 || finalX >= this.getxBound() - 200 ){
+            velocityX = 0;
+        }
+//
+//        if (currY <= 50  && velocityY < 0) {
+//            velocityY = 0;
+//        }
+//        if (this.getyBound() - currY <= 50 && velocityY > 0) {
+//            velocityY = 0;
+//        }
+//        if (currX <= 50  && velocityX < 0) {
+//            velocityX = 0;
+//        }
+//        if (this.getxBound() - currX <= 50 && velocityX > 0) {
+//            velocityX = 0;
+//        }
         this.walk(new Motion(velocityX, velocityY) );
     }
 
@@ -112,6 +152,9 @@ public class Unicorn extends Character {
         return isInvulnerable;
     }
 
+    public int getyBound() {return this.yBound;}
+
+    public int getxBound() {return this.xBound;}
 
     //Setters
     public void setName(String name) {
