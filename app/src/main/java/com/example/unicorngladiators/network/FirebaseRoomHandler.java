@@ -315,6 +315,7 @@ public class FirebaseRoomHandler implements Serializable {
     public void startGame() {
         Map<String, Object> childUpdatesListing = new HashMap<String, Object>();
         childUpdatesListing.put("rooms_listing", "");
+        rooms.updateChildren(childUpdatesListing);
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.roomId+"/start", true);
         rooms.updateChildren(childUpdates);
