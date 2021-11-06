@@ -110,24 +110,32 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         }
     }
 
+    private void drawLives(Canvas canvas) {
+        HashMap<String, Integer> playersLives = this.universe.getPlayersLives();
+        Paint textPaint = new Paint();
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(50);
+        int initialY = 50;
+        for (String playerName : playersLives.keySet()) {
+            int lives = playersLives.get(playerName);
+            String ss = String.format("Player: %s Lives : %d",playerName,lives);
+            canvas.drawText(ss,100,initialY,textPaint);
+            initialY += 50;
+        };
+    }
+
     private void drawSurfaceView() {
         if (universe != null && holder != null) {
             Canvas canvas = holder.lockCanvas();
             //set background white
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             canvas.drawRGB(255,255,255);
-//            canvas.drawPaint(this.paint);
-            Paint textPaint = new Paint();
-            textPaint.setColor(Color.BLACK);
-            textPaint.setTextSize(50);
-            String ss = String.format("Lives : %d",this.universe.getPlayerLives());
-            canvas.drawText(ss,100,50,textPaint);
 
-            //TODO draw more objects
             this.drawPrincess(canvas);
             this.drawUnicorns(canvas);
             this.drawJoystick(canvas);
             this.drawBullets(canvas);
+            this.drawLives(canvas);
 //            this.drawPeaches(canvas);
             holder.unlockCanvasAndPost(canvas);
         } else {
