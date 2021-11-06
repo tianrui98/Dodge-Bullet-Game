@@ -355,6 +355,8 @@ public class Universe {
         this.updateCurrentPeachPosition();
 
         this.fph.updateMove(this.players.get(this.currentPlayerName).getPosition().shortString());
+        this.fph.updateScore(this.players.get(this.currentPlayerName).getLives());
+        this.room.getPlayer_scores().put(this.currentPlayerUID, this.players.get(this.currentPlayerName).getLives());
         this.players.get(this.currentPlayerName).UnicornStep();
 
         // We Add a bullet every 20 calls to step ~ 400 MS
@@ -369,20 +371,23 @@ public class Universe {
         this.castChanges();
 
         for (String puid : this.room.getPlayer_ids().keySet()) {
+            int countDead = 0;
             if (!puid.equals(this.currentPlayerUID)){
                 Position posToUpdate = this.room.getPlayer_pos().get(puid);
-                //System.out.println("current player: " + this.currentPlayerUID);
-                System.out.println(puid+this.room.getPlayerName(puid)+" bloody stepping: "+posToUpdate);
-                System.out.println("the entire pos: " + this.room.getPlayer_pos());
                 Position curPos = this.players.get(this.room.getPlayerName(puid)).getPosition();
                 this.players.get(this.room.getPlayerName(puid))
                         .updatePositionState(
                                 posToUpdate.getX() - curPos.getX(),
                                 posToUpdate.getY() - curPos.getY());
             }
-        }
-        if(this.players.get(this.currentPlayerName).getLives() == 0){
-            this.snapping();
+            if(this.room.getPlayer_scores().get(puid) == 0)
+                countDead++;
+
+
+            System.out.println(this.room.getPlayer_scores()+"dead count: "+countDead);
+
+            if(countDead >= this.room.getNum_players() - 1)
+                this.snapping();
         }
     }
 
@@ -423,6 +428,10 @@ public class Universe {
         this.snap = true;
     }
 
+    /**
+     * Getter for the Room object.
+     * @return
+     */
     public Room getRoom(){
         return this.room;
     }

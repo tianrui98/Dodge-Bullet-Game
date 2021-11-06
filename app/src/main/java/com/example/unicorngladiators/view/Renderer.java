@@ -131,8 +131,12 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
 
             //TODO draw more objects
             this.drawPrincess(canvas);
-            this.drawUnicorns(canvas);
-            this.drawJoystick(canvas);
+
+            if (!this.universe.snapped()) {
+                this.drawUnicorns(canvas);
+                this.drawJoystick(canvas);
+            }
+
             this.drawBullets(canvas);
             this.drawPeaches(canvas);
             holder.unlockCanvasAndPost(canvas);

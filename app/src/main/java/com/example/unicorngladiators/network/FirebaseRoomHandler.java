@@ -187,7 +187,7 @@ public class FirebaseRoomHandler implements Serializable {
         this.room.addPlayer(this.puid, this.playerNames[this.room.getNum_players()],
                 new Position(this.initialPos[this.room.getNum_players()]));
         this.updateMove(this.initialPos[this.room.getNum_players()]);
-        this.updateScore(0);
+        this.updateScore(3);
         Map<String, Object> childUpdates = new HashMap<String, Object>();
         childUpdates.put(this.roomId+"/num_players", this.room.getNum_players());
         childUpdates.put(this.roomId+"/player_ids", this.room.getPlayer_ids());

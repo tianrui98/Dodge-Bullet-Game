@@ -83,11 +83,10 @@ public class GameController extends Thread{
             }
         }
         Intent intent = new Intent(this.gameActivity, EndGameActivity.class);
-
-        intent.putExtra("Room", room);
-        intent.putExtra("PlayerUID", puid);
-        System.out.println("in waiting room: "+room.getPlayer_ids() + "<-- player ids");
-        gameActivity.startActivity(intent);
+        intent.putExtra("Room", this.room);
+        intent.putExtra("PlayerUID", this.puid);
+        System.out.println("in waiting room: "+ room.getPlayer_ids() + "<-- player ids");
+        this.gameActivity.startActivity(intent);
     }
 
     public Room getRoom(){
