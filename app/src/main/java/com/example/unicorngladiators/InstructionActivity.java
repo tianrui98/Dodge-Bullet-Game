@@ -22,7 +22,6 @@ public class InstructionActivity extends Activity implements View.OnClickListene
         Intent intent;
         switch (v.getId()) {
             case R.id.okBtn:
-                //start GameActivity when user clicks this button
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
