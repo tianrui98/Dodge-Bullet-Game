@@ -16,6 +16,9 @@
             android:name=".WaitingRoomActivity"
             android:exported="true" />
         <activity
+            android:name=".InstructionActivity"
+            android:exported="true" />
+        <activity
             android:name=".GameActivity"
             android:exported="true" />
         <activity

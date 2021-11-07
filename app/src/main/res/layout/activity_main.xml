@@ -36,7 +36,7 @@
         android:id="@+id/settingsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings" />
+        android:text="Instructions" />
 
     <Button
         android:layout_below="@id/settingsBtn"

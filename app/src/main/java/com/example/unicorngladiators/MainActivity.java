@@ -17,10 +17,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button quitGameBtn;
     private Button settingsBtn;
 
-
-    private SurfaceHolder holder;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,20 +32,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.startGameBtn:
                 //start GameActivity when user clicks this button
-                Intent intent = new Intent(this, WaitingRoomActivity.class);
+                intent = new Intent(this, WaitingRoomActivity.class);
                 startActivity(intent);
-
-                Toast.makeText(this, "Start Game Btn Clicked", Toast.LENGTH_SHORT).show();
-
                 break;
             case R.id.settingsBtn:
-                Toast.makeText(this, "Settings Btn Clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.quitGameBtn:
-                Toast.makeText(this, "Quit Game Btn Clicked", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, InstructionActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
