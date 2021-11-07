@@ -264,6 +264,22 @@ public class Universe {
         return this.currentPeaches;
     }
 
+    /**
+     * Get current player's name
+     * @return the player's name
+     */
+    public String getCurrentPlayerName() {
+        return currentPlayerName;
+    }
+
+    /**
+     * Get the current player's id
+     * @return the player's id
+     */
+
+    public String getCurrentPlayerUID() {
+        return currentPlayerUID;
+    }
 
     /**
      * The interface Callback.

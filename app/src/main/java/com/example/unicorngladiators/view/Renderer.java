@@ -162,6 +162,7 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         HashMap<String, Integer> playersLives = this.universe.getPlayersLives();
         int frameX = 10;
         int frameY = 1600;
+        String currentPlayerName = this.universe.getCurrentPlayerName();
 
         for (String playerName: playersLives.keySet()) {
             int lives = playersLives.get(playerName);
@@ -178,7 +179,15 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
             Paint textPaint = new Paint();
             textPaint.setColor(Color.BLACK);
             textPaint.setTextSize(50);
-            canvas.drawText(playerName,frameX + 40 ,frameY + 20, textPaint);
+            Log.d(TAG, "Current player name " +currentPlayerName);
+            Log.d(TAG, "Playername " + playerName);
+
+            if (currentPlayerName.equals(playerName)) {
+                Log.d(TAG, "Match playername " + playerName);
+                String text = playerName + "(You)";
+                canvas.drawText(text,frameX + 40 ,frameY + 20, textPaint);}
+            else {canvas.drawText(playerName,frameX + 40 ,frameY + 20, textPaint);}
+
 
             //draw hearts
             Sprite heart_sprite = this.sprite_sheet.getObjectsSprite("heart");
