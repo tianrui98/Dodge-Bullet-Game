@@ -65,11 +65,13 @@ public class FirebaseRoomHandler implements Serializable {
         this.startGameBtn = startGameBtn;
         this.width = width;
         this.height = height;
+        int initialX = (int) (width /2) - 48;
+        int initialY = (int) height/2;
         initialPos = new String[] {
-                new Position(200, 200).shortString(),
-                new Position(200, 220).shortString(),
-                new Position(200, 240).shortString(),
-                new Position(200, 260).shortString()
+                new Position(initialX, initialY - 10).shortString(),
+                new Position(initialX, initialY).shortString(),
+                new Position(initialX, initialY + 100).shortString(),
+                new Position(initialY, initialY + 200).shortString()
         };
         System.out.println("initing handler...");
         database = FirebaseDatabase.getInstance("https://unicorn-63649-default-rtdb.asia-southeast1.firebasedatabase.app");

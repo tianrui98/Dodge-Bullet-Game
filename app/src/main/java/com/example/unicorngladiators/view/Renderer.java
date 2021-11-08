@@ -36,8 +36,6 @@ public class Renderer implements SurfaceHolder.Callback, Universe.Callback {
         this.sprite_sheet = new SpriteSheet(context);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL);
-        Bitmap tiles = BitmapFactory.decodeResource(context.newTheme().getResources(), R.drawable.sand);
-        this.paint.setShader(new BitmapShader(tiles, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
     }
 
 
