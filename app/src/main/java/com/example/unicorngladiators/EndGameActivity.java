@@ -23,6 +23,7 @@ public class EndGameActivity extends Activity implements View.OnClickListener{
     private String puid;
     private Button playAgain;
     private TextView leaderboard;
+    private String TAG = "EndGameActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,8 @@ public class EndGameActivity extends Activity implements View.OnClickListener{
         int i = this.room.getNum_players();
         for(String player : sortedScores.keySet()) {
             String tmp = i + ". ";
-            tmp += this.room.getPlayerName(player) + ": ";
+            if (player.equals(this.puid)) { tmp += this.room.getPlayerName(player) +" (You)" + ": "; }
+            else {tmp += this.room.getPlayerName(player) + ": ";}
             tmp += sortedScores.get(player) + "\n";
             i--;
             leaderboardText = tmp + leaderboardText;
