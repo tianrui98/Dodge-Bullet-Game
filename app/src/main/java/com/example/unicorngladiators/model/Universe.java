@@ -69,7 +69,7 @@ public class Universe {
         Log.d(TAG, "Current player name is " + this.currentPlayerName);
 
         //initialize projectiles
-        fph.readRoomStates();
+        fph.readRoomStates(room.getId());
         this.room = fph.getRoom();
         this.room.setPlayer_pos(room.getPlayer_pos());
         this.room.setPlayer_scores(room.getPlayer_scores());

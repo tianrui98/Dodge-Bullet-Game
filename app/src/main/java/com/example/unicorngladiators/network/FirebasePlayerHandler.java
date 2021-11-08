@@ -60,23 +60,9 @@ public class FirebasePlayerHandler {
      * Breaking this down into sequential rather than callback as that stops the Universe
      * from getting null values.
      */
-    public void readRoomStates() {
-        this.roomId = NULL;
-        Task<DataSnapshot> roomIdTask = rooms.child("rooms_listing").get();
-
-        while(!roomIdTask.isComplete()) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (roomIdTask.isSuccessful()) {
-            roomId = String.valueOf(roomIdTask.getResult().getValue());
-            System.out.println("room id read: " + roomId);
-            room = new Room(roomId);
-        }
+    public void readRoomStates(String roomId) {
+        this.roomId = roomId;
+        this.room = new Room(roomId);
 
         Task<DataSnapshot> roomStatesTask = rooms.child(roomId).get();
         while(!roomStatesTask.isComplete()) {
