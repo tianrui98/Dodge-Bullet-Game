@@ -29,7 +29,7 @@ public class Joystick {
         this.outerPosY = (int) (screenHeight * 0.8);
         this.innerPosX = 800;
         this.innerPosY = 1400;
-        this.outerRadius = (int) (screenWidth * 0.05);
+        this.outerRadius = (int) (screenWidth * 0.1);
         this.innerRadius = (int) (outerRadius * 0.6);
 
         this.actuatorX = 0.0;
