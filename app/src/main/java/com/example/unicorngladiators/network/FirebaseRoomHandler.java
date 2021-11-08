@@ -65,8 +65,8 @@ public class FirebaseRoomHandler implements Serializable {
         this.startGameBtn = startGameBtn;
         this.width = width;
         this.height = height;
-        int initialX = (int) (width /2) - 48;
-        int initialY = (int) height/2;
+        int initialX = 300;
+        int initialY = 300;
         initialPos = new String[] {
                 new Position(initialX, initialY - 10).shortString(),
                 new Position(initialX, initialY).shortString(),
